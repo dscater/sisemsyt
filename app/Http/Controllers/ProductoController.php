@@ -22,8 +22,6 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 class ProductoController extends Controller
 {
     public $validacion = [
-        'codigo_almacen' => 'required|min:1',
-        'codigo_producto' => 'required|min:1',
         'nombre' => 'required|min:1',
         'precio' => 'required|numeric',
         'stock_min' => 'required|numeric',
@@ -33,7 +31,7 @@ class ProductoController extends Controller
 
     public function index(Request $request)
     {
-        $productos = Producto::with("categoria")->orderBy("productos.codigo_almacen", "ASC")
+        $productos = Producto::with("categoria")->orderBy("productos.codigo_producto", "ASC")
             ->orderBy("productos.codigo_producto", "ASC")
             ->orderBy("productos.nombre", "ASC")
             ->get();
@@ -210,10 +208,8 @@ class ProductoController extends Controller
 
         $productos = [];
         if ($sw_busqueda == 'todos') {
-            $productos = Producto::where("codigo_almacen", "LIKE", "%$value%")
-                ->orWhere("codigo_producto", "LIKE", "%$value%")
+            $productos = Producto::where("codigo_producto", "LIKE", "%$value%")
                 ->orWhere("nombre", "LIKE", "%$value%")
-                ->orderBy("codigo_almacen", "ASC")
                 ->orderBy("codigo_producto", "ASC")
                 ->orderBy("nombre", "ASC")
                 ->get()->take(100);
@@ -232,6 +228,9 @@ class ProductoController extends Controller
         DB::beginTransaction();
         try {
             // crear Producto
+            $codigog = Producto::getNuevoCodigoProducto();
+            $request["codigo_producto"] = $codigog[0];
+            $request["nro_codigo"] = $codigog[1];
             $request["fecha_registro"] = date("Y-m-d");
             $request["stock_actual"] = 0;
             $nuevo_producto = Producto::create(array_map('mb_strtoupper', $request->all()));

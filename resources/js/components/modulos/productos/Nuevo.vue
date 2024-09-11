@@ -26,50 +26,6 @@
                             <div class="form-group col-md-6">
                                 <label
                                     :class="{
-                                        'text-danger': errors.codigo_almacen,
-                                    }"
-                                    >Código Almacén*</label
-                                >
-                                <el-input
-                                    placeholder="Código"
-                                    :class="{
-                                        'is-invalid': errors.codigo_almacen,
-                                    }"
-                                    v-model="producto.codigo_almacen"
-                                    clearable
-                                >
-                                </el-input>
-                                <span
-                                    class="error invalid-feedback"
-                                    v-if="errors.codigo_almacen"
-                                    v-text="errors.codigo_almacen[0]"
-                                ></span>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label
-                                    :class="{
-                                        'text-danger': errors.codigo_producto,
-                                    }"
-                                    >Código de Producto*</label
-                                >
-                                <el-input
-                                    placeholder="Código"
-                                    :class="{
-                                        'is-invalid': errors.codigo_producto,
-                                    }"
-                                    v-model="producto.codigo_producto"
-                                    clearable
-                                >
-                                </el-input>
-                                <span
-                                    class="error invalid-feedback"
-                                    v-if="errors.codigo_producto"
-                                    v-text="errors.codigo_producto[0]"
-                                ></span>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label
-                                    :class="{
                                         'text-danger': errors.nombre,
                                     }"
                                     >Nombre Producto*</label
@@ -248,8 +204,6 @@ export default {
             type: Object,
             default: {
                 id: 0,
-                codigo_almacen: "",
-                codigo_producto: "",
                 nombre: "",
                 descripcion: "",
                 precio: "",
@@ -316,18 +270,6 @@ export default {
                     },
                 };
                 let formdata = new FormData();
-                formdata.append(
-                    "codigo_almacen",
-                    this.producto.codigo_almacen
-                        ? this.producto.codigo_almacen
-                        : ""
-                );
-                formdata.append(
-                    "codigo_producto",
-                    this.producto.codigo_producto
-                        ? this.producto.codigo_producto
-                        : ""
-                );
                 formdata.append(
                     "nombre",
                     this.producto.nombre ? this.producto.nombre : ""
@@ -430,8 +372,6 @@ export default {
         },
         limpiaProducto() {
             this.errors = [];
-            this.producto.codigo_almacen = "";
-            this.producto.codigo_producto = "";
             this.producto.nombre = "";
             this.producto.descripcion = "";
             this.producto.precio = "";

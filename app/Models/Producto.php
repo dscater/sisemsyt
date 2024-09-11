@@ -10,8 +10,16 @@ class Producto extends Model
     use HasFactory;
 
     protected $fillable = [
-        "codigo_almacen", "codigo_producto", "nombre", "descripcion", "precio",
-        "stock_min", "stock_actual", "imagen", "categoria_id", "fecha_registro",
+        "codigo_producto",
+        "nro_codigo",
+        "nombre",
+        "descripcion",
+        "precio",
+        "stock_min",
+        "stock_actual",
+        "imagen",
+        "categoria_id",
+        "fecha_registro",
     ];
 
     protected $appends = ["url_imagen"];
@@ -28,6 +36,18 @@ class Producto extends Model
     {
         return $this->hasMany(FechaStock::class, 'producto_id');
     }
+
+    public static function getNuevoCodigoProducto()
+    {
+        $ultimo = Producto::get()->last();
+        $nro = 1;
+        if ($ultimo) {
+            $nro = (int)$ultimo->nro_codigo + 1;
+        }
+        $codigo = 'COD.' . $nro;
+        return [$codigo, $nro];
+    }
+
 
     // FUNCIONES PARA INCREMETAR Y DECREMENTAR EL STOCK
     public static function incrementarStock($producto, $cantidad)

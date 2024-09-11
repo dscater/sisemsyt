@@ -225,29 +225,6 @@
                             <div class="form-group col-md-6">
                                 <label
                                     :class="{
-                                        'text-danger': errors.fecha_caducidad,
-                                    }"
-                                    >Fecha de caducidad*</label
-                                >
-                                <el-input
-                                    type="date"
-                                    placeholder="Fecha de caducidad"
-                                    :class="{
-                                        'is-invalid': errors.fecha_caducidad,
-                                    }"
-                                    v-model="ingreso_producto.fecha_caducidad"
-                                    clearable
-                                >
-                                </el-input>
-                                <span
-                                    class="error invalid-feedback"
-                                    v-if="errors.fecha_caducidad"
-                                    v-text="errors.fecha_caducidad[0]"
-                                ></span>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label
-                                    :class="{
                                         'text-danger': errors.tipo_ingreso_id,
                                     }"
                                     >Seleccionar Tipo de ingreso*</label
@@ -345,7 +322,6 @@ export default {
                 cantidad: "",
                 lote: "",
                 fecha_fabricacion: "",
-                fecha_caducidad: "",
                 tipo_ingreso_id: "",
                 descripcion: "",
             },
@@ -461,12 +437,6 @@ export default {
                         : ""
                 );
                 formdata.append(
-                    "fecha_caducidad",
-                    this.ingreso_producto.fecha_caducidad
-                        ? this.ingreso_producto.fecha_caducidad
-                        : ""
-                );
-                formdata.append(
                     "tipo_ingreso_id",
                     this.ingreso_producto.tipo_ingreso_id
                         ? this.ingreso_producto.tipo_ingreso_id
@@ -559,7 +529,6 @@ export default {
             // this.oIngresoProducto.cantidad = "";
             // this.oIngresoProducto.lote = "";
             // this.oIngresoProducto.fecha_fabricacion = "";
-            // this.oIngresoProducto.fecha_caducidad = "";
             // this.oIngresoProducto.tipo_ingreso_id = "";
             // this.oIngresoProducto.descripcion = "";
         },

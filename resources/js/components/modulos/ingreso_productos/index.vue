@@ -242,7 +242,6 @@ export default {
                 cantidad: "",
                 lote: "",
                 fecha_fabricacion: "",
-                fecha_caducidad: "",
                 tipo_ingreso_id: "",
                 descripcion: "",
             },
@@ -281,9 +280,6 @@ export default {
             this.oIngresoProducto.lote = item.lote ? item.lote : "";
             this.oIngresoProducto.fecha_fabricacion = item.fecha_fabricacion
                 ? item.fecha_fabricacion
-                : "";
-            this.oIngresoProducto.fecha_caducidad = item.fecha_caducidad
-                ? item.fecha_caducidad
                 : "";
             this.oIngresoProducto.tipo_ingreso_id = item.tipo_ingreso_id
                 ? item.tipo_ingreso_id
@@ -388,7 +384,6 @@ export default {
             this.oIngresoProducto.cantidad = "";
             this.oIngresoProducto.lote = "";
             this.oIngresoProducto.fecha_fabricacion = "";
-            this.oIngresoProducto.fecha_caducidad = "";
             this.oIngresoProducto.tipo_ingreso_id = "";
             this.oIngresoProducto.descripcion = "";
         },

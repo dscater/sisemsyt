@@ -231,7 +231,6 @@ export default {
             modal_accion: "nuevo",
             oProducto: {
                 id: 0,
-                codigo_almacen: "",
                 codigo_producto: "",
                 nombre: "",
                 descripcion: "",
@@ -269,12 +268,7 @@ export default {
         // Seleccionar Opciones de Tabla
         editarRegistro(item) {
             this.oProducto.id = item.id;
-            this.oProducto.codigo_almacen = item.codigo_almacen
-                ? item.codigo_almacen
-                : "";
-            this.oProducto.codigo_producto = item.codigo_producto
-                ? item.codigo_producto
-                : "";
+       
             this.oProducto.nombre = item.nombre ? item.nombre : "";
             this.oProducto.descripcion = item.descripcion
                 ? item.descripcion
@@ -309,7 +303,7 @@ export default {
         eliminaProducto(id, descripcion) {
             Swal.fire({
                 title: "¿Quierés eliminar este registro?",
-                html: `Esta acción eliminara también los registros de Kardex del almacén; siempre y cuando no se hallan realizado ventas<br><strong>${descripcion}</strong>`,
+                html: `Esta acción eliminara también los registros de Kardex; siempre y cuando no se hallan realizado ventas<br><strong>${descripcion}</strong>`,
                 showCancelButton: true,
                 confirmButtonColor: "#149FDA",
                 confirmButtonText: "Si, eliminar",
