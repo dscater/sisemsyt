@@ -45,7 +45,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-10 mx-auto">
+                    <div class="col-md-12 mx-auto">
                         <div id="container"></div>
                     </div>
                 </div>
@@ -84,77 +84,69 @@ export default {
             });
         },
         grafico() {
-            Highcharts.chart("container", {
-                chart: {
-                    type: "cylinder",
-                    options3d: {
-                        enabled: true,
-                        alpha: 20,
-                        beta: 12,
-                        depth: 40,
-                        viewDistance: 0,
+            axios.get("/admin/stock_productos").then((response) => {
+                Highcharts.chart("container", {
+                    chart: {
+                        type: "cylinder",
+                        options3d: {
+                            enabled: true,
+                            alpha: 20,
+                            beta: 12,
+                            depth: 40,
+                            viewDistance: 0,
+                        },
                     },
-                },
-                title: {
-                    text: "STOCK DE PRODUCTOS",
-                },
-                subtitle: {
-                    text:"",
-                },
-                xAxis: {
-                    categories: [
-                        "PRODUCTO 1",
-                        "PRODUCTO 2",
-                        "PRODUCTO 3",
-                        "PRODUCTO 4",
-                        "PRODUCTO 5",
-                        "PRODUCTO 6",
-                        "PRODUCTO 7",
-                        "PRODUCTO 8",
-                        "PRODUCTO 9",
-                        "PRODUCTO 10",
-                    ],
                     title: {
                         text: "STOCK DE PRODUCTOS",
                     },
-                    labels: {
-                        skew3d: true,
-                        rotation: -65,
-                        style: {
-                            fontSize: "11px",
-                            fontFamily: "Verdana, sans-serif",
+                    subtitle: {
+                        text: "",
+                    },
+                    xAxis: {
+                        categories: response.data.categories,
+                        title: {
+                            text: "STOCK DE PRODUCTOS",
+                        },
+                        labels: {
+                            skew3d: true,
+                            rotation: -55,
+                            style: {
+                                fontSize: "14px",
+                                fontFamily: "Verdana, sans-serif",
+                            },
                         },
                     },
-                },
-                yAxis: {
-                    title: {
-                        margin: 20,
-                        text: "TOTAL",
+                    yAxis: {
+                        title: {
+                            margin: 20,
+                            text: "TOTAL",
+                        },
+                        labels: {
+                            skew3d: true,
+                        },
                     },
-                    labels: {
-                        skew3d: true,
+                    tooltip: {
+                        headerFormat: "<b>Stock: {point.x}</b><br>",
                     },
-                },
-                tooltip: {
-                    headerFormat: "<b>Stock: {point.x}</b><br>",
-                },
-                plotOptions: {
-                    series: {
-                        depth: 45,
-                        colorByPoint: true,
-                        // pointWidth: 45
+                    plotOptions: {
+                        series: {
+                            depth: 80,
+                            colorByPoint: true,
+                            // pointWidth: 45,
+                            dataLabels: {
+                                enabled: true,
+                                format: "{point.y:.2f}",
+                            },
+                        },
                     },
-                },
-                series: [
-                    {
-                        data: [
-                            95321, 169339, 121105, 136046, 106800, 58041, 26766,
-                            14291, 7065, 3283,
-                        ],
-                        name: "TOTAL",
-                        showInLegend: false,
-                    },
-                ],
+                    series: [
+                        {
+                            data: response.data.data,
+                            name: "TOTAL",
+                            showInLegend: false,
+                        },
+                    ],
+                });
             });
         },
     },

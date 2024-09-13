@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 11-09-2024 a las 15:30:04
+-- Tiempo de generación: 13-09-2024 a las 23:27:28
 -- Versión del servidor: 8.0.30
--- Versión de PHP: 7.4.19
+-- Versión de PHP: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -394,6 +394,16 @@ CREATE TABLE `notificacions` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Volcado de datos para la tabla `notificacions`
+--
+
+INSERT INTO `notificacions` (`id`, `tipo`, `registro_id`, `descripcion`, `fecha`, `hora`, `created_at`, `updated_at`) VALUES
+(1, 'STOCK MINIMO', 1, 'ALERTA URGENTE EL PRODUCTO PRODUCTO #1 SE ENCUENTRA MENOR AL STOCK MÍNIMO, LE SUGERIMOS REABASTECER EL PRODUCTO CON URGENCIA', '2024-09-13', '11:17:11', '2024-09-13 15:17:11', '2024-09-13 15:17:11'),
+(2, 'STOCK MINIMO', 2, 'ALERTA URGENTE EL PRODUCTO PRODUCTO #2 SE ENCUENTRA MENOR AL STOCK MÍNIMO, LE SUGERIMOS REABASTECER EL PRODUCTO CON URGENCIA', '2024-09-13', '11:17:11', '2024-09-13 15:17:11', '2024-09-13 15:17:11'),
+(3, 'STOCK MINIMO', 3, 'ALERTA URGENTE EL PRODUCTO PRODUCTO 3 SE ENCUENTRA MENOR AL STOCK MÍNIMO, LE SUGERIMOS REABASTECER EL PRODUCTO CON URGENCIA', '2024-09-13', '11:17:11', '2024-09-13 15:17:11', '2024-09-13 15:17:11'),
+(4, 'STOCK MINIMO', 7, 'ALERTA URGENTE EL PRODUCTO PRODUCTO 4 SE ENCUENTRA MENOR AL STOCK MÍNIMO, LE SUGERIMOS REABASTECER EL PRODUCTO CON URGENCIA', '2024-09-13', '11:17:11', '2024-09-13 15:17:11', '2024-09-13 15:17:11');
+
 -- --------------------------------------------------------
 
 --
@@ -404,10 +414,24 @@ CREATE TABLE `notificacion_users` (
   `id` bigint UNSIGNED NOT NULL,
   `notificacion_id` bigint UNSIGNED NOT NULL,
   `user_id` bigint UNSIGNED NOT NULL,
-  `visto` int NOT NULL,
+  `visto` int NOT NULL DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `notificacion_users`
+--
+
+INSERT INTO `notificacion_users` (`id`, `notificacion_id`, `user_id`, `visto`, `created_at`, `updated_at`) VALUES
+(1, 1, 2, 0, '2024-09-13 15:17:11', '2024-09-13 15:17:11'),
+(2, 2, 2, 0, '2024-09-13 15:17:11', '2024-09-13 15:17:11'),
+(3, 3, 2, 0, '2024-09-13 15:17:11', '2024-09-13 15:17:11'),
+(4, 4, 2, 0, '2024-09-13 15:17:11', '2024-09-13 15:17:11'),
+(5, 1, 1, 0, '2024-09-13 15:41:00', '2024-09-13 15:41:00'),
+(6, 2, 1, 0, '2024-09-13 15:41:00', '2024-09-13 15:41:00'),
+(7, 3, 1, 1, '2024-09-13 15:41:00', '2024-09-13 16:18:47'),
+(8, 4, 1, 1, '2024-09-13 15:41:00', '2024-09-13 16:17:06');
 
 -- --------------------------------------------------------
 
@@ -817,13 +841,13 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT de la tabla `notificacions`
 --
 ALTER TABLE `notificacions`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `notificacion_users`
 --
 ALTER TABLE `notificacion_users`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `personal_access_tokens`

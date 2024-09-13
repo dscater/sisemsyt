@@ -88,6 +88,21 @@ export default new Router({
             component: require('./components/modulos/clientes/index.vue').default,
         },
 
+        // notificacion_users
+        {
+            path: '/notificacion_users',
+            name: 'notificacion_users.index',
+            component: require('./components/modulos/notificacion_users/index.vue').default,
+        },
+
+
+        {
+            path: '/notificacion_users/:id',
+            name: 'notificacion_users.show',
+            props: true,
+            component: require('./components/modulos/notificacion_users/show.vue').default,
+        },
+
         // Ventas
         {
             path: '/ventas',
@@ -149,6 +164,20 @@ export default new Router({
             path: '/analisis_clientes',
             name: 'analisis_clientes.index',
             component: require('./components/modulos/analisis_clientes/index.vue').default,
+        },
+
+        // Analisis consumo
+        {
+            path: '/analisis_consumo',
+            name: 'analisis_consumo.index',
+            component: require('./components/modulos/analisis_consumo/index.vue').default,
+        },
+
+        // Analisis suministro
+        {
+            path: '/analisis_suministro',
+            name: 'analisis_suministro.index',
+            component: require('./components/modulos/analisis_suministro/index.vue').default,
         },
 
         // Reportes

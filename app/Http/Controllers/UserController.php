@@ -111,6 +111,10 @@ class UserController extends Controller
             "analisis_proveedores",
             "analisis_ventas",
             "analisis_clientes",
+            "analisis_suministro",
+            "analisis_consumo",
+
+            "notificacion_users.index",
 
             'reportes.usuarios',
             'reportes.kardex',

@@ -313,7 +313,7 @@ export default {
         grafico1() {
             this.enviando = true;
             axios
-                .get("/admin/analisis_bi/proveedors1")
+                .get("/admin/reporte_analisis/proveedors1")
                 .then((response) => {
                     this.errors = [];
                     Highcharts.chart("container1", {
@@ -398,7 +398,7 @@ export default {
         grafico2() {
             this.enviando = true;
             axios
-                .get("/admin/analisis_bi/proveedors2", {
+                .get("/admin/reporte_analisis/proveedors2", {
                     params: this.oGrafico2,
                 })
                 .then((response) => {
@@ -493,7 +493,7 @@ export default {
         grafico3() {
             this.enviando = true;
             axios
-                .get("/admin/analisis_bi/proveedors3", {
+                .get("/admin/reporte_analisis/proveedors3", {
                     params: this.oGrafico3,
                 })
                 .then((response) => {

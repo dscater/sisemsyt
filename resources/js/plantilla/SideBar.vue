@@ -140,10 +140,10 @@
                     </li>
                     <li
                         class="nav-item"
-                        v-if="permisos.includes('analisis_clientes')"
+                        v-if="permisos.includes('analisis_suministro')"
                     >
                         <router-link
-                            :to="{ name: 'analisis_clientes.index' }"
+                            :to="{ name: 'analisis_suministro.index' }"
                             class="nav-link"
                         >
                             <i class="nav-icon fas fa-chart-pie"></i>
@@ -152,10 +152,10 @@
                     </li>
                     <li
                         class="nav-item"
-                        v-if="permisos.includes('analisis_clientes')"
+                        v-if="permisos.includes('analisis_consumo')"
                     >
                         <router-link
-                            :to="{ name: 'analisis_clientes.index' }"
+                            :to="{ name: 'analisis_consumo.index' }"
                             class="nav-link"
                         >
                             <i class="nav-icon fas fa-chart-pie"></i>
@@ -219,6 +219,19 @@
                         "
                     >
                         ADMINISTRACIÓN
+                    </li>
+                    <li
+                        class="nav-item"
+                        v-if="permisos.includes('notificacion_users.index')"
+                    >
+                        <router-link
+                            :to="{ name: 'notificacion_users.index' }"
+                            class="nav-link"
+                            v-loading.fullscreen.lock="fullscreenLoading"
+                        >
+                            <i class="nav-icon fas fa-bell"></i>
+                            <p>Notificaciones</p>
+                        </router-link>
                     </li>
                     <li
                         class="nav-item"

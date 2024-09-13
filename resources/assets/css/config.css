@@ -6,8 +6,46 @@
     --transparente: #000000bd;
 }
 
-.card{
+.card {
     background-color: #fafafa;
+}
+
+.contenedor_notificacions .sinver,
+.contenedor_notificacions .sinver p,
+.contenedor_notificacions .sinver i {
+    font-weight: bold !important;
+    background: var(--principal) !important;
+}
+
+.contenedor_grafico {
+    position: relative;
+    z-index: 1000;
+}
+
+.contenedor_grafico.cargando {
+}
+
+.contenedor_grafico .cargando {
+    min-height: 60vh;
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(37, 35, 35);
+    color: white;
+    font-weight: bold;
+}
+
+.desc_notificacion {
+    display: inline-block;
+    width: calc(100% - 26px);
+    white-space: nowrap !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .content-wrapper {

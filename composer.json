@@ -13,6 +13,7 @@
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.4",
+        "php-ai/php-ml": "^0.9.0",
         "phpoffice/phpspreadsheet": "^1.26",
         "simplesoftwareio/simple-qrcode": "2.0"
     },

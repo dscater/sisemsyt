@@ -500,7 +500,7 @@ export default {
         grafico1() {
             this.enviando = true;
             axios
-                .get("/admin/analisis_bi/clientes1")
+                .get("/admin/reporte_analisis/clientes1")
                 .then((response) => {
                     this.errors = [];
                     Highcharts.chart("container1", {
@@ -585,7 +585,7 @@ export default {
         grafico2() {
             this.enviando = true;
             axios
-                .get("/admin/analisis_bi/clientes2")
+                .get("/admin/reporte_analisis/clientes2")
                 .then((response) => {
                     this.errors = [];
                     Highcharts.chart("container2", {
@@ -670,7 +670,7 @@ export default {
         grafico3() {
             this.enviando = true;
             axios
-                .get("/admin/analisis_bi/clientes3", {
+                .get("/admin/reporte_analisis/clientes3", {
                     params: this.oGrafico3,
                 })
                 .then((response) => {
@@ -762,7 +762,7 @@ export default {
         grafico4() {
             this.enviando = true;
             axios
-                .get("/admin/analisis_bi/clientes4", {
+                .get("/admin/reporte_analisis/clientes4", {
                     params: this.oGrafico4,
                 })
                 .then((response) => {
@@ -854,7 +854,7 @@ export default {
         grafico5() {
             this.enviando = true;
             axios
-                .get("/admin/analisis_bi/clientes5", {
+                .get("/admin/reporte_analisis/clientes5", {
                     params: this.oGrafico5,
                 })
                 .then((response) => {
@@ -943,7 +943,7 @@ export default {
         grafico6() {
             this.enviando = true;
             axios
-                .get("/admin/analisis_bi/clientes6", {
+                .get("/admin/reporte_analisis/clientes6", {
                     params: this.oGrafico6,
                 })
                 .then((response) => {
