@@ -19,7 +19,6 @@ class IngresoProductoController extends Controller
         'precio_compra' => 'required|numeric',
         'lote' => 'required',
         'fecha_fabricacion' => 'required',
-        'fecha_caducidad' => 'required',
         'cantidad' => 'required|numeric',
         'tipo_ingreso_id' => 'required',
     ];
