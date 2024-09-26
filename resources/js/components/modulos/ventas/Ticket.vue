@@ -55,9 +55,8 @@
                                         </div>
 
                                         <div class="elemento centreado">
-                                            VENTA AL POR MENOR DE PRODUCTOS
-                                            FARMACÉUTICOS, MEDICINALES,
-                                            COSMÉTICOS Y ARTÍCULOS DE TOCADOR
+                                            VENTA AL POR MAYOR Y MENOR DE
+                                            MAQUINARIA, EQUIPO Y MATERIALES
                                         </div>
                                         <div class="elemento detalle izquierda">
                                             Fecha:
