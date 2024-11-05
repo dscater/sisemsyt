@@ -30,7 +30,7 @@
                                             "
                                         >
                                             <i class="fa fa-plus"></i>
-                                            Nuevo
+                                            Nueva categoría
                                         </button>
                                     </div>
                                 </div>

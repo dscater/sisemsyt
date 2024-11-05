@@ -22,12 +22,26 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 class ProductoController extends Controller
 {
     public $validacion = [
-        'nombre' => 'required|min:1',
-        'precio' => 'required|numeric',
-        'stock_min' => 'required|numeric',
+        'nombre' => 'required|regex:/^[\pL\s\.\'\"\,áéíóúÁÉÍÓÚñÑ]+$/uu',
+        'precio' => 'required|numeric|min:1',
+        'descripcion' => 'required|regex:/^[\pL\s\.\'\"\,áéíóúÁÉÍÓÚñÑ]+$/uu',
+        'stock_min' => 'required|integer|min:0',
+        'categoria_id' => 'required',
     ];
 
-    public $mensajes = [];
+    public $mensajes = [
+        "nombre.required" => "Este campo es obligatorio",
+        "nombre.regex" => "Debes ingresar solo texto",
+        "precio.required" => "Este campo es obligatorio",
+        "precio.numeric" => "Debes ingresar un valor númerico",
+        "precio.min" => "Debes ingresar al menos :min",
+        "descripcion.required" => "Este campo es obligatorio",
+        "descripcion.regex" => "Debes ingresar solo texto",
+        "stock_min.required" => "Este campo es obligatorio",
+        "stock_min.integer" => "Este campo debe ser un valor entero",
+        "stock_min.min" => "Debes ingresar un valor mayor o igual a :min",
+        "categoria_id.required" => "Este campo es obligatorio",
+    ];
 
     public function index(Request $request)
     {
@@ -206,15 +220,17 @@ class ProductoController extends Controller
         $value = $request->value;
         $sw_busqueda = $request->sw_busqueda;
 
-        $productos = [];
+        $productos = Producto::select("productos.*");
         if ($sw_busqueda == 'todos') {
-            $productos = Producto::where("codigo_producto", "LIKE", "%$value%")
-                ->orWhere("nombre", "LIKE", "%$value%")
-                ->orderBy("codigo_producto", "ASC")
+            if (trim($value) != '') {
+                $productos->where("codigo_producto", "LIKE", "%$value%")
+                    ->orWhere("nombre", "LIKE", "%$value%");
+            }
+            $productos = $productos->orderBy("codigo_producto", "ASC")
                 ->orderBy("nombre", "ASC")
                 ->get()->take(100);
         } else {
-            $productos = Producto::where("productos." . $sw_busqueda, $value)
+            $productos = $productos->where("productos." . $sw_busqueda, $value)
                 ->get()->take(100);
         }
 
@@ -223,8 +239,8 @@ class ProductoController extends Controller
 
     public function store(Request $request)
     {
+        $this->validacion['imagen'] = "image|mimes:jpeg,jpg,png,webp|max:4096";
         $request->validate($this->validacion, $this->mensajes);
-
         DB::beginTransaction();
         try {
             // crear Producto

@@ -48,7 +48,7 @@
                                     :class="{
                                         'text-danger': errors.descripcion,
                                     }"
-                                    >Descripción</label
+                                    >Descripción*</label
                                 >
                                 <el-input
                                     placeholder="Nombre"
@@ -227,9 +227,9 @@ export default {
     computed: {
         tituloModal() {
             if (this.accion == "nuevo") {
-                return "NUEVO REGISTRO";
+                return "NUEVO PRODUCTO";
             } else {
-                return "MODIFICAR REGISTRO";
+                return "MODIFICAR PRODUCTO";
             }
         },
         textoBoton() {

@@ -310,7 +310,7 @@
                                 <div class="form-group col-md-6">
                                     <label
                                         :class="{ 'text-danger': errors.web }"
-                                        >Web</label
+                                        >Web*</label
                                     >
                                     <input
                                         type="text"
@@ -352,7 +352,7 @@
                                         :class="{
                                             'text-danger': errors.correo,
                                         }"
-                                        >Correo</label
+                                        >Correo*</label
                                     >
                                     <input
                                         type="text"

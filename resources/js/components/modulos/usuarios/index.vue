@@ -30,7 +30,7 @@
                                             "
                                         >
                                             <i class="fa fa-plus"></i>
-                                            Nuevo
+                                            Nuevo usuario
                                         </button>
                                     </div>
                                 </div>

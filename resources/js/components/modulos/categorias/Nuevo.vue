@@ -31,7 +31,7 @@
                                     >Nombre de categoría*</label
                                 >
                                 <el-input
-                                    placeholder="Nombre"
+                                    placeholder="Categoría"
                                     :class="{ 'is-invalid': errors.nombre }"
                                     v-model="categoria.nombre"
                                     clearable
@@ -101,9 +101,9 @@ export default {
     computed: {
         tituloModal() {
             if (this.accion == "nuevo") {
-                return "NUEVO REGISTRO";
+                return "NUEVA CATEGORÍA";
             } else {
-                return "MODIFICAR REGISTRO";
+                return "MODIFICAR CATEGORÍA";
             }
         },
         textoBoton() {

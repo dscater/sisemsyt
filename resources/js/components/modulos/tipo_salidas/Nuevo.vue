@@ -48,7 +48,7 @@
                                     :class="{
                                         'text-danger': errors.descripcion,
                                     }"
-                                    >Descripción</label
+                                    >Descripción*</label
                                 >
                                 <el-input
                                     type="textarea"
@@ -125,9 +125,9 @@ export default {
     computed: {
         tituloModal() {
             if (this.accion == "nuevo") {
-                return "NUEVO REGISTRO";
+                return "NUEVO TIPO DE SALIDA";
             } else {
-                return "MODIFICAR REGISTRO";
+                return "MODIFICAR TIPO DE SALIDA";
             }
         },
         textoBoton() {

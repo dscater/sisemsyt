@@ -30,7 +30,7 @@
                                             "
                                         >
                                             <i class="fa fa-plus"></i>
-                                            Nuevo
+                                            Nuevo tipo de salida
                                         </button>
                                     </div>
                                 </div>

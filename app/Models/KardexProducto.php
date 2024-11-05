@@ -12,10 +12,21 @@ class KardexProducto extends Model
     use HasFactory;
 
     protected $fillable = [
-        "tipo_registro", "registro_id",
-        "producto_id", "detalle", "precio", "tipo_is",
-        "cantidad_ingreso", "cantidad_salida", "cantidad_saldo", "cu",
-        "monto_ingreso", "monto_salida", "monto_saldo", "fecha",
+        "tipo_registro",
+        "registro_id",
+        "producto_id",
+        "detalle",
+        "precio",
+        "tipo_is",
+        "cantidad_ingreso",
+        "cantidad_salida",
+        "cantidad_saldo",
+        "cu",
+        "monto_ingreso",
+        "monto_salida",
+        "monto_saldo",
+        "fecha",
+        "status"
     ];
 
 
@@ -29,6 +40,7 @@ class KardexProducto extends Model
     {
         //buscar el ultimo registro y usar sus valores
         $ultimo = KardexProducto::where('producto_id', $producto->id)
+            ->where("status", 1)
             ->orderBy('created_at', 'asc')
             ->get()
             ->last();
@@ -80,6 +92,7 @@ class KardexProducto extends Model
     {
         //buscar el ultimo registro y usar sus valores
         $ultimo = KardexProducto::where('producto_id', $producto->id)
+            ->where("status", 1)
             ->orderBy('created_at', 'asc')
             ->get()
             ->last();
@@ -116,11 +129,13 @@ class KardexProducto extends Model
     {
         $siguientes = KardexProducto::where("producto_id", $producto_id)
             ->where("id", ">=", $id)
+            ->where("status", 1)
             ->get();
 
         foreach ($siguientes as $item) {
             $anterior = KardexProducto::where("producto_id", $producto_id)
                 ->where("id", "<", $item->id)->get()
+                ->where("status", 1)
                 ->last();
 
             $datos_actualizacion = [

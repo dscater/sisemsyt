@@ -9,15 +9,35 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class ProveedorController extends Controller
 {
     public $validacion = [
-        'razon_social' => 'required',
+        'razon_social' => 'required|regex:/^[\pL\s\.\'\"\,áéíóúÁÉÍÓÚñÑ]+$/uu',
+        'nit' => 'required|numeric|digits_between:7,20',
         'fono' => 'required',
+        'dir' => 'required|regex:/^[\pL\s\.\'\"\,0-9áéíóúÁÉÍÓÚñÑ]+$/u',
+        'nombre_contacto' => 'required|regex:/^[\pL\s\.\'\"\,áéíóúÁÉÍÓÚñÑ]+$/uu',
+        'descripcion' => 'required|regex:/^[\pL\s\.\'\"\,áéíóúÁÉÍÓÚñÑ]+$/uu',
     ];
 
-    public $mensajes = [];
+    public $mensajes = [
+        'razon_social.required' => 'Este campo es obligatorio',
+        'razon_social.regex' => 'Debes ingresar solo texto',
+        'nit.required' => 'Este campo es obligatorio',
+        'nit.numeric' => 'Debes ingresar un número',
+        'nit.digits_between' => 'Debes ingresar minimo 7 dígitos',
+        'dir.required' => 'Este campo es obligatorio',
+        'dir.regex' => 'No se permiten simbolos',
+        'nombre_contacto.required' => 'Este campo es obligatorio',
+        'nombre_contacto.regex' => 'Debes ingresar solo texto',
+        'descripcion.required' => 'Este campo es obligatorio',
+        'descripcion.regex' => 'Debes ingresar solo texto',
+        'fono.required' => 'Este campo es obligatorio',
+        'fono.numeric' => 'Debes ingresar un número',
+        'fono.digits_between' => 'Debes ingresar minimo 7 dígitos',
+    ];
 
     public function index(Request $request)
     {
@@ -28,6 +48,21 @@ class ProveedorController extends Controller
     public function store(Request $request)
     {
         $request->validate($this->validacion, $this->mensajes);
+        $telefonos = explode(';', $request->input('fono'));
+        $errores = [];
+        foreach ($telefonos as $index => $telefono) {
+            $data = ['telefono' => trim($telefono)];
+            $validator = Validator::make($data, [
+                'telefono' => 'required|numeric|digits_between:7,20',
+            ]);
+            if ($validator->fails()) {
+                $errores["fono"][] = $validator->errors()->first('telefono');
+                break;
+            }
+        }
+        if (!empty($errores)) {
+            return response()->json(['errors' => $errores], 422);
+        }
 
         DB::beginTransaction();
         try {
@@ -64,6 +99,22 @@ class ProveedorController extends Controller
     public function update(Request $request, Proveedor $proveedor)
     {
         $request->validate($this->validacion, $this->mensajes);
+        $telefonos = explode(';', $request->input('fono'));
+        $errores = [];
+        foreach ($telefonos as $index => $telefono) {
+            $data = ['telefono' => trim($telefono)];
+            $validator = Validator::make($data, [
+                'telefono' => 'required|numeric|digits_between:7,20',
+            ]);
+            if ($validator->fails()) {
+                $errores["fono"][] = $validator->errors()->first('telefono');
+                break;
+            }
+        }
+        if (!empty($errores)) {
+            return response()->json(['errors' => $errores], 422);
+        }
+
 
         DB::beginTransaction();
         try {

@@ -10,8 +10,15 @@ class Cliente extends Model
     use HasFactory;
 
     protected $fillable = [
-        "nombre", "ci", "ci_exp", "nit", "fono", "correo", "dir",
+        "nombre",
+        "ci",
+        "ci_exp",
+        "nit",
+        "fono",
+        "correo",
+        "dir",
         "fecha_registro",
+        "status"
     ];
 
     protected $appends = ["full_ci"];

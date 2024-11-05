@@ -113,11 +113,16 @@
             </ul>
         </nav>
         <!-- /.navbar -->
+        <loading :loading="loadingSalir"></loading>
     </div>
 </template>
 
 <script>
+import loading from "../components/loading.vue";
 export default {
+    components: {
+        loading,
+    },
     data() {
         return {
             fullscreenLoading: false,
@@ -126,6 +131,7 @@ export default {
             sin_ver: 0,
             listNotificacionUsers: [],
             intervaloNotificacions: null,
+            loadingSalir: false,
         };
     },
     mounted() {
@@ -159,12 +165,14 @@ export default {
                 });
         },
         logout() {
-            this.fullscreenLoading = true;
+            // this.fullscreenLoading = true;
+            this.loadingSalir = true;
             axios.post("/logout").then((res) => {
+                localStorage.clear();
+                this.$router.push({ name: "login" });
                 setTimeout(function () {
-                    localStorage.clear();
+                    this.loadingSalir = false;
                     location.reload();
-                    this.$router.push({ name: "login" });
                 }, 500);
             });
         },
@@ -178,5 +186,4 @@ export default {
     max-height: 40vh;
     overflow: auto;
 } */
-
 </style>

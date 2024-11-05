@@ -20,6 +20,7 @@ class Producto extends Model
         "imagen",
         "categoria_id",
         "fecha_registro",
+        "status"
     ];
 
     protected $appends = ["url_imagen"];

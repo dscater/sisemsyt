@@ -441,27 +441,35 @@
             <!-- /.sidebar-menu -->
         </div>
         <!-- /.sidebar -->
+        <loading :loading="loadingSalir"></loading>
     </aside>
 </template>
 
 <script>
+import loading from "../components/loading.vue";
 export default {
+    components: {
+        loading,
+    },
     props: ["user_sidebar", "configuracion"],
     data() {
         return {
             user: JSON.parse(localStorage.getItem("user")),
             fullscreenLoading: false,
             permisos: localStorage.getItem("permisos"),
+            loadingSalir: false,
         };
     },
     methods: {
         logout() {
-            this.fullscreenLoading = true;
+            // this.fullscreenLoading = true;
+            this.loadingSalir = true;
             axios.post("/logout").then((res) => {
+                localStorage.clear();
+                this.$router.push({ name: "login" });
                 setTimeout(function () {
-                    localStorage.clear();
+                    this.loadingSalir = false;
                     location.reload();
-                    this.$router.push({ name: "login" });
                 }, 500);
             });
         },

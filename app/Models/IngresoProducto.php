@@ -19,6 +19,7 @@ class IngresoProducto extends Model
         "tipo_ingreso_id",
         "descripcion",
         "fecha_registro",
+        "status"
     ];
 
     protected $appends = ["nombre_producto"];

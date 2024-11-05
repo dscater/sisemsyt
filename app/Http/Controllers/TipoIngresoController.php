@@ -13,14 +13,22 @@ use Illuminate\Support\Facades\DB;
 class TipoIngresoController extends Controller
 {
     public $validacion = [
-        'nombre' => 'required|min:2',
+        'nombre' => 'required|min:2|regex:/^[\pL\s\.\'\"\,áéíóúÁÉÍÓÚñÑ]+$/uu',
+        'descripcion' => 'required|min:2|regex:/^[\pL\s\.\'\"\,áéíóúÁÉÍÓÚñÑ]+$/uu',
     ];
 
-    public $mensajes = [];
+    public $mensajes = [
+        'nombre.required' => 'Este campo es obligatorio',
+        'nombre.min' => 'Debes ingresar al menos :min caracteres',
+        'nombre.regex' => 'Debes ingresar solo texto',
+        'descripcion.required' => 'Este campo es obligatorio',
+        'descripcion.min' => 'Debes ingresar al menos :min caracteres',
+        'descripcion.regex' => 'Debes ingresar solo texto',
+    ];
 
     public function index(Request $request)
     {
-        $tipo_ingresos = TipoIngreso::all();
+        $tipo_ingresos = TipoIngreso::where("status", 1)->get();
         return response()->JSON(['tipo_ingresos' => $tipo_ingresos, 'total' => count($tipo_ingresos)], 200);
     }
 
@@ -113,7 +121,9 @@ class TipoIngresoController extends Controller
             }
 
             $datos_original = HistorialAccion::getDetalleRegistro($tipo_ingreso, "tipo_ingresos");
-            $tipo_ingreso->delete();
+            // $tipo_ingreso->delete();
+            $tipo_ingreso->status = 0;
+            $tipo_ingreso->save();
             HistorialAccion::create([
                 'user_id' => Auth::user()->id,
                 'accion' => 'ELIMINACIÓN',

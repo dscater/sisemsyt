@@ -30,7 +30,7 @@
                                             "
                                         >
                                             <i class="fa fa-plus"></i>
-                                            Nuevo
+                                            Nuevo ingreso de producto
                                         </button>
                                     </div>
                                 </div>

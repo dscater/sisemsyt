@@ -97,7 +97,7 @@
                                     :class="{
                                         'text-danger': errors.nit,
                                     }"
-                                    >Nit</label
+                                    >Nit*</label
                                 >
                                 <el-input
                                     placeholder="Nit"
@@ -117,7 +117,7 @@
                                     :class="{
                                         'text-danger': errors.fono,
                                     }"
-                                    >Teléfono/Celular</label
+                                    >Teléfono/Celular*</label
                                 >
                                 <b-form-tags
                                     input-id="tags-basic"
@@ -139,7 +139,7 @@
                                     :class="{
                                         'text-danger': errors.correo,
                                     }"
-                                    >Correo electrónico</label
+                                    >Correo electrónico*</label
                                 >
                                 <el-input
                                     placeholder="Correo electrónico"
@@ -159,7 +159,7 @@
                                     :class="{
                                         'text-danger': errors.dir,
                                     }"
-                                    >Dirección</label
+                                    >Dirección*</label
                                 >
                                 <el-input
                                     placeholder="Dirección"
@@ -238,9 +238,9 @@ export default {
     computed: {
         tituloModal() {
             if (this.accion == "nuevo") {
-                return "AGREGAR REGISTRO";
+                return "NUEVO CLIENTE";
             } else {
-                return "MODIFICAR REGISTRO";
+                return "MODIFICAR CLIENTE";
             }
         },
         textoBoton() {

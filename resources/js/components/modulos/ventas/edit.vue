@@ -4,7 +4,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Ventas - <span>Editar</span></h1>
+                        <h1>Ventas - <span>Editar venta</span></h1>
                     </div>
                 </div>
             </div>

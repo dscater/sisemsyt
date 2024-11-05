@@ -29,7 +29,7 @@
                                             }"
                                         >
                                             <i class="fa fa-plus"></i>
-                                            Nuevo
+                                            Nueva venta
                                         </router-link>
                                     </div>
                                 </div>

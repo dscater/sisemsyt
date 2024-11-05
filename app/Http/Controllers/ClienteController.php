@@ -7,16 +7,38 @@ use App\Models\HistorialAccion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 class ClienteController extends Controller
 {
     public $validacion = [
-        'nombre' => 'required',
-        'ci' => 'required',
+        'nombre' => 'required|regex:/^[\pL\s\.\'\"\,0-9áéíóúÁÉÍÓÚñÑ]+$/uu',
+        'ci' => 'required|numeric|digits_between:7,20',
         'ci_exp' => 'required',
+        'fono' => 'required',
+        'nit' => 'required|regex:/^[\pL\s\.\'\"\,0-9áéíóúÁÉÍÓÚñÑ]+$/uu',
+        'correo' => 'required|email',
+        'dir' => 'required|regex:/^[\pL\s\.\'\"\#\,0-9áéíóúÁÉÍÓÚñÑ]+$/uu',
     ];
 
-    public $mensajes = [];
+    public $mensajes = [
+        'nombre.required' => 'Este campo es obligatorio',
+        'nombre.regex' => 'El formato del texto es incorrecto',
+        'ci.required' => 'Este campo es obligatorio',
+        'ci.numeric' => 'El formato del texto es incorrecto',
+        'ci.digits_between' => 'Debes ingresar por lo menos 7 dígitos',
+        'ci_exp.required' => 'Este campo es obligatorio',
+        'nit.required' => 'Este campo es obligatorio',
+        'nit.regex' => 'El formato del texto es incorrecto',
+        'fono.required' => 'Este campo es obligatorio',
+        'fono.numeric' => 'El formato del texto es incorrecto',
+        'fono.digits_between' => 'Debes ingresar por lo menos 7 dígitos',
+        'correo.required' => 'Este campo es obligatorio',
+        'correo.email' => 'El formato del texto debe ser de un correo',
+        'dir.required' => 'Este campo es obligatorio',
+        'dir.regex' => 'El formato del texto es incorrecto',
+    ];
 
     public function index(Request $request)
     {
@@ -27,6 +49,21 @@ class ClienteController extends Controller
     public function store(Request $request)
     {
         $request->validate($this->validacion, $this->mensajes);
+        $telefonos = explode(';', $request->input('fono'));
+        $errores = [];
+        foreach ($telefonos as $index => $telefono) {
+            $data = ['telefono' => trim($telefono)];
+            $validator = Validator::make($data, [
+                'telefono' => 'required|numeric|digits_between:7,20',
+            ]);
+            if ($validator->fails()) {
+                $errores["fono"][] = $validator->errors()->first('telefono');
+                break;
+            }
+        }
+        if (!empty($errores)) {
+            return response()->json(['errors' => $errores], 422);
+        }
 
         DB::beginTransaction();
         try {
@@ -63,6 +100,21 @@ class ClienteController extends Controller
     public function update(Request $request, Cliente $cliente)
     {
         $request->validate($this->validacion, $this->mensajes);
+        $telefonos = explode(';', $request->input('fono'));
+        $errores = [];
+        foreach ($telefonos as $index => $telefono) {
+            $data = ['telefono' => trim($telefono)];
+            $validator = Validator::make($data, [
+                'telefono' => 'required|numeric|digits_between:7,20',
+            ]);
+            if ($validator->fails()) {
+                $errores["fono"][] = $validator->errors()->first('telefono');
+                break;
+            }
+        }
+        if (!empty($errores)) {
+            return response()->json(['errors' => $errores], 422);
+        }
 
         DB::beginTransaction();
         try {

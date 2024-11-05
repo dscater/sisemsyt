@@ -17,16 +17,22 @@ class SalidaProductoController extends Controller
 {
     public $validacion = [
         'producto_id' => 'required',
-        'cantidad' => 'required|numeric',
+        'cantidad' => 'required|integer',
         'fecha_salida' => 'required',
         'tipo_salida_id' => 'required',
+        'descripcion' => 'required|min:2|regex:/^[\pL\s\.\'\"\,áéíóúÁÉÍÓÚñÑ]+$/uu',
     ];
 
-    public $mensajes = [];
+    public $mensajes = [
+        'descripcion.min' => 'Debes ingresar al menos :min caracteres',
+        'descripcion.regex' => 'Debes ingresar solo texto',
+    ];
 
     public function index(Request $request)
     {
-        $salida_productos = SalidaProducto::with("producto")->with("tipo_salida")->get();
+        $salida_productos = SalidaProducto::with("producto")->with("tipo_salida")
+            ->where("status", 1)
+            ->get();
         return response()->JSON(['salida_productos' => $salida_productos, 'total' => count($salida_productos)], 200);
     }
 
@@ -107,6 +113,7 @@ class SalidaProductoController extends Controller
                 $kardex = KardexProducto::where("producto_id", $salida_producto->producto_id)
                     ->where("tipo_registro", "SALIDA")
                     ->where("registro_id", $salida_producto->id)
+                    ->where("status", 1)
                     ->get()->first();
                 KardexProducto::actualizaRegistrosKardex($kardex->id, $kardex->producto_id);
 
@@ -153,14 +160,18 @@ class SalidaProductoController extends Controller
             $eliminar_kardex = KardexProducto::where("tipo_registro", "SALIDA")
                 ->where("registro_id", $salida_producto->id)
                 ->where("producto_id", $salida_producto->producto_id)
+                ->where("status", 1)
                 ->get()
                 ->first();
             $id_kardex = $eliminar_kardex->id;
             $id_producto = $eliminar_kardex->producto_id;
-            $eliminar_kardex->delete();
+            // $eliminar_kardex->delete();
+            $eliminar_kardex->status = 0;
+            $eliminar_kardex->save();
 
             $anterior = KardexProducto::where("producto_id", $id_producto)
                 ->where("id", "<", $id_kardex)
+                ->where("status", 1)
                 ->get()
                 ->last();
             $actualiza_desde = null;
@@ -170,6 +181,7 @@ class SalidaProductoController extends Controller
                 // comprobar si existen registros posteriorres al actualizado
                 $siguiente = KardexProducto::where("producto_id", $id_producto)
                     ->where("id", ">", $id_kardex)
+                    ->where("status", 1)
                     ->get()->first();
                 if ($siguiente)
                     $actualiza_desde = $siguiente;
@@ -186,7 +198,9 @@ class SalidaProductoController extends Controller
             }
 
             $datos_original = HistorialAccion::getDetalleRegistro($salida_producto, "salida_productos");
-            $salida_producto->delete();
+            // $salida_producto->delete();
+            $salida_producto->status = 0;
+            $salida_producto->save();
 
             HistorialAccion::create([
                 'user_id' => Auth::user()->id,

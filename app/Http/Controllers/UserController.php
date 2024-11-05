@@ -19,15 +19,18 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
     public $validacion = [
-        'nombre' => 'required|min:4',
-        'paterno' => 'required|min:4',
-        'ci' => 'required|numeric|digits_between:4, 20|unique:users,ci',
+        'nombre' => 'required|min:4|regex:/^[\pL\s\.\'\"\,áéíóúÁÉÍÓÚñÑ]+$/uu',
+        'paterno' => 'required|min:4|regex:/^[\pL\s\.\'\"\,áéíóúÁÉÍÓÚñÑ]+$/uu',
+        'ci' => 'required|numeric|digits_between:7, 20|unique:users,ci',
         'ci_exp' => 'required',
-        'dir' => 'required|min:4',
+        'fono' => 'required',
+        'dir' => 'required|min:4|regex:/^[\pL\s\.\'\"\,0-9áéíóúÁÉÍÓÚñÑ]+$/u',
+        'correo' => 'required|email',
         'fono' => 'required|min:1',
         'tipo' => 'required',
         'acceso' => 'required',
@@ -38,12 +41,17 @@ class UserController extends Controller
         'nombre.min' => 'Debes ingressar al menos 4 carácteres',
         'paterno.required' => 'Este campo es obligatorio',
         'paterno.min' => 'Debes ingresar al menos 4 carácteres',
+        'paterno.regex' => 'Debes ingresar solo texto',
+        'materno.regex' => 'Debes ingresar solo texto',
         'ci.required' => 'Este campo es obligatorio',
         'ci.numeric' => 'Debes ingresar un valor númerico',
         'ci.unique' => 'Este número de C.I. ya fue registrado',
         'ci_exp.required' => 'Este campo es obligatorio',
+        'correo.required' => 'Este campo es obligatorio',
+        'correo.email' => 'Debes ingresar un correo valido',
         'dir.required' => 'Este campo es obligatorio',
         'dir.min' => 'Debes ingresar al menos 4 carácteres',
+        'dir.regex' => 'Debes ingresar un formato de texto valido',
         'fono.required' => 'Este campo es obligatorio',
         'fono.min' => 'Debes ingresar al menos 4 carácteres',
         'cel.required' => 'Este campo es obligatorio',
@@ -217,8 +225,26 @@ class UserController extends Controller
         if ($request->hasFile('foto')) {
             $this->validacion['foto'] = 'image|mimes:jpeg,jpg,png|max:2048';
         }
+        if (trim($request->materno) != '') {
+            $this->validacion['materno'] = 'regex:/^[\pL\s\.\'\"\,áéíóúÁÉÍÓÚñÑ]+$/uu';
+        }
 
         $request->validate($this->validacion, $this->mensajes);
+        $telefonos = explode(';', $request->input('fono'));
+        $errores = [];
+        foreach ($telefonos as $index => $telefono) {
+            $data = ['telefono' => trim($telefono)];
+            $validator = Validator::make($data, [
+                'telefono' => 'required|numeric|digits_between:7,20',
+            ]);
+            if ($validator->fails()) {
+                $errores["fono"][] = $validator->errors()->first('telefono');
+                break;
+            }
+        }
+        if (!empty($errores)) {
+            return response()->json(['errors' => $errores], 422);
+        }
         $cont = 0;
         do {
             $nombre_usuario = User::getNombreUsuario($request->nombre, $request->paterno);
@@ -282,15 +308,36 @@ class UserController extends Controller
     public function update(Request $request, User $usuario)
     {
         $this->validacion['ci'] = 'required|min:4|numeric|unique:users,ci,' . $usuario->id;
-        $this->validacion['correo'] = 'nullable|email|unique:users,correo,' . $usuario->id;
+        $this->validacion['correo'] = 'email|unique:users,correo,' . $usuario->id;
         if ($request->hasFile('foto')) {
             $this->validacion['foto'] = 'image|mimes:jpeg,jpg,png|max:2048';
         }
         if ($request->tipo == 'CAJA') {
             $this->validacion['caja_id'] = 'required';
         }
+        if (trim($request->materno) != '') {
+            $this->validacion['materno'] = 'regex:/^[\pL\s\.\'\"\,áéíóúÁÉÍÓÚñÑ]+$/uu';
+        }
 
         $request->validate($this->validacion, $this->mensajes);
+
+        $telefonos = explode(';', $request->input('fono'));
+        $errores = [];
+        foreach ($telefonos as $index => $telefono) {
+            $data = ['telefono' => trim($telefono)];
+            $validator = Validator::make($data, [
+                'telefono' => 'required|numeric|digits_between:7,20',
+            ]);
+            if ($validator->fails()) {
+                $errores["fono"][] = $validator->errors()->first('telefono');
+                break;
+            }
+        }
+        if (!empty($errores)) {
+            return response()->json(['errors' => $errores], 422);
+        }
+
+
         DB::beginTransaction();
         try {
             $datos_original = HistorialAccion::getDetalleRegistro($usuario, "users");
@@ -355,8 +402,23 @@ class UserController extends Controller
                     return $fail(__('La contraseña no coincide con la actual.'));
                 }
             }],
-            'password' => 'required|confirmed|min:4',
-            'password_confirmation' => 'required|min:4'
+            'password' => [
+                'required',
+                'confirmed',
+                'min:8',
+                'regex:/[A-Z]/',               // Al menos una letra mayúscula
+                'regex:/[a-z]/',               // Al menos una letra minúscula
+                'regex:/[0-9]/',               // Al menos un número
+                'regex:/[^A-Za-z0-9]/',        // Al menos un carácter especial
+                function ($attribute, $value, $fail) use ($usuario) {
+                    if (\Hash::check($value, $usuario->password)) {
+                        return $fail(__('La nueva contraseña no puede ser igual a la contraseña actual.'));
+                    }
+                },
+            ],
+            'password_confirmation' => 'required|min:8'
+        ], [
+            "password.regex" => "La contraseña debe tener al menos una mayúscula, minúscula, un número y un carácter especial"
         ]);
 
 

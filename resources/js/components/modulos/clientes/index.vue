@@ -30,7 +30,7 @@
                                             "
                                         >
                                             <i class="fa fa-plus"></i>
-                                            Nuevo
+                                            Nuevo cliente
                                         </button>
                                     </div>
                                 </div>
@@ -255,7 +255,7 @@ export default {
             this.oCliente.ci = item.ci ? item.ci : "";
             this.oCliente.ci_exp = item.ci_exp ? item.ci_exp : "";
             this.oCliente.nit = item.nit ? item.nit : "";
-            this.oCliente.fono = item.fono ? item.fono.split("; ") : "";
+            this.oCliente.fono = item.fono ? item.fono.split("; ") : [];
             this.oCliente.correo = item.correo ? item.correo : "";
             this.oCliente.dir = item.dir ? item.dir : "";
             this.modal_accion = "edit";

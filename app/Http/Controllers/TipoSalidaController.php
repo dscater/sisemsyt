@@ -14,10 +14,19 @@ use Illuminate\Support\Facades\DB;
 class TipoSalidaController extends Controller
 {
     public $validacion = [
-        'nombre' => 'required|min:2',
+        'nombre' => 'required|min:2|regex:/^[\pL\s\.\'\"\,áéíóúÁÉÍÓÚñÑ]+$/uu',
+        'descripcion' => 'required|min:2|regex:/^[\pL\s\.\'\"\,áéíóúÁÉÍÓÚñÑ]+$/uu',
     ];
 
-    public $mensajes = [];
+    public $mensajes = [
+        'nombre.required' => 'Este campo es obligatorio',
+        'nombre.min' => 'Debes ingresar al menos :min caracteres',
+        'nombre.regex' => 'Debes ingresar solo texto',
+        'descripcion.required' => 'Este campo es obligatorio',
+        'descripcion.min' => 'Debes ingresar al menos :min caracteres',
+        'descripcion.regex' => 'Debes ingresar solo texto',
+    ];
+
 
     public function index(Request $request)
     {

@@ -13,14 +13,18 @@ use Illuminate\Support\Facades\DB;
 class CategoriaController extends Controller
 {
     public $validacion = [
-        'nombre' => 'required|min:2',
+        'nombre' => 'required|min:2|regex:/^[\pL\s\.\'\"\,áéíóúÁÉÍÓÚñÑ]+$/uu',
     ];
 
-    public $mensajes = [];
+    public $mensajes = [
+        "nombre.required" => "Este campo es obligatorio",
+        "nombre.min" => "Debes ingresar al menos :min caracteres",
+        "nombre.regex" => "Debes ingresar solo texto",
+    ];
 
     public function index(Request $request)
     {
-        $categorias = Categoria::all();
+        $categorias = Categoria::where("status", 1)->get();
         return response()->JSON(['categorias' => $categorias, 'total' => count($categorias)], 200);
     }
 
@@ -113,7 +117,8 @@ class CategoriaController extends Controller
             }
 
             $datos_original = HistorialAccion::getDetalleRegistro($categoria, "categorias");
-            $categoria->delete();
+            $categoria->status = 0;
+            $categoria->save();
             HistorialAccion::create([
                 'user_id' => Auth::user()->id,
                 'accion' => 'ELIMINACIÓN',

@@ -47,6 +47,7 @@
                                     :remote-method="buscarProducto"
                                     :loading="loading_buscador"
                                     @change="muestraInfoProducto"
+                                    @focus="buscarProducto"
                                 >
                                     <el-option
                                         v-for="item in aux_lista_productos"
@@ -73,9 +74,7 @@
                                     type="readonly"
                                     class="form-control"
                                     readonly
-                                    v-model="
-                                        ingreso_producto.nombre_producto
-                                    "
+                                    v-model="ingreso_producto.nombre_producto"
                                 />
                             </div>
                             <div
@@ -186,13 +185,20 @@
                                     }"
                                     >Lote*</label
                                 >
-                                <el-input
+                                <el-select
                                     placeholder="Lote"
+                                    class="w-100"
                                     :class="{ 'is-invalid': errors.lote }"
                                     v-model="ingreso_producto.lote"
                                     clearable
                                 >
-                                </el-input>
+                                    <el-option
+                                        v-for="item in listAnios"
+                                        :key="item"
+                                        :value="item"
+                                        :label="item"
+                                    ></el-option>
+                                </el-select>
                                 <span
                                     class="error invalid-feedback"
                                     v-if="errors.lote"
@@ -257,7 +263,7 @@
                                     :class="{
                                         'text-danger': errors.descripcion,
                                     }"
-                                    >Descripción</label
+                                    >Descripción*</label
                                 >
                                 <el-input
                                     type="textarea"
@@ -331,6 +337,9 @@ export default {
         muestra_modal: function (newVal, oldVal) {
             this.errors = [];
             if (newVal) {
+                if(this.accion == 0){
+                    this.ingreso_producto.lote = this.getAnioActual();
+                }
                 this.bModal = true;
             } else {
                 this.bModal = false;
@@ -340,9 +349,9 @@ export default {
     computed: {
         tituloModal() {
             if (this.accion == "nuevo") {
-                return "NUEVO REGISTRO";
+                return "NUEVO INGRESO DE PRODUCTO";
             } else {
-                return "MODIFICAR REGISTRO";
+                return "MODIFICAR INGRESO DE PRODUCTO";
             }
         },
         textoBoton() {
@@ -361,6 +370,7 @@ export default {
             errors: [],
             listProductos: [],
             aux_lista_productos: [],
+            listAnios: [],
             listProveedors: [],
             listTipoIngresos: [],
             loading_buscador: false,
@@ -377,6 +387,7 @@ export default {
         this.bModal = this.muestra_modal;
         this.getProveedors();
         this.getTipoIngresos();
+        this.getAniosLote();
     },
     methods: {
         getProveedors() {
@@ -426,9 +437,7 @@ export default {
                 );
                 formdata.append(
                     "lote",
-                    this.ingreso_producto.lote
-                        ? this.ingreso_producto.lote
-                        : ""
+                    this.ingreso_producto.lote ? this.ingreso_producto.lote : ""
                 );
                 formdata.append(
                     "fecha_fabricacion",
@@ -533,32 +542,35 @@ export default {
             // this.oIngresoProducto.descripcion = "";
         },
         buscarProducto(query) {
+            if (query.isTrusted) {
+                query = "";
+            }
             this.aux_lista_productos = [];
             this.loading_buscador = true;
             clearTimeout(this.timeOutProductos);
             let self = this;
             this.timeOutProductos = setTimeout(() => {
                 self.getProductosQuery(query);
-            }, 1000);
+            }, 200);
         },
         getProductosQuery(query) {
-            if (query !== "") {
-                axios
-                    .get("/admin/productos/buscar_producto", {
-                        params: {
-                            value: query,
-                            sw_busqueda: this.sw_busqueda,
-                        },
-                    })
-                    .then((response) => {
-                        this.loading_buscador = false;
-                        this.listProductos;
-                        this.aux_lista_productos = response.data;
-                    });
-            } else {
-                this.loading_buscador = false;
-                this.aux_lista_productos = [];
-            }
+            // if (query !== "") {
+            axios
+                .get("/admin/productos/buscar_producto", {
+                    params: {
+                        value: query,
+                        sw_busqueda: this.sw_busqueda,
+                    },
+                })
+                .then((response) => {
+                    this.loading_buscador = false;
+                    this.listProductos;
+                    this.aux_lista_productos = response.data;
+                });
+            // } else {
+            //     this.loading_buscador = false;
+            //     this.aux_lista_productos = [];
+            // }
         },
         muestraInfoProducto() {
             if (this.ingreso_producto.producto_id != "") {
@@ -569,6 +581,20 @@ export default {
             } else {
                 this.oProducto = null;
             }
+        },
+        getAnioActual() {
+            return this.$moment().format("YYYY");
+        },
+        getAniosLote() {
+            let anio_actual = this.getAnioActual();
+            anio_actual = parseInt(anio_actual);
+            let anio_anterior = anio_actual - 5;
+            let anio_siguiente = anio_actual + 5;
+            let a_anios = [];
+            for (let i = anio_anterior; i <= anio_siguiente; i++) {
+                a_anios.push(i);
+            }
+            this.listAnios = a_anios;
         },
     },
 };

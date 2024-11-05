@@ -28,6 +28,7 @@
                                                 "
                                             >
                                                 <i class="fa fa-plus"></i>
+                                                Agregar cliente
                                             </button>
                                         </label>
                                         <el-select
@@ -79,9 +80,7 @@
                                                     >
                                                         <select
                                                             class="form-control"
-                                                            v-model="
-                                                                venta.nit
-                                                            "
+                                                            v-model="venta.nit"
                                                         >
                                                             <option value="0">
                                                                 0
@@ -147,6 +146,7 @@
                                             :remote-method="buscarProducto"
                                             :loading="loading_buscador"
                                             @change="getProducto"
+                                            @focus="buscarProducto"
                                         >
                                             <el-option
                                                 v-for="item in aux_lista_productos"
@@ -171,7 +171,6 @@
                                         >
                                             <thead>
                                                 <tr>
-                                                    <th>Cód. Almacén</th>
                                                     <th>Cód. Producto</th>
                                                     <th>Nombre</th>
                                                     <th>Stock Disponible</th>
@@ -179,12 +178,6 @@
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td
-                                                        data-col="Cód. almacén: "
-                                                        v-text="
-                                                            oProducto?.codigo_almacen
-                                                        "
-                                                    ></td>
                                                     <td
                                                         data-col="Cód. producto: "
                                                         v-text="
@@ -217,6 +210,7 @@
                                         <input
                                             type="number"
                                             class="form-control"
+                                            min="1"
                                             :class="{
                                                 'is-invalid': errors.cantidad,
                                             }"
@@ -271,10 +265,7 @@
                                 </thead>
                                 <tbody>
                                     <tr
-                                        v-if="
-                                            venta.detalle_ventas.length >
-                                            0
-                                        "
+                                        v-if="venta.detalle_ventas.length > 0"
                                         v-for="(
                                             item, index
                                         ) in venta.detalle_ventas"
@@ -306,12 +297,7 @@
                                             </button>
                                         </td>
                                     </tr>
-                                    <tr
-                                        v-if="
-                                            venta.detalle_ventas.length ==
-                                            0
-                                        "
-                                    >
+                                    <tr v-if="venta.detalle_ventas.length == 0">
                                         <td
                                             colspan="5"
                                             class="text-center text-gray font-weight-bold"
@@ -473,6 +459,16 @@ export default {
                 this.getClientes();
                 this.getCliente();
                 this.getCajas();
+            }
+        },
+        cantidad(newVal) {
+            this.errors["cantidad"] = [];
+            if (newVal < 1) {
+                this.errors["cantidad"].push(
+                    "Debes ingresar una cantidad mayor o igual a 1"
+                );
+            } else {
+                delete this.errors.cantidad;
             }
         },
     },
@@ -688,32 +684,35 @@ export default {
             });
         },
         buscarProducto(query) {
+            if (query.isTrusted) {
+                query = "";
+            }
             this.aux_lista_productos = [];
             this.loading_buscador = true;
             clearTimeout(this.timeOutProductos);
             let self = this;
             this.timeOutProductos = setTimeout(() => {
                 self.getProductosQuery(query);
-            }, 1000);
+            }, 200);
         },
         getProductosQuery(query) {
-            if (query !== "") {
-                axios
-                    .get("/admin/productos/buscar_producto", {
-                        params: {
-                            value: query,
-                            sw_busqueda: this.sw_busqueda,
-                        },
-                    })
-                    .then((response) => {
-                        this.loading_buscador = false;
-                        this.listProductos;
-                        this.aux_lista_productos = response.data;
-                    });
-            } else {
-                this.loading_buscador = false;
-                this.aux_lista_productos = [];
-            }
+            // if (query !== "") {
+            axios
+                .get("/admin/productos/buscar_producto", {
+                    params: {
+                        value: query,
+                        sw_busqueda: this.sw_busqueda,
+                    },
+                })
+                .then((response) => {
+                    this.loading_buscador = false;
+                    this.listProductos;
+                    this.aux_lista_productos = response.data;
+                });
+            // } else {
+            this.loading_buscador = false;
+            this.aux_lista_productos = [];
+            // }
         },
         generaReporte() {
             this.enviando = true;
@@ -721,11 +720,7 @@ export default {
                 responseType: "blob",
             };
             axios
-                .post(
-                    "/admin/ventas/pdf/" + this.venta.id,
-                    null,
-                    config
-                )
+                .post("/admin/ventas/pdf/" + this.venta.id, null, config)
                 .then((res) => {
                     this.errors = [];
                     this.enviando = false;
@@ -807,8 +802,7 @@ export default {
                                 ? this.venta.descuento
                                 : 0
                         ) / 100;
-                    let descuento =
-                        parseFloat(this.venta.total) * p_descuento;
+                    let descuento = parseFloat(this.venta.total) * p_descuento;
                     this.venta.total_final = parseFloat(
                         parseFloat(this.venta.total) - descuento
                     ).toFixed(2);

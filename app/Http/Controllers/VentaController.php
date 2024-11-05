@@ -28,9 +28,9 @@ class VentaController extends Controller
 
     public function index()
     {
-        $ventas = Venta::with("cliente")->get();
+        $ventas = Venta::with("cliente")->where("status", 1)->get();
         if (Auth::user()->tipo == 'VENDEDOR') {
-            $ventas = Venta::with("cliente")->where("user_id", Auth::user()->id)->get();
+            $ventas = Venta::with("cliente")->where("user_id", Auth::user()->id)->where("status", 1)->get();
         }
 
         return response()->JSON(["ventas" => $ventas, "total" => count($ventas)]);
@@ -38,7 +38,7 @@ class VentaController extends Controller
 
     public function ventas_caja(Request $request)
     {
-        $ventas = Venta::where("caja_id", $request->id)->get();
+        $ventas = Venta::where("caja_id", $request->id)->where("status", 1)->get();
         return response()->JSON($ventas);
     }
 
@@ -214,14 +214,18 @@ class VentaController extends Controller
                 $eliminar_kardex = KardexProducto::where("tipo_registro", "VENTA")
                     ->where("registro_id", $dv->id)
                     ->where("producto_id", $dv->producto_id)
+                    ->where("status", 1)
                     ->get()
                     ->first();
                 $id_kardex = $eliminar_kardex->id;
                 $id_producto = $eliminar_kardex->producto_id;
-                $eliminar_kardex->delete();
+                // $eliminar_kardex->delete();
+                $eliminar_kardex->status = 0;
+                $eliminar_kardex->save();
 
                 $anterior = KardexProducto::where("producto_id", $id_producto)
                     ->where("id", "<", $id_kardex)
+                    ->where("status", 1)
                     ->get()
                     ->last();
                 $actualiza_desde = null;
@@ -231,6 +235,7 @@ class VentaController extends Controller
                     // comprobar si existen registros posteriorres al actualizado
                     $siguiente = KardexProducto::where("producto_id", $id_producto)
                         ->where("id", ">", $id_kardex)
+                        ->where("status", 1)
                         ->get()->first();
                     if ($siguiente)
                         $actualiza_desde = $siguiente;
@@ -244,14 +249,18 @@ class VentaController extends Controller
                 // incrementar el stock
                 Producto::incrementarStock($producto, $dv->cantidad);
 
-                $dv->delete();
+                // $dv->delete();
+                $dv->status = 0;
+                $dv->save();
             }
             if ($venta->credito) {
                 $venta->credito->delete();
             }
 
             $datos_original = HistorialAccion::getDetalleRegistro($venta, "ventas");
-            $venta->delete();
+            // $venta->delete();
+            $venta->status = 0;
+            $venta->save();
             HistorialAccion::create([
                 'user_id' => Auth::user()->id,
                 'accion' => 'ELIMINACIÓN',

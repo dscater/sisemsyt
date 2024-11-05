@@ -158,7 +158,7 @@
                                     :class="{
                                         'text-danger': errors.correo,
                                     }"
-                                    >Correo</label
+                                    >Correo*</label
                                 >
                                 <el-input
                                     placeholder="Correo"
@@ -377,7 +377,7 @@ export default {
             if (this.accion == "nuevo") {
                 return "AGREGAR USUARIO";
             } else {
-                return "MODIFICAR REGISTRO";
+                return "MODIFICAR USUARIO";
             }
         },
         textoBoton() {

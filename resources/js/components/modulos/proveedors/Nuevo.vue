@@ -48,7 +48,7 @@
                                     :class="{
                                         'text-danger': errors.nit,
                                     }"
-                                    >Nit</label
+                                    >Nit*</label
                                 >
                                 <el-input
                                     placeholder="Nit"
@@ -68,7 +68,7 @@
                                     :class="{
                                         'text-danger': errors.dir,
                                     }"
-                                    >Dirección</label
+                                    >Dirección*</label
                                 >
                                 <el-input
                                     placeholder="Dirección"
@@ -110,7 +110,7 @@
                                     :class="{
                                         'text-danger': errors.nombre_contacto,
                                     }"
-                                    >Nombre Contacto</label
+                                    >Nombre Contacto*</label
                                 >
                                 <el-input
                                     placeholder="Nombre Contacto"
@@ -132,7 +132,7 @@
                                     :class="{
                                         'text-danger': errors.descripcion,
                                     }"
-                                    >Descripción</label
+                                    >Descripción*</label
                                 >
                                 <el-input
                                     type="textarea"
@@ -213,9 +213,9 @@ export default {
     computed: {
         tituloModal() {
             if (this.accion == "nuevo") {
-                return "NUEVO REGISTRO";
+                return "NUEVO PROVEEDOR";
             } else {
-                return "MODIFICAR REGISTRO";
+                return "MODIFICAR PROVEEDOR";
             }
         },
         textoBoton() {

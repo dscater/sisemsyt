@@ -12,5 +12,6 @@ class TipoSalida extends Model
     protected $fillable = [
         "nombre",
         "descripcion",
+        "status"
     ];
 }

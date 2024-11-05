@@ -10,8 +10,13 @@ class SalidaProducto extends Model
     use HasFactory;
 
     protected $fillable = [
-        "producto_id", "cantidad", "fecha_salida", "tipo_salida_id", "descripcion",
+        "producto_id",
+        "cantidad",
+        "fecha_salida",
+        "tipo_salida_id",
+        "descripcion",
         "fecha_registro",
+        "status"
     ];
 
     protected $appends = ["nombre_producto", "nombre_producto_full"];

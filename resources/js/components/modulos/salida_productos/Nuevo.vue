@@ -47,6 +47,7 @@
                                     :remote-method="buscarProducto"
                                     :loading="loading_buscador"
                                     @change="muestraInfoProducto"
+                                    @focus="buscarProducto"
                                 >
                                     <el-option
                                         v-for="item in aux_lista_productos"
@@ -73,9 +74,7 @@
                                     type="readonly"
                                     class="form-control"
                                     readonly
-                                    v-model="
-                                        salida_producto.nombre_producto
-                                    "
+                                    v-model="salida_producto.nombre_producto"
                                 />
                             </div>
                             <div
@@ -183,7 +182,7 @@
                                     :class="{
                                         'text-danger': errors.descripcion,
                                     }"
-                                    >Descripción</label
+                                    >Descripción*</label
                                 >
                                 <el-input
                                     type="textarea"
@@ -263,9 +262,9 @@ export default {
     computed: {
         tituloModal() {
             if (this.accion == "nuevo") {
-                return "NUEVO REGISTRO";
+                return "NUEVA SALIDA DE PRODUCTO";
             } else {
-                return "MODIFICAR REGISTRO";
+                return "MODIFICAR SALIDA DE PRODUCTO";
             }
         },
         textoBoton() {
@@ -427,32 +426,35 @@ export default {
             this.salida_producto.descripcion = "";
         },
         buscarProducto(query) {
+            if (query.isTrusted) {
+                query = "";
+            }
             this.aux_lista_productos = [];
             this.loading_buscador = true;
             clearTimeout(this.timeOutProductos);
             let self = this;
             this.timeOutProductos = setTimeout(() => {
                 self.getProductosQuery(query);
-            }, 1000);
+            }, 200);
         },
         getProductosQuery(query) {
-            if (query !== "") {
-                axios
-                    .get("/admin/productos/buscar_producto", {
-                        params: {
-                            value: query,
-                            sw_busqueda: this.sw_busqueda,
-                        },
-                    })
-                    .then((response) => {
-                        this.loading_buscador = false;
-                        this.listProductos;
-                        this.aux_lista_productos = response.data;
-                    });
-            } else {
-                this.loading_buscador = false;
-                this.aux_lista_productos = [];
-            }
+            // if (query !== "") {
+            axios
+                .get("/admin/productos/buscar_producto", {
+                    params: {
+                        value: query,
+                        sw_busqueda: this.sw_busqueda,
+                    },
+                })
+                .then((response) => {
+                    this.loading_buscador = false;
+                    this.listProductos;
+                    this.aux_lista_productos = response.data;
+                });
+            // } else {
+            //     this.loading_buscador = false;
+            //     this.aux_lista_productos = [];
+            // }
         },
         muestraInfoProducto() {
             if (this.salida_producto.producto_id != "") {

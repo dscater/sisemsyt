@@ -12,5 +12,6 @@ class TipoIngreso extends Model
     protected $fillable = [
         "nombre",
         "descripcion",
+        "status"
     ];
 }

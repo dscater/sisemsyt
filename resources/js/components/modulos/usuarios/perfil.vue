@@ -118,7 +118,7 @@
                         <div class="card">
                             <div class="card-header p-2 bg-primary">
                                 <div class="col-md-12">
-                                    <h4>Actualizar contreña</h4>
+                                    <h4>Actualizar contraseña</h4>
                                 </div>
                                 <!-- <ul class="nav nav-pills">
                                     <li class="nav-item">

@@ -19,7 +19,28 @@
 
 .contenedor_grafico {
     position: relative;
-    z-index: 1000;
+    z-index: 2000;
+}
+
+.loading_saliendo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.836);
+    text-align: white;
+    z-index: 2000;
+    top: 0;
+    left: 0;
+}
+
+.loading_saliendo .loading {
+    font-size: 2em;
+    font-weight: bold;
+    margin: auto;
 }
 
 .contenedor_grafico.cargando {
