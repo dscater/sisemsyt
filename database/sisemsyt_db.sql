@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 05-11-2024 a las 00:36:47
+-- Tiempo de generación: 23-11-2024 a las 13:23:47
 -- Versión del servidor: 8.0.30
 -- Versión de PHP: 7.4.19
 
@@ -69,7 +69,7 @@ CREATE TABLE `clientes` (
 --
 
 INSERT INTO `clientes` (`id`, `nombre`, `ci`, `ci_exp`, `nit`, `fono`, `correo`, `dir`, `fecha_registro`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'PEDRO MARTINEZ', '2312314', 'LP', '1234567', '1234567', 'PEDRO@GMAIL.COM', 'LOS OLIVOS NRO. 2', '2023-04-26', 1, '2023-04-26 20:00:10', '2024-11-05 00:03:56'),
+(1, 'PEDRO MARTINEZ', '2312314', 'LP', '1234567', '1234567', 'PEDRO@GMAIL.COM', 'LOS OLIVOS NRO. 2', '2023-04-26', 1, '2023-04-26 20:00:10', '2024-11-23 12:55:34'),
 (2, 'MARIA GONZALES CASAS', '1231231', 'CB', '34324111', '666666; 7777777', 'MARIA@GMAIL.COM', 'LOS OLIVOS', '2023-04-26', 1, '2023-04-26 20:05:20', '2023-04-26 20:05:50'),
 (3, 'PABLO SANCHEZ', '43434', 'CB', '111111', '', '', '', '2023-04-26', 1, '2023-04-26 20:07:17', '2023-04-26 20:07:17');
 
@@ -163,6 +163,17 @@ CREATE TABLE `historial_accions` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `historial_accions`
+--
+
+INSERT INTO `historial_accions` (`id`, `user_id`, `accion`, `descripcion`, `datos_original`, `datos_nuevo`, `modulo`, `fecha`, `hora`, `created_at`, `updated_at`) VALUES
+(1, 1, 'ELIMINACIÓN', 'EL USUARIO admin ELIMINÓ UN CLIENTE', 'id: 1<br/>nombre: PEDRO MARTINEZ<br/>ci: 2312314<br/>ci_exp: LP<br/>nit: 1234567<br/>fono: 1234567<br/>correo: PEDRO@GMAIL.COM<br/>dir: LOS OLIVOS NRO. 2<br/>fecha_registro: 2023-04-26<br/>status: 1<br/>created_at: 2023-04-26 16:00:10<br/>updated_at: 2024-11-04 20:03:56<br/>', NULL, 'CLIENTES', '2024-11-23', '08:55:35', '2024-11-23 12:55:35', '2024-11-23 12:55:35'),
+(2, 1, 'ELIMINACIÓN', 'EL USUARIO admin ELIMINO UN PRODUCTO', 'id: 1<br/>codigo_producto: COD.1<br/>nro_codigo: 1<br/>nombre: TECLADO KEYBOARD<br/>descripcion: DESC. PRODUCTO<br/>precio: 100.00<br/>stock_min: 3<br/>stock_actual: 0<br/>imagen: <br/>categoria_id: 1<br/>fecha_registro: 2024-09-25<br/>status: 1<br/>created_at: 2024-09-25 15:27:16<br/>updated_at: 2024-11-04 20:18:02<br/>', NULL, 'PRODUCTOS', '2024-11-23', '09:03:32', '2024-11-23 13:03:32', '2024-11-23 13:03:32'),
+(3, 1, 'ELIMINACIÓN', 'EL USUARIO admin ELIMINÓ UN PROVEEDOR', 'id: 2<br/>razon_social: PROVEEDOR SRL<br/>nit: 34343<br/>dir: <br/>fono: 2222<br/>nombre_contacto: <br/>descripcion: <br/>fecha_registro: 2023-04-28<br/>status: 1<br/>created_at: 2023-04-28 11:22:08<br/>updated_at: 2023-04-28 11:22:08<br/>', NULL, 'PROVEEDORES', '2024-11-23', '09:05:57', '2024-11-23 13:05:57', '2024-11-23 13:05:57'),
+(4, 1, 'ELIMINACIÓN', 'EL USUARIO admin ELIMINÓ UN USUARIO', 'id: 2<br/>usuario: JPERES<br/>nombre: JUAN<br/>paterno: PERES<br/>materno: MAMANI<br/>ci: 1234<br/>ci_exp: LP<br/>dir: LOS OLIVOS<br/>correo: juan@gmail.com<br/>fono: 7777777<br/>tipo: SUPERVISOR<br/>foto: default.png<br/>password: $2y$10$ZTabc8GZiG/WlSL4nJbloe3WMay9P10kVUOlfsW/aFjhqzA9mi/jS<br/>acceso: 1<br/>fecha_registro: 2023-04-24<br/>status: 1<br/>created_at: 2023-04-24 16:23:30<br/>updated_at: 2024-11-04 20:42:32<br/>', NULL, 'USUARIOS', '2024-11-23', '09:09:02', '2024-11-23 13:09:02', '2024-11-23 13:09:02'),
+(5, 1, 'ELIMINACIÓN', 'EL USUARIO admin ELIMINÓ UN USUARIO', 'id: 2<br/>usuario: JPERES<br/>nombre: JUAN<br/>paterno: PERES<br/>materno: MAMANI<br/>ci: 1234<br/>ci_exp: LP<br/>dir: LOS OLIVOS<br/>correo: juan@gmail.com<br/>fono: 7777777<br/>tipo: SUPERVISOR<br/>foto: default.png<br/>password: $2y$10$ZTabc8GZiG/WlSL4nJbloe3WMay9P10kVUOlfsW/aFjhqzA9mi/jS<br/>acceso: 1<br/>fecha_registro: 2023-04-24<br/>status: 1<br/>created_at: 2023-04-24 16:23:30<br/>updated_at: 2024-11-23 09:09:02<br/>', NULL, 'USUARIOS', '2024-11-23', '09:09:47', '2024-11-23 13:09:47', '2024-11-23 13:09:47');
 
 -- --------------------------------------------------------
 
@@ -314,7 +325,7 @@ CREATE TABLE `productos` (
 --
 
 INSERT INTO `productos` (`id`, `codigo_producto`, `nro_codigo`, `nombre`, `descripcion`, `precio`, `stock_min`, `stock_actual`, `imagen`, `categoria_id`, `fecha_registro`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'COD.1', 1, 'TECLADO KEYBOARD', 'DESC. PRODUCTO', 100.00, 3, 0, '', 1, '2024-09-25', 1, '2024-09-25 19:27:16', '2024-11-05 00:18:02');
+(1, 'COD.1', 1, 'TECLADO KEYBOARD', 'DESC. PRODUCTO', 100.00, 3, 0, '', 1, '2024-09-25', 1, '2024-09-25 19:27:16', '2024-11-23 13:03:32');
 
 -- --------------------------------------------------------
 
@@ -342,7 +353,7 @@ CREATE TABLE `proveedors` (
 
 INSERT INTO `proveedors` (`id`, `razon_social`, `nit`, `dir`, `fono`, `nombre_contacto`, `descripcion`, `fecha_registro`, `status`, `created_at`, `updated_at`) VALUES
 (1, 'PEPE S.A.', '3333444', 'LOS PEDREGALES NRO. 3', '1234567', 'JOSE PAREDES', 'DESCRIPCION', '2023-04-24', 1, '2023-04-24 21:09:13', '2024-11-05 00:10:52'),
-(2, 'PROVEEDOR SRL', '34343', '', '2222', '', '', '2023-04-28', 1, '2023-04-28 15:22:08', '2023-04-28 15:22:08');
+(2, 'PROVEEDOR SRL', '34343', '', '2222', '', '', '2023-04-28', 1, '2023-04-28 15:22:08', '2024-11-23 13:05:57');
 
 -- --------------------------------------------------------
 
@@ -442,7 +453,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `usuario`, `nombre`, `paterno`, `materno`, `ci`, `ci_exp`, `dir`, `correo`, `fono`, `tipo`, `foto`, `password`, `acceso`, `fecha_registro`, `status`, `created_at`, `updated_at`) VALUES
 (1, 'admin', 'admin', 'admin', NULL, '', '', '', NULL, '', 'ADMINISTRADOR', NULL, '$2y$10$RrCZZySOwPej2gMFWsrjMe6dLzfaL5Q88h4J75I1FesEBRNPwq1x.', 1, '2023-01-11', 1, NULL, NULL),
-(2, 'JPERES', 'JUAN', 'PERES', 'MAMANI', '1234', 'LP', 'LOS OLIVOS', 'juan@gmail.com', '7777777', 'SUPERVISOR', 'default.png', '$2y$10$ZTabc8GZiG/WlSL4nJbloe3WMay9P10kVUOlfsW/aFjhqzA9mi/jS', 1, '2023-04-24', 1, '2023-04-24 20:23:30', '2024-11-05 00:26:30');
+(2, 'JPERES', 'JUAN', 'PERES', 'MAMANI', '1234', 'LP', 'LOS OLIVOS', 'juan@gmail.com', '7777777', 'SUPERVISOR', 'default.png', '$2y$10$ZTabc8GZiG/WlSL4nJbloe3WMay9P10kVUOlfsW/aFjhqzA9mi/jS', 1, '2023-04-24', 1, '2023-04-24 20:23:30', '2024-11-23 13:09:47');
 
 -- --------------------------------------------------------
 
@@ -636,7 +647,7 @@ ALTER TABLE `fecha_stocks`
 -- AUTO_INCREMENT de la tabla `historial_accions`
 --
 ALTER TABLE `historial_accions`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `ingreso_productos`

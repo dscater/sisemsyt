@@ -13,24 +13,24 @@ use Illuminate\Support\Facades\Validator;
 class ClienteController extends Controller
 {
     public $validacion = [
-        'nombre' => 'required|regex:/^[\pL\s\.\'\"\,0-9áéíóúÁÉÍÓÚñÑ]+$/uu',
+        'nombre' => 'required|regex:/^[\pL\s\.\'\"\,áéíóúÁÉÍÓÚñÑ]+$/uu',
         'ci' => 'required|numeric|digits_between:7,20',
         'ci_exp' => 'required',
         'fono' => 'required',
-        'nit' => 'required|regex:/^[\pL\s\.\'\"\,0-9áéíóúÁÉÍÓÚñÑ]+$/uu',
+        'nit' => 'required|numeric',
         'correo' => 'required|email',
         'dir' => 'required|regex:/^[\pL\s\.\'\"\#\,0-9áéíóúÁÉÍÓÚñÑ]+$/uu',
     ];
 
     public $mensajes = [
         'nombre.required' => 'Este campo es obligatorio',
-        'nombre.regex' => 'El formato del texto es incorrecto',
+        'nombre.regex' => 'Debes ingresar solo texto',
         'ci.required' => 'Este campo es obligatorio',
-        'ci.numeric' => 'El formato del texto es incorrecto',
+        'ci.numeric' => 'Debes ingresar solo números',
         'ci.digits_between' => 'Debes ingresar por lo menos 7 dígitos',
         'ci_exp.required' => 'Este campo es obligatorio',
         'nit.required' => 'Este campo es obligatorio',
-        'nit.regex' => 'El formato del texto es incorrecto',
+        'nit.numeric' => 'Debes ingresar solo números',
         'fono.required' => 'Este campo es obligatorio',
         'fono.numeric' => 'El formato del texto es incorrecto',
         'fono.digits_between' => 'Debes ingresar por lo menos 7 dígitos',
@@ -42,7 +42,7 @@ class ClienteController extends Controller
 
     public function index(Request $request)
     {
-        $clientes = Cliente::all();
+        $clientes = Cliente::where("status", 1)->get();
         return response()->JSON(['clientes' => $clientes, 'total' => count($clientes)], 200);
     }
 
@@ -161,7 +161,8 @@ class ClienteController extends Controller
         DB::beginTransaction();
         try {
             $datos_original = HistorialAccion::getDetalleRegistro($cliente, "clientes");
-            $cliente->delete();
+            $cliente->status = 0;
+            $cliente->save();
             HistorialAccion::create([
                 'user_id' => Auth::user()->id,
                 'accion' => 'ELIMINACIÓN',

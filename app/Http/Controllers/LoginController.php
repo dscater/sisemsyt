@@ -15,7 +15,7 @@ class LoginController extends Controller
     {
         $usuario = $request->usuario;
         $password = $request->password;
-        $res = Auth::attempt(['usuario' => $usuario, 'password' => $password, 'acceso' => 1]);
+        $res = Auth::attempt(['usuario' => $usuario, 'password' => $password, 'acceso' => 1, 'status' => 1]);
         if ($res) {
             self::notificacion1();
             self::notificacion2();

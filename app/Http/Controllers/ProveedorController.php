@@ -41,7 +41,7 @@ class ProveedorController extends Controller
 
     public function index(Request $request)
     {
-        $proveedors = Proveedor::all();
+        $proveedors = Proveedor::where("status", 1)->get();
         return response()->JSON(['proveedors' => $proveedors, 'total' => count($proveedors)], 200);
     }
 
@@ -166,7 +166,8 @@ class ProveedorController extends Controller
             }
 
             $datos_original = HistorialAccion::getDetalleRegistro($proveedor, "proveedors");
-            $proveedor->delete();
+            $proveedor->status = 0;
+            $proveedor->save();
             HistorialAccion::create([
                 'user_id' => Auth::user()->id,
                 'accion' => 'ELIMINACIÓN',

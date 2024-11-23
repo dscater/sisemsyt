@@ -26,6 +26,7 @@ class UserController extends Controller
     public $validacion = [
         'nombre' => 'required|min:4|regex:/^[\pL\s\.\'\"\,áéíóúÁÉÍÓÚñÑ]+$/uu',
         'paterno' => 'required|min:4|regex:/^[\pL\s\.\'\"\,áéíóúÁÉÍÓÚñÑ]+$/uu',
+        'materno' => 'required|min:4|regex:/^[\pL\s\.\'\"\,áéíóúÁÉÍÓÚñÑ]+$/uu',
         'ci' => 'required|numeric|digits_between:7, 20|unique:users,ci',
         'ci_exp' => 'required',
         'fono' => 'required',
@@ -42,6 +43,9 @@ class UserController extends Controller
         'paterno.required' => 'Este campo es obligatorio',
         'paterno.min' => 'Debes ingresar al menos 4 carácteres',
         'paterno.regex' => 'Debes ingresar solo texto',
+        'materno.required' => 'Este campo es obligatorio',
+        'materno.min' => 'Debes ingresar al menos 4 carácteres',
+        'materno.regex' => 'Debes ingresar solo texto',
         'materno.regex' => 'Debes ingresar solo texto',
         'ci.required' => 'Este campo es obligatorio',
         'ci.numeric' => 'Debes ingresar un valor númerico',
@@ -58,6 +62,9 @@ class UserController extends Controller
         'cel.min' => 'Debes ingresar al menos 4 carácteres',
         'tipo.required' => 'Este campo es obligatorio',
         'correo' => 'nullable|email|unique:users,correo',
+        'logo.required' => 'Debes ingresar una imagen',
+        'logo.image' => 'Debes seleccionar una imagen',
+        'logo.max' => 'La imagen no puede pesar mas de 4MB'
     ];
 
     public $permisos = [
@@ -216,15 +223,15 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-        $usuarios = User::where('id', '!=', 1)->get();
+        $usuarios = User::where('id', '!=', 1)->where("status", 1)->get();
         return response()->JSON(['usuarios' => $usuarios, 'total' => count($usuarios)], 200);
     }
 
     public function store(Request $request)
     {
-        if ($request->hasFile('foto')) {
-            $this->validacion['foto'] = 'image|mimes:jpeg,jpg,png|max:2048';
-        }
+        $this->validacion['foto'] = 'required|image|mimes:jpeg,jpg,png|max:4096';
+        // if ($request->hasFile('foto')) {
+        // }
         if (trim($request->materno) != '') {
             $this->validacion['materno'] = 'regex:/^[\pL\s\.\'\"\,áéíóúÁÉÍÓÚñÑ]+$/uu';
         }
@@ -480,7 +487,8 @@ class UserController extends Controller
                 \File::delete(public_path() . '/imgs/users/' . $antiguo);
             }
             $datos_original = HistorialAccion::getDetalleRegistro($usuario, "users");
-            $usuario->delete();
+            $usuario->status = 0;
+            $usuario->save();
 
             HistorialAccion::create([
                 'user_id' => Auth::user()->id,

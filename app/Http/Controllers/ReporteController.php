@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Almacen;
-use App\Models\DetalleOrden;
+use App\Models\DetalleVenta;
 use App\Models\HistorialAccion;
 use App\Models\KardexProducto;
 use App\Models\Producto;
@@ -18,13 +18,13 @@ class ReporteController extends Controller
     public function usuarios(Request $request)
     {
         $filtro =  $request->filtro;
-        $usuarios = User::where('id', '!=', 1)->orderBy("paterno", "ASC")->get();
+        $usuarios = User::where('id', '!=', 1)->where("status", 1)->orderBy("paterno", "ASC")->get();
 
         if ($filtro == 'Tipo de usuario') {
             $request->validate([
                 'tipo' => 'required',
             ]);
-            $usuarios = User::where('id', '!=', 1)->where('tipo', $request->tipo)->orderBy("paterno", "ASC")->get();
+            $usuarios = User::where('id', '!=', 1)->where('tipo', $request->tipo)->where("status", 1)->orderBy("paterno", "ASC")->get();
         }
 
         $pdf = PDF::loadView('reportes.usuarios', compact('usuarios'))->setPaper('legal', 'landscape');
@@ -60,26 +60,31 @@ class ReporteController extends Controller
             ]);
         }
 
-        $productos = Producto::all();
+        $productos = Producto::where("status", 1);
         if ($filtro != 'todos') {
             if ($filtro == 'Producto') {
-                $productos = Producto::where("id", $producto_id)->get();
+                $productos->where("id", $producto_id);
             }
         }
+        $productos = $productos->get();
 
         $array_kardex = [];
         $array_saldo_anterior = [];
         foreach ($productos as $registro) {
-            $kardex = KardexProducto::where('producto_id', $registro->id)->get();
+            $kardex = KardexProducto::where('producto_id', $registro->id)
+                ->where("status", 1)
+                ->get();
             $array_saldo_anterior[$registro->id] = [
                 'sw' => false,
                 'saldo_anterior' => []
             ];
             if ($filtro == 'Rango de fechas') {
                 $kardex = KardexProducto::where('producto_id', $registro->id)
+                    ->where("status", 1)
                     ->whereBetween('fecha', [$fecha_ini, $fecha_fin])->get();
                 // buscar saldo anterior si existe
                 $saldo_anterior = KardexProducto::where('producto_id', $registro->id)
+                    ->where("status", 1)
                     ->where('fecha', '<', $fecha_ini)
                     ->orderBy('created_at', 'asc')->get()->last();
                 if ($saldo_anterior) {
@@ -129,16 +134,17 @@ class ReporteController extends Controller
             ]);
         }
 
-        $ventas = Venta::all();
+        $ventas = Venta::where("status", 1)->get();
         if ($filtro != 'todos') {
             if ($filtro == 'Producto') {
                 $ventas = Venta::select("ventas.*")
                     ->join("detalle_ventas", "detalle_ventas.venta_id", "=", "ventas.id")
+                    ->where("ventas.status", 1)
                     ->where("detalle_ventas.producto_id", $producto_id)
                     ->get();
             }
             if ($filtro == 'Rango de fechas') {
-                $ventas = Venta::whereBetween("fecha_registro", [$fecha_ini, $fecha_fin])->get();
+                $ventas = Venta::where("status", 1)->whereBetween("fecha_registro", [$fecha_ini, $fecha_fin])->get();
             }
         }
         $pdf = PDF::loadView('reportes.ventas', compact('ventas'))->setPaper('legal', 'portrait');
@@ -163,9 +169,9 @@ class ReporteController extends Controller
             $request->validate(['producto' => 'required']);
         }
 
-        $registros = Producto::orderBy("productos.nombre")->get();
+        $registros = Producto::where("status", 1)->orderBy("productos.nombre")->get();
         if ($filtro != 'TODOS') {
-            $registros = Producto::where("id", $producto)->orderBy("productos.nombre")->get();
+            $registros = Producto::where("status", 1)->where("id", $producto)->orderBy("productos.nombre")->get();
         }
 
 
@@ -211,10 +217,12 @@ class ReporteController extends Controller
 
         if ($filtro == 'Producto') {
             $productos = Producto::select("productos.*")
+                ->where("status", 1)
                 ->where("id", $producto_id)
                 ->get();
         } else {
             $productos = Producto::select("productos.*")
+                ->where("status", 1)
                 ->whereExists(function ($query) {
                     $query->select(DB::raw(1))
                         ->from('detalle_ventas')
@@ -226,15 +234,17 @@ class ReporteController extends Controller
         foreach ($productos as $producto) {
             $cantidad = 0;
             if ($filtro == 'Rango de fechas') {
-                $cantidad = DetalleOrden::select("detalle_ventas")
+                $cantidad = DetalleVenta::select("detalle_ventas")
                     ->join("ventas", "ventas.id", "=", "detalle_ventas.venta_id")
                     ->where("ventas.estado", "CANCELADO")
+                    ->where("ventas.status", 1)
                     ->where("detalle_ventas.producto_id", $producto->id)
                     ->whereBetween("fecha_registro", [$fecha_ini, $fecha_fin])
                     ->sum("detalle_ventas.subtotal");
             } else {
-                $cantidad = DetalleOrden::where("producto_id", $producto->id)
+                $cantidad = DetalleVenta::where("producto_id", $producto->id)
                     ->join("ventas", "ventas.id", "=", "detalle_ventas.venta_id")
+                    ->where("ventas.status", 1)
                     ->where("ventas.estado", "CANCELADO")
                     ->sum("subtotal");
             }
@@ -273,13 +283,14 @@ class ReporteController extends Controller
         foreach ($productos as $producto) {
             $cantidad = 0;
             if ($filtro == 'Rango de fechas') {
-                $cantidad = count(DetalleOrden::select("detalle_ventas")
+                $cantidad = count(DetalleVenta::select("detalle_ventas")
                     ->join("ventas", "ventas.id", "=", "detalle_ventas.venta_id")
                     ->where("detalle_ventas.producto_id", $producto->id)
+                    ->where("ventas.status", 1)
                     ->whereBetween("fecha_registro", [$fecha_ini, $fecha_fin])
                     ->get());
             } else {
-                $cantidad = count(DetalleOrden::where("producto_id", $producto->id)->get());
+                $cantidad = count(DetalleVenta::where("producto_id", $producto->id)->where("status", 1)->get());
             }
             $data[] = [$producto->nombre, $cantidad ? (float)$cantidad : 0];
         }

@@ -375,7 +375,7 @@ export default {
     computed: {
         tituloModal() {
             if (this.accion == "nuevo") {
-                return "AGREGAR USUARIO";
+                return "NUEVO USUARIO";
             } else {
                 return "MODIFICAR USUARIO";
             }

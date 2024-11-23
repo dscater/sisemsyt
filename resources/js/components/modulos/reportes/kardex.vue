@@ -82,6 +82,7 @@
                                                     :remote-method="
                                                         buscarProducto
                                                     "
+                                                    @focus="buscarProducto"
                                                     :loading="loading_buscador"
                                                 >
                                                     <el-option
@@ -207,32 +208,36 @@ export default {
     },
     methods: {
         buscarProducto(query) {
+            if (query.isTrusted) {
+                query = "";
+            }
+
             this.aux_lista_productos = [];
             this.loading_buscador = true;
             clearTimeout(this.timeOutProductos);
             let self = this;
             this.timeOutProductos = setTimeout(() => {
                 self.getProductosQuery(query);
-            }, 1000);
+            }, 200);
         },
         getProductosQuery(query) {
-            if (query !== "") {
-                axios
-                    .get("/admin/productos/buscar_producto", {
-                        params: {
-                            value: query,
-                            sw_busqueda: this.sw_busqueda,
-                        },
-                    })
-                    .then((response) => {
-                        this.loading_buscador = false;
-                        this.listProductos;
-                        this.aux_lista_productos = response.data;
-                    });
-            } else {
-                this.loading_buscador = false;
-                this.aux_lista_productos = [];
-            }
+            // if (query !== "") {
+            axios
+                .get("/admin/productos/buscar_producto", {
+                    params: {
+                        value: query,
+                        sw_busqueda: this.sw_busqueda,
+                    },
+                })
+                .then((response) => {
+                    this.loading_buscador = false;
+                    this.listProductos;
+                    this.aux_lista_productos = response.data;
+                });
+            // } else {
+            this.loading_buscador = false;
+            this.aux_lista_productos = [];
+            // }
         },
         limpiarFormulario() {
             this.oReporte.filtro = "Todos";

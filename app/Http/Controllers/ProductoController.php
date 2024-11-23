@@ -23,7 +23,7 @@ class ProductoController extends Controller
 {
     public $validacion = [
         'nombre' => 'required|regex:/^[\pL\s\.\'\"\,áéíóúÁÉÍÓÚñÑ]+$/uu',
-        'precio' => 'required|numeric|min:1',
+        'precio' => 'required|numeric|min:0.01',
         'descripcion' => 'required|regex:/^[\pL\s\.\'\"\,áéíóúÁÉÍÓÚñÑ]+$/uu',
         'stock_min' => 'required|integer|min:0',
         'categoria_id' => 'required',
@@ -45,7 +45,9 @@ class ProductoController extends Controller
 
     public function index(Request $request)
     {
-        $productos = Producto::with("categoria")->orderBy("productos.codigo_producto", "ASC")
+        $productos = Producto::with("categoria")
+            ->where("status", 1)
+            ->orderBy("productos.codigo_producto", "ASC")
             ->orderBy("productos.codigo_producto", "ASC")
             ->orderBy("productos.nombre", "ASC")
             ->get();
@@ -353,9 +355,9 @@ class ProductoController extends Controller
                 throw new Exception('No es posible eliminar el registro debido a que se realizaron ventas con este producto');
             }
 
-            $producto->ingreso_productos()->delete();
-            $producto->salida_productos()->delete();
-            $producto->kardex_productos()->delete();
+            $producto->ingreso_productos()->update(["status" => 0]);
+            $producto->salida_productos()->update(["status" => 0]);
+            $producto->kardex_productos()->update(["status" => 0]);
 
             $datos_original = HistorialAccion::getDetalleRegistro($producto, "productos");
 
@@ -364,7 +366,8 @@ class ProductoController extends Controller
                 \File::delete(public_path() . "/imgs/productos/" . $antiguo);
             }
 
-            $producto->delete();
+            $producto->status = 0;
+            $producto->save();
             HistorialAccion::create([
                 'user_id' => Auth::user()->id,
                 'accion' => 'ELIMINACIÓN',

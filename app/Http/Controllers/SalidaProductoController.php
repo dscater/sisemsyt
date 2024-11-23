@@ -17,7 +17,7 @@ class SalidaProductoController extends Controller
 {
     public $validacion = [
         'producto_id' => 'required',
-        'cantidad' => 'required|integer',
+        'cantidad' => 'required|integer|min:1',
         'fecha_salida' => 'required',
         'tipo_salida_id' => 'required',
         'descripcion' => 'required|min:2|regex:/^[\pL\s\.\'\"\,áéíóúÁÉÍÓÚñÑ]+$/uu',
@@ -26,6 +26,9 @@ class SalidaProductoController extends Controller
     public $mensajes = [
         'descripcion.min' => 'Debes ingresar al menos :min caracteres',
         'descripcion.regex' => 'Debes ingresar solo texto',
+        "cantidad.required" => "Este campo es obligatorio",
+        "cantidad.integer" => "Debes ingresar un valor entero",
+        "cantidad.min" => "Debes ingresar un valor mayor o igual a :min",
     ];
 
     public function index(Request $request)

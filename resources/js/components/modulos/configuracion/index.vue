@@ -250,23 +250,33 @@
                                         :class="{
                                             'text-danger': errors.ciudad,
                                         }"
-                                        >Ciudad*</label
+                                        >Departamento*</label
                                     >
-                                    <input
-                                        type="email"
-                                        class="form-control"
+                                    <el-select
+                                        class="w-100 d-block"
                                         :class="{
                                             'is-invalid': errors.ciudad,
                                         }"
-                                        placeholder="Ciudad"
                                         v-model="oConfiguracion.ciudad"
-                                    />
+                                        clearable
+                                    >
+                                        <el-option
+                                            v-for="(
+                                                item, index
+                                            ) in listDepartamentos"
+                                            :key="index"
+                                            :value="item.value"
+                                            :label="item.label"
+                                        >
+                                        </el-option>
+                                    </el-select>
                                     <span
                                         class="error invalid-feedback"
                                         v-if="errors.ciudad"
                                         v-text="errors.ciudad[0]"
                                     ></span>
                                 </div>
+
                                 <div class="form-group col-md-6">
                                     <label
                                         :class="{
@@ -447,6 +457,17 @@ export default {
                 logo: "",
             },
             errors: [],
+            listDepartamentos: [
+                { value: "LA PAZ", label: "La Paz" },
+                { value: "COCHABAMBA", label: "Cochabamba" },
+                { value: "SANTA CRUZ", label: "Santa Cruz" },
+                { value: "CHUQUISACA", label: "Chuquisaca" },
+                { value: "ORURO", label: "Oruro" },
+                { value: "POTOSI", label: "Potosi" },
+                { value: "TARIJA", label: "Tarija" },
+                { value: "PANDO", label: "Pando" },
+                { value: "BENI", label: "Beni" },
+            ],
         };
     },
     mounted() {

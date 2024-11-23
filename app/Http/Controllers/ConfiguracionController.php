@@ -38,6 +38,7 @@ class ConfiguracionController extends Controller
             'web' => 'required|regex:/^(https?:\/\/)?([a-zA-Z0-9\-]+\.)+[a-zA-Z]{2,}(\/[^\s]*)?$/',
             'correo' => 'required|email',
             'actividad' => 'required|regex:/^[\pL\s\.\'\"\,áéíóúÁÉÍÓÚñÑ]+$/uu',
+            'logo' => 'required|image|mimes:jpeg,jpg,png,webp|max:4096'
         ];
         $mensajes =  [
             'nombre_sistema.required' => 'Este campo es obligatorio',
@@ -65,11 +66,14 @@ class ConfiguracionController extends Controller
             'correo.email' => 'Debes ingresar un correo valido',
             'actividad.required' => 'Este campo es obligatorio',
             'actividad.regex' => 'Debes ingresar solo texto',
+            'logo.required' => 'Debes ingresar una imagen',
+            'logo.image' => 'Debes seleccionar una imagen',
+            'logo.max' => 'La imagen no puede pesar mas de 4MB'
         ];
 
-        if ($request->hasFile('logo')) {
-            $validacion['logo'] = 'image|mimes:jpeg,jpg,png,webp|max:4096';
-        }
+        // if ($request->hasFile('logo')) {
+        //     $validacion['logo'] = 'image|mimes:jpeg,jpg,png,webp|max:4096';
+        // }
         $request->validate($validacion, $mensajes);
 
         $configuracion = Configuracion::first();

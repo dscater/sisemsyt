@@ -16,10 +16,10 @@ class IngresoProductoController extends Controller
     public $validacion = [
         'producto_id' => 'required',
         'proveedor_id' => 'required',
-        'precio_compra' => 'required|numeric|min:1',
+        'precio_compra' => 'required|numeric|min:0.01',
         'lote' => 'required',
         'fecha_fabricacion' => 'required',
-        'cantidad' => 'required|integer',
+        'cantidad' => 'required|integer|min:1',
         'tipo_ingreso_id' => 'required',
         'descripcion' => 'required|min:2|regex:/^[\pL\s\.\'\"\,áéíóúÁÉÍÓÚñÑ]+$/uu',
     ];
@@ -27,6 +27,12 @@ class IngresoProductoController extends Controller
     public $mensajes = [
         'descripcion.min' => 'Debes ingresar al menos :min caracteres',
         'descripcion.regex' => 'Debes ingresar solo texto',
+        "precio_compra.required" => "Este campo es obligatorio",
+        "precio_compra.numeric" => "Debes ingresar un valor númerico",
+        "precio_compra.min" => "Debes ingresar un valor mayor o igual a :min",
+        "cantidad.required" => "Este campo es obligatorio",
+        "cantidad.integer" => "Debes ingresar un valor entero",
+        "cantidad.min" => "Debes ingresar un valor mayor o igual a :min",
     ];
 
     public function index(Request $request)
