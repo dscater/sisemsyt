@@ -96,7 +96,7 @@
                                 >
                                 <el-input
                                     type="number"
-                                    step="0.01"
+                                    step="1"
                                     placeholder="Stock mínimo"
                                     :class="{
                                         'is-invalid': errors.stock_min,

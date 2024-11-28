@@ -60,6 +60,46 @@
                                                 <label
                                                     :class="{
                                                         'text-danger':
+                                                            errors.producto,
+                                                    }"
+                                                    >Seleccione*</label
+                                                >
+                                                <el-select
+                                                    v-model="oReporte.producto"
+                                                    filterable
+                                                    placeholder="Seleccione"
+                                                    class="d-block"
+                                                    :class="{
+                                                        'is-invalid':
+                                                            errors.producto,
+                                                    }"
+                                                >
+                                                    <el-option
+                                                        v-for="(
+                                                            item, index
+                                                        ) in listProductos"
+                                                        :key="index"
+                                                        :value="item.id"
+                                                        :label="item.nombre"
+                                                    >
+                                                    </el-option>
+                                                </el-select>
+                                                <span
+                                                    class="error invalid-feedback"
+                                                    v-if="errors.producto"
+                                                    v-text="errors.producto[0]"
+                                                ></span>
+                                            </div>
+                                            <!-- <div
+                                                class="form-group col-md-12"
+                                                v-if="
+                                                    oReporte.filtro ==
+                                                    'Producto'
+                                                "
+                                            >
+                                                <label
+                                                    :class="{
+                                                        'text-danger':
                                                             errors.producto_id,
                                                     }"
                                                     >Seleccionar
@@ -100,7 +140,7 @@
                                                         errors.producto_id[0]
                                                     "
                                                 ></span>
-                                            </div>
+                                            </div> -->
                                             <div
                                                 class="form-group col-md-12"
                                                 v-if="
@@ -205,8 +245,15 @@ export default {
     },
     mounted() {
         this.loadingWindow.close();
+        this.getProductos();
     },
     methods: {
+        getProductos() {
+            let url = "/admin/productos";
+            axios.get(url).then((res) => {
+                this.listProductos = res.data.productos;
+            });
+        },
         buscarProducto(query) {
             if (query.isTrusted) {
                 query = "";

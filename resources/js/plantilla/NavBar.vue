@@ -165,15 +165,26 @@ export default {
                 });
         },
         logout() {
-            // this.fullscreenLoading = true;
-            this.loadingSalir = true;
-            axios.post("/logout").then((res) => {
-                localStorage.clear();
-                this.$router.push({ name: "login" });
-                setTimeout(function () {
-                    this.loadingSalir = false;
-                    location.reload();
-                }, 500);
+            Swal.fire({
+                title: "¿Quierés salir?",
+                showCancelButton: true,
+                confirmButtonColor: "#149FDA",
+                confirmButtonText: "Si, salir",
+                cancelButtonText: "No, cancelar",
+                denyButtonText: `No, cancelar`,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // this.fullscreenLoading = true;
+                    this.loadingSalir = true;
+                    axios.post("/logout").then((res) => {
+                        localStorage.clear();
+                        this.$router.push({ name: "login" });
+                        setTimeout(function () {
+                            this.loadingSalir = false;
+                            location.reload();
+                        }, 500);
+                    });
+                }
             });
         },
     },
