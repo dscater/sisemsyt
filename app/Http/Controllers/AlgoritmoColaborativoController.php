@@ -5,109 +5,197 @@ namespace App\Http\Controllers;
 use App\Models\DetalleVenta;
 use App\Models\IngresoProducto;
 use App\Models\Producto;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Phpml\Association\Apriori; //importación de la libreria a utlizar
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class AlgoritmoColaborativoController extends Controller
 {
     /**
-     * Entrenar el modelo basado en las ventas de productos.
+     * Entrenar el modelo de filtrado colaborativo Item-Based basado en las ventas de productos.
      */
     public function entrenarConsumo()
     {
-        // Obtener todos los detalles de ventas
+        // Paso 1: Obtener todas las ventas
         $ventas = DetalleVenta::all();
 
-        // Agrupar por venta producto
+        // Paso 2: Agrupar productos por transacción (venta)
         $transacciones = [];
         foreach ($ventas as $venta) {
-            $transacciones[$venta->id][] = $venta->producto_id;
+            $transacciones[$venta->venta_id][] = $venta->producto_id;
         }
 
-        // Configurar el algoritmo Apriori
-        $soporteMinimo = 0.2;  // El 20% de las ventas
-        $confianzaMinima = 0.5; // El 50% de confianza
+        // Paso 3: Construir vectores de ítems (cada ítem con las transacciones en las que aparece)
+        $itemVector = [];
+        foreach ($transacciones as $transaccion) {
+            foreach ($transaccion as $productoId) {
+                if (!isset($itemVector[$productoId])) {
+                    $itemVector[$productoId] = [];
+                }
+                $itemVector[$productoId][] = $transaccion;
+            }
+        }
 
-        // Crear el modelo de Apriori
-        $apriori = new Apriori($soporteMinimo, $confianzaMinima);
+        // Paso 4: Calcular la similitud de coseno entre ítems
+        $similaridadItems = [];
+        $productos = array_keys($itemVector);
+        $totalProductos = count($productos);
 
-        // Entrenar el modelo con las transacciones
-        $apriori->train(array_values($transacciones), []);
+        for ($i = 0; $i < $totalProductos; $i++) {
+            for ($j = $i + 1; $j < $totalProductos; $j++) {
+                $productoA = $productos[$i];
+                $productoB = $productos[$j];
+                $similarity = $this->cosineSimilarity($itemVector[$productoA], $itemVector[$productoB]);
 
-        // devolver el modelo entrenado
-        return $apriori;
+                if ($similarity > 0) {
+                    $similaridadItems[$productoA][$productoB] = $similarity;
+                    $similaridadItems[$productoB][$productoA] = $similarity;
+                }
+            }
+        }
+
+        // Paso 5: Guardar la matriz de similitud en almacenamiento
+        Storage::put('models/consumo_similarity_matrix.json', json_encode($similaridadItems));
+
+        return true;
     }
 
     /**
-     * Predecir el consumo de un producto específico o de todos los productos.
+     * Predecir el consumo de un producto específico usando el modelo Item-Based.
      */
-    public function predecirConsumo($model, $productoId = null)
+    public function predecirConsumo($productoId = null, $topN = 5)
     {
-        // Hacer predicción
-        $productoRecomendado = $model->predict([[$productoId]]);
-        // Obtener información de los productos recomendados
-        $productos = Producto::whereIn('id', $productoRecomendado[0])->get();
+        // Verificar si el modelo existe
+        if (!Storage::exists('models/consumo_similarity_matrix.json')) {
+            throw new Exception("El modelo de consumo no ha sido entrenado aún", 400);
+        }
 
-        return [
-            'producto_consultado' => Producto::find($productoId),
-            'listado_productos' => $productos
-        ];
+        // Cargar la matriz de similitud
+        $similaridadItems = json_decode(Storage::get('models/consumo_similarity_matrix.json'), true);
+
+        if (!isset($similaridadItems[$productoId])) {
+            throw new Exception("roducto consultado no encontrado en el modelo", 404);
+        }
+
+        // Obtener los productos similares y ordenarlos por similitud descendente
+        $productosSimilares = $similaridadItems[$productoId];
+        arsort($productosSimilares);
+
+        // Seleccionar los top N productos
+        $productosRecomendadosIds = array_slice(array_keys($productosSimilares), 0, $topN);
+        $productosRecomendados = Producto::whereIn('id', $productosRecomendadosIds)->get();
+
+        return $productosRecomendados;
     }
 
     /**
-     * Entrenar el modelo basado en los ingresos de productos
+     * Entrenar el modelo de filtrado colaborativo Item-Based basado en los ingresos de productos.
      */
     public function entrenarSuministro()
     {
-        // Obtener todos los ingresos de productos
+        // Paso 1: Obtener todos los ingresos de productos
         $ingresos = IngresoProducto::all();
 
-        // Agrupar por transacciones de suministro
+        // Paso 2: Agrupar productos por transacción (ingreso)
         $transacciones = [];
         foreach ($ingresos as $ingreso) {
-            $transacciones[$ingreso->id][] = $ingreso->producto_id;
+            $transacciones[$ingreso->ingreso_id][] = $ingreso->producto_id;
         }
 
-        // Configurar el algoritmo Apriori
-        $soporteMinimo = 0.2;  // El 20% de las transacciones
-        $confianzaMinima = 0.5; // El 50% de confianza
+        // Paso 3: Construir vectores de ítems
+        $itemVector = [];
+        foreach ($transacciones as $transaccion) {
+            foreach ($transaccion as $productoId) {
+                if (!isset($itemVector[$productoId])) {
+                    $itemVector[$productoId] = [];
+                }
+                $itemVector[$productoId][] = $transaccion;
+            }
+        }
 
-        // Crear el modelo Apriori
-        $apriori = new Apriori($soporteMinimo, $confianzaMinima);
+        // Paso 4: Calcular la similitud de coseno entre ítems
+        $similaridadItems = [];
+        $productos = array_keys($itemVector);
+        $totalProductos = count($productos);
 
-        // Entrenar el modelo
-        $apriori->train(array_values($transacciones), []);
+        for ($i = 0; $i < $totalProductos; $i++) {
+            for ($j = $i + 1; $j < $totalProductos; $j++) {
+                $productoA = $productos[$i];
+                $productoB = $productos[$j];
+                $similarity = $this->cosineSimilarity($itemVector[$productoA], $itemVector[$productoB]);
 
-        return $apriori;
+                if ($similarity > 0) {
+                    $similaridadItems[$productoA][$productoB] = $similarity;
+                    $similaridadItems[$productoB][$productoA] = $similarity;
+                }
+            }
+        }
+
+        // Paso 5: Guardar la matriz de similitud en almacenamiento
+        Storage::put('models/suministro_similarity_matrix.json', json_encode($similaridadItems));
+
+        return true;
     }
 
     /**
-     * Predecir el suministro de un producto específico o de todos los productos usando el modelo guardado.
+     * Predecir el suministro de un producto específico usando el modelo Item-Based.
      */
-    public function predecirSuministro($productoId = null)
+    public function predecirSuministro($productoId = null, $topN = 5)
     {
-        // Cargar el modelo desde el archivo
-        if (!Storage::exists('models/suministro_model.txt')) {
-            return response()->json(['error' => 'El modelo de suministro no ha sido entrenado aún'], 400);
+        // Verificar si el modelo existe
+        if (!Storage::exists('models/suministro_similarity_matrix.json')) {
+            throw new Exception("El modelo de consumo no ha sido entrenado aún", 400);
         }
-        $model = unserialize(Storage::get('models/suministro_model.txt'));
 
-        // Hacer predicción
-        $productoRecomendado = $model->predict([[$productoId]]);
+        // Cargar la matriz de similitud
+        $similaridadItems = json_decode(Storage::get('models/suministro_similarity_matrix.json'), true);
 
-        // Obtener información de los productos recomendados
-        $productos = Producto::whereIn('id', $productoRecomendado[0])->get();
+        if (!isset($similaridadItems[$productoId])) {
+            throw new Exception("roducto consultado no encontrado en el modelo", 404);
+        }
 
-        return response()->json([
-            'producto_consultado' => Producto::find($productoId),
-            'productos_recomendados' => $productos
-        ]);
+        // Obtener los productos similares y ordenarlos por similitud descendente
+        $productosSimilares = $similaridadItems[$productoId];
+        arsort($productosSimilares);
+
+        // Seleccionar los top N productos
+        $productosRecomendadosIds = array_slice(array_keys($productosSimilares), 0, $topN);
+        $productosRecomendados = Producto::whereIn('id', $productosRecomendadosIds)->get();
+
+        return $productosRecomendados;
     }
 
+    /**
+     * Función auxiliar para calcular la similitud de coseno entre dos vectores.
+     * @param array $itemsA Transacciones en las que aparece el ítem A
+     * @param array $itemsB Transacciones en las que aparece el ítem B
+     * @return float Similitud de coseno
+     */
+    private function cosineSimilarity($itemsA, $itemsB)
+    {
+        // Convertir listas de transacciones a conjuntos para la intersección
+        $setA = array_map('serialize', $itemsA);
+        $setB = array_map('serialize', $itemsB);
+
+        $common = count(array_intersect($setA, $setB));
+        $countA = count($setA);
+        $countB = count($setB);
+
+        if ($countA == 0 || $countB == 0) {
+            return 0;
+        }
+
+        // Calcular la similitud de coseno
+        return $common / sqrt($countA * $countB);
+    }
 
     public function analisis_suministro(Request $request)
     {
+        // entrenar el modelo de suministro
+        $this->entrenarSuministro();
+
         $c_meses = $request->c_meses;
         $filtro = $request->filtro;
         $meses_txt = [
@@ -155,10 +243,9 @@ class AlgoritmoColaborativoController extends Controller
                     $producto_id = DB::select("SELECT sum(cantidad) as tc, producto_id FROM ingreso_productos ORDER BY tc desc")[0];
                     // asignar el ID del producto
                     $producto_id = $producto_id->producto_id;
-                    // entrenar y obtener el modelo
-                    $modelo = $this->entrenarSuministro();
                     // obtener los productos
-                    $productos = $this->predecirSuministro($producto_id, $modelo);
+                    $contProdVendidos = DetalleVenta::select("detalle_ventas.producto_id")->distinct("producto_id")->count();
+                    $productos = $this->predecirSuministro($producto_id, $contProdVendidos);
 
                     $datos = [];
                     foreach ($productos as $item) {
@@ -219,6 +306,8 @@ class AlgoritmoColaborativoController extends Controller
 
     public function analisis_consumo(Request $request)
     {
+        // entrenar el modelo de consumo
+        $this->entrenarConsumo();
         $c_meses = $request->c_meses;
         $filtro = $request->filtro;
         $meses_txt = [
@@ -264,8 +353,8 @@ class AlgoritmoColaborativoController extends Controller
                     // obtener el producto mas vendido para realizar la predicción
                     $producto_id = DetalleVenta::orderBy("cantidad", "desc")->get()->last();
                     $producto_id = $producto_id->id;
-                    $modelo = $this->entrenarSuministro();
-                    $productos = $this->predecirSuministro($producto_id, $modelo);
+                    $contProdVendidos = DetalleVenta::select("detalle_ventas.producto_id")->distinct("producto_id")->count();
+                    $productos = $this->predecirConsumo($producto_id, $contProdVendidos);
 
                     $datos = [];
                     foreach ($productos as $item) {
