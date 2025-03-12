@@ -29,6 +29,10 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->integer('acceso');
             $table->date("fecha_registro");
+            $table->integer("status");
+            $table->integer("update_password");
+            $table->integer("auth2fa");
+            $table->string('google2fa_secret', 255)->nullable();
             $table->timestamps();
         });
     }

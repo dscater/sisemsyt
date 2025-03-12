@@ -35,6 +35,7 @@
                                                         'is-invalid':
                                                             errors.filtro,
                                                     }"
+                                                    @change="verificarListado"
                                                 >
                                                     <el-option
                                                         v-for="item in listFiltro"
@@ -74,6 +75,7 @@
                                                         'is-invalid':
                                                             errors.producto,
                                                     }"
+                                                    ref="selectProductos"
                                                 >
                                                     <el-option
                                                         v-for="(
@@ -250,6 +252,16 @@ export default {
         this.getProductos();
     },
     methods: {
+        verificarListado() {
+            this.$nextTick(() => {
+                if (
+                    this.oReporte.filtro === "Producto" &&
+                    this.$refs["selectProductos"]
+                ) {
+                    this.$refs["selectProductos"].focus();
+                }
+            });
+        },
         getProductos() {
             let url = "/admin/productos";
             axios.get(url).then((res) => {

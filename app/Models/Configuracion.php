@@ -10,9 +10,23 @@ class Configuracion extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nombre_sistema', 'alias', 'razon_social', 'nit', 'ciudad', 'dir',
-        'fono', 'web', 'actividad', 'correo', 'logo',
+        'nombre_sistema',
+        'alias',
+        'razon_social',
+        'nit',
+        'ciudad',
+        'dir',
+        'fono',
+        'web',
+        'actividad',
+        'correo',
+        'logo',
     ];
+
+    protected $casts = [
+        'conf_email' => 'array',
+    ];
+
 
     protected $appends = ['path_image'];
     public function getPathImageAttribute()

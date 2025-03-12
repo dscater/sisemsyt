@@ -73,7 +73,7 @@ export default {
             enviando: false,
             errors: [],
             listProductos: [],
-            c_meses: 0,
+            c_meses: 1,
             listMeses: [
                 {
                     key: "01",

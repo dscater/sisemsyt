@@ -25,12 +25,22 @@
 <body class="sidebar-mini layout-fixed control-sidebar-slide-open layout-navbar-fixed text-sm">
     <div id="app">
         @if (Auth::check())
-            @if (Auth::user()->tipo == 'CAJA')
-                <App ruta="{{ route('base_path') }}" configuracion="{{ $configuracion->first() }}"
-                    user="{{ Auth::user()->load('caja_usuario') }}"></App>
+            @if (Auth::user()->auth2fa == 1 && !Session::get('2fa_authenticated'))
+                <Verificacion ruta="{{ route('base_path') }}"
+                    logo="{{ asset('imgs/' . $configuracion->first()->logo) }}"
+                    empresa="{{ $configuracion->first()->razon_social }}" configuracion="{{ $configuracion->first() }}">
+                </Verificacion>
             @else
-                <App ruta="{{ route('base_path') }}" configuracion="{{ $configuracion->first() }}"
-                    user="{{ Auth::user() }}"></App>
+                @if (Auth::user()->update_password == 0)
+                    <update-pasword ruta="{{ route('base_path') }}"
+                        logo="{{ asset('imgs/' . $configuracion->first()->logo) }}"
+                        empresa="{{ $configuracion->first()->razon_social }}"
+                        configuracion="{{ $configuracion->first() }}">
+                    </update-pasword>
+                @else
+                    <App ruta="{{ route('base_path') }}" configuracion="{{ $configuracion->first() }}"
+                        user="{{ Auth::user() }}"></App>
+                @endif
             @endif
         @else
             <Auth ruta="{{ route('base_path') }}" logo="{{ asset('imgs/' . $configuracion->first()->logo) }}"

@@ -458,7 +458,6 @@ export default {
             if (newVal.id != 0) {
                 this.getClientes();
                 this.getCliente();
-                this.getCajas();
             }
         },
         cantidad(newVal) {
@@ -791,6 +790,7 @@ export default {
             this.venta.total = suma_total.toFixed(2);
 
             // agrega descuento
+            let descuento = 0;
             if (this.venta.descuento != "") {
                 if (
                     parseFloat(this.venta.descuento) >= 0 &&
@@ -802,10 +802,7 @@ export default {
                                 ? this.venta.descuento
                                 : 0
                         ) / 100;
-                    let descuento = parseFloat(this.venta.total) * p_descuento;
-                    this.venta.total_final = parseFloat(
-                        parseFloat(this.venta.total) - descuento
-                    ).toFixed(2);
+                    descuento = parseFloat(this.venta.total) * p_descuento;
                 } else {
                     this.venta.descuento = 0;
                     this.venta.total_final = this.venta.total;
@@ -818,6 +815,9 @@ export default {
                     });
                 }
             }
+            this.venta.total_final = parseFloat(
+                parseFloat(this.venta.total) - descuento
+            ).toFixed(2);
         },
         quitarDetalleVenta(id, index) {
             if (id) {

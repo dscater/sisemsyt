@@ -241,7 +241,7 @@ class ProductoController extends Controller
 
     public function store(Request $request)
     {
-        $this->validacion['imagen'] = "image|mimes:jpeg,jpg,png,webp|max:4096";
+        $this->validacion['imagen'] = "nullable|image|mimes:jpeg,jpg,png,webp|max:4096";
         $request->validate($this->validacion, $this->mensajes);
         DB::beginTransaction();
         try {

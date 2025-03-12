@@ -99,7 +99,7 @@
                             class="nav-link"
                         >
                             <i class="nav-icon fas fa-chart-pie"></i>
-                            <p>Inventario</p>
+                            <p>Análisis de Inventario</p>
                         </router-link>
                     </li>
                     <li
@@ -111,7 +111,7 @@
                             class="nav-link"
                         >
                             <i class="nav-icon fas fa-chart-pie"></i>
-                            <p>Proveedores</p>
+                            <p>Análisis de Proveedores</p>
                         </router-link>
                     </li>
                     <li
@@ -123,7 +123,7 @@
                             class="nav-link"
                         >
                             <i class="nav-icon fas fa-chart-pie"></i>
-                            <p>Ventas</p>
+                            <p>Análisis de Ventas</p>
                         </router-link>
                     </li>
                     <li
@@ -206,6 +206,18 @@
                         >
                             <i class="nav-icon fas fa-sign-out-alt"></i>
                             <p>Salida de Productos</p>
+                        </router-link>
+                    </li>
+                    <li
+                        class="nav-item"
+                        v-if="permisos.includes('sugerencia_stocks.index')"
+                    >
+                        <router-link
+                            :to="{ name: 'sugerencia_stocks.index' }"
+                            class="nav-link"
+                        >
+                            <i class="nav-icon fas fa-clipboard-list"></i>
+                            <p>Sugerencia de stock</p>
                         </router-link>
                     </li>
                     <li

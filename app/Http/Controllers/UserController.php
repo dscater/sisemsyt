@@ -19,6 +19,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -108,6 +109,8 @@ class UserController extends Controller
             'salida_productos.create',
             'salida_productos.edit',
             'salida_productos.destroy',
+
+            "sugerencia_stocks.index",
 
             'clientes.index',
             'clientes.create',
@@ -447,6 +450,48 @@ class UserController extends Controller
         }
     }
 
+    public function updatePassword(User $usuario, Request $request)
+    {
+        $usuario = Auth::user();
+        $request->validate([
+            'password' => [
+                'required',
+                'confirmed',
+                'min:8',
+                'regex:/[A-Z]/',               // Al menos una letra mayúscula
+                'regex:/[a-z]/',               // Al menos una letra minúscula
+                'regex:/[0-9]/',               // Al menos un número
+                'regex:/[^A-Za-z0-9]/',        // Al menos un carácter especial
+                function ($attribute, $value, $fail) use ($usuario) {
+                    if (\Hash::check($value, $usuario->password)) {
+                        return $fail(__('La nueva contraseña no puede ser igual a la contraseña actual.'));
+                    }
+                },
+            ],
+            'password_confirmation' => 'required|min:8'
+        ], [
+            "password.regex" => "La contraseña debe tener al menos una mayúscula, minúscula, un número y un carácter especial"
+        ]);
+
+        DB::beginTransaction();
+        try {
+            $usuario->password = Hash::make($request->password);
+            $usuario->update_password = 1;
+            $usuario->save();
+            DB::commit();
+            return response()->JSON([
+                'sw' => true,
+                'message' => 'La contraseña se actualizó correctamente'
+            ], 200);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->JSON([
+                'sw' => false,
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
     public function actualizaFoto(User $usuario, Request $request)
     {
         DB::beginTransaction();
@@ -571,5 +616,15 @@ class UserController extends Controller
     public function getUsuario(User $usuario)
     {
         return response()->JSON($usuario);
+    }
+
+    public function update2Fa(User $usuario, Request $request)
+    {
+        $usuario->auth2fa  = $request->auth2fa;
+        $usuario->save();
+        return response()->JSON([
+            "msj" => "Actualización exitosa",
+            "user" => $usuario
+        ]);
     }
 }

@@ -2,12 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\CodigoAuthMail;
+use App\Models\Configuracion;
 use App\Models\Notificacion;
 use App\Models\NotificacionUser;
 use App\Models\Producto;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use PragmaRX\Google2FA\Google2FA;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
 {
@@ -15,7 +23,7 @@ class LoginController extends Controller
     {
         $usuario = $request->usuario;
         $password = $request->password;
-        $res = Auth::attempt(['usuario' => $usuario, 'password' => $password, 'acceso' => 1, 'status' => 1]);
+        $res = Auth::attempt(['usuario' => $usuario, 'password' => $password, 'acceso' => 1, 'status' => 1, 'b_auth' => 0]);
         if ($res) {
             self::notificacion1();
             self::notificacion2();
@@ -26,11 +34,18 @@ class LoginController extends Controller
             ], 200);
         }
 
+        $user = User::where("usuario", $usuario)->get()->first();
+        if ($user) {
+            if ($user->b_auth == 1) {
+                return response()->JSON(["error" => "La cuenta a sido bloqueda por seguridad. Contactese con el administrador del sistema"]);
+            }
+        }
         return response()->JSON([], 401);
     }
 
     public function logout()
     {
+        session()->forget('2fa_authenticated');
         Auth::logout();
         return response()->JSON(['code' => 204], 204);
     }
@@ -134,4 +149,110 @@ class LoginController extends Controller
             }
         }
     }
+
+    // AUTHENTIFACION 2FA
+
+    /**
+     * Generar QR de autenticacion
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function genera2fa(Request $request)
+    {
+        if (Auth::check()) {
+            $user = Auth::user();
+            if (!$user->google2fa_secret) {
+                $google2fa = new Google2FA();
+                $secret = $google2fa->generateSecretKey();
+
+                // guardar secret
+                $user->google2fa_secret = $secret;
+                $user->save();
+            } else {
+                $secret = $user->google2fa_secret;
+            }
+            // Generar URL para el QR
+            $QR_url = "otpauth://totp/" . config('app.name') . ":" . $user->email .
+                "?secret=" . $secret . "&issuer=" . config('app.name');
+
+            // Generar la imagen QR
+            $qrCode = QrCode::size(200)->generate($QR_url);
+            return response()->json([
+                'message' => 'Escanea este código QR con Google Authenticator',
+                'secret' => $secret,
+                'qr_code' => $qrCode, // Enviar QR en Base64 o como SVG
+            ]);
+        }
+        return response()->json([
+            'message' => 'Vuelve a iniciar sesión',
+        ], 422);
+    }
+
+    public function verificar2fa(Request $request)
+    {
+        $request->validate([
+            'code' => 'required|numeric',
+        ]);
+
+        $user = Auth::user();
+        $google2fa = new Google2FA();
+
+        $isValid = $google2fa->verifyKey($user->google2fa_secret, $request->code);
+
+        if ($isValid) {
+            session(['2fa_authenticated' => true]); // Marcar sesión autenticada
+            return response()->json(['message' => '2FA validado correctamente', 'user' => $user]);
+        }
+
+        return response()->json(['error' => 'Código incorrecto'], 422);
+    }
+
+    // public function genera2fa(Request $request)
+    // {
+    //     $google2fa = new Google2FA();
+    //     $secret = $google2fa->generateSecretKey();
+
+    //     // guardar secret
+    //     $user = User::findOrFail($request->user_id);
+    //     $user->google2fa_secret = $secret;
+    //     $user->save();
+
+    //     // enviar mail
+    //     $configuracion = Configuracion::first();
+    //     if ($configuracion) {
+    //         $servidor_correo = $configuracion->conf_correos;
+    //         Config::set(
+    //             [
+    //                 'mail.mailers.default' => $servidor_correo["driver"] ?? 'smtp',
+    //                 'mail.mailers.smtp.host' => $servidor_correo["host"] ?? 'smtp.hostinger.com',
+    //                 'mail.mailers.smtp.port' => $servidor_correo["puerto"] ?? '587',
+    //                 'mail.mailers.smtp.encryption' => $servidor_correo["encriptado"] ?? 'tls',
+    //                 'mail.mailers.smtp.username' => $servidor_correo["correo"] ?? 'mensaje@emsytsrl.com',
+    //                 'mail.mailers.smtp.password' => $servidor_correo["password"] ?? '8Z@d>&kj^y',
+    //                 'mail.from.address' => $servidor_correo["correo"] ?? 'mensaje@emsytsrl.com',
+    //                 'mail.from.name' => $servidor_correo["nombre"] ?? 'SISEMSYT',
+    //             ]
+    //         );
+    //         $mensaje = 'Hola ' . $user->full_name . ' este es tu código de seguridad:<br/>';
+    //         $codigo = $secret;
+
+    //         $datos = [
+    //             "mensaje" => $mensaje,
+    //             "codigo" => $codigo,
+    //         ];
+
+    //         Mail::to($user->correo)
+    //             ->send(new CodigoAuthMail($datos));
+
+    //         return response()->json([
+    //             'message' => "Te envíamos un código a tu correo electrónico",
+    //             "sw" => true
+    //         ]);
+    //     }
+    //     return response()->json([
+    //         'message' => "No se pudo envíar el código a su correo electrónico",
+    //         "sw" => false
+    //     ]);
+    // }
 }

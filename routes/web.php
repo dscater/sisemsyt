@@ -15,26 +15,29 @@ use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\SalidaProductoController;
+use App\Http\Controllers\SugerenciaController;
 use App\Http\Controllers\TipoIngresoController;
 use App\Http\Controllers\TipoSalidaController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 // LOGIN
-Route::post('/login', [LoginController::class, 'login']);
+Route::post('/login', [LoginController::class, 'login'])->middleware('login.attempts');;
 Route::post('/logout', [LoginController::class, 'logout']);
+Route::post('/genera2fa', [LoginController::class, 'genera2fa']);
 
 // CONFIGURACIÓN
 Route::get('/configuracion/getConfiguracion', [ConfiguracionController::class, 'getConfiguracion']);
 
 Route::middleware(['auth'])->group(function () {
     Route::post('/configuracion/update', [ConfiguracionController::class, 'update']);
+    Route::post('/verificar2fa', [LoginController::class, 'verificar2fa']);
 
-    Route::prefix('admin')->group(function () {
+    Route::prefix('admin', '2fa')->group(function () {
         Route::get('stock_productos', [InicioController::class, 'stock_productos']);
 
-
         // Usuarios
+        Route::post('usuarios/updatePassword', [UserController::class, 'updatePassword']);
         Route::get('usuarios/getUsuario/{usuario}', [UserController::class, 'getUsuario']);
         Route::get('usuarios/userActual', [UserController::class, 'userActual']);
         Route::get('usuarios/getInfoBox', [UserController::class, 'getInfoBox']);
@@ -42,6 +45,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('usuarios/getEncargadosRepresentantes', [UserController::class, 'getEncargadosRepresentantes']);
         Route::post('usuarios/actualizaContrasenia/{usuario}', [UserController::class, 'actualizaContrasenia']);
         Route::post('usuarios/actualizaFoto/{usuario}', [UserController::class, 'actualizaFoto']);
+        Route::post('usuarios/update2Fa/{usuario}', [UserController::class, 'update2Fa']);
         Route::resource('usuarios', UserController::class)->only([
             'index',
             'store',
@@ -118,6 +122,12 @@ Route::middleware(['auth'])->group(function () {
             'update',
             'destroy',
             'show'
+        ]);
+
+        // Sugerencia
+        Route::post("sugerencia_stocks/guardar", [SugerenciaController::class, 'guardar']);
+        Route::resource('sugerencia_stocks', SugerenciaController::class)->only([
+            'store',
         ]);
 
         // Clientes

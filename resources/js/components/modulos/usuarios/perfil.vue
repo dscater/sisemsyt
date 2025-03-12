@@ -27,17 +27,17 @@
                                         </template>
                                         <img
                                             class="profile-user-img img-fluid img-circle"
-                                            :src="oUsuario.path_image"
+                                            :src="oUsuario?.path_image"
                                             alt="User profile picture"
                                             id="img_perfil"
                                         />
                                     </b-skeleton-wrapper>
                                 </div>
                                 <h3 class="profile-username text-center">
-                                    {{ oUsuario.full_name }}
+                                    {{ oUsuario?.full_name }}
                                 </h3>
                                 <p class="text-primary text-center">
-                                    {{ oUsuario.tipo }}
+                                    {{ oUsuario?.tipo }}
                                 </p>
                                 <label
                                     v-if="!imagen_cargada"
@@ -68,7 +68,7 @@
                                 </template>
                             </div>
                         </div>
-                        <div class="card card-primary" v-if="oUsuario.id != 1">
+                        <div class="card card-primary" v-if="oUsuario?.id != 1">
                             <div class="card-header bg-primary">
                                 <h3 class="card-title">Información</h3>
                             </div>
@@ -159,6 +159,7 @@
                                                         @keypress.enter="
                                                             setPassword
                                                         "
+                                                        autocomplete=""
                                                     />
                                                     <span
                                                         class="error invalid-feedback"
@@ -197,6 +198,7 @@
                                                         @keypress.enter="
                                                             setPassword
                                                         "
+                                                        autocomplete=""
                                                     />
                                                     <span
                                                         class="error invalid-feedback"
@@ -231,6 +233,7 @@
                                                         @keypress.enter="
                                                             setPassword
                                                         "
+                                                        autocomplete=""
                                                     />
                                                     <span
                                                         class="error invalid-feedback"
@@ -254,6 +257,80 @@
                                                         >Enviar
                                                         cambios</el-button
                                                     >
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header p-2 bg-primary">
+                                <div class="col-md-12">
+                                    <h4>Autenticación de dos pasos</h4>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="settings">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <p>
+                                                    Activa esta opción y
+                                                    descarga
+                                                    <a
+                                                        href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=es"
+                                                        target="_blank"
+                                                        >Google Authenticator</a
+                                                    >
+                                                    en tu dispositivo movíl el
+                                                    cual generara un código
+                                                    númerico que debes ingresar
+                                                    despues de acceder con tus
+                                                    credenciales en el Login
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <form class="form-horizontal">
+                                            <div
+                                                class="bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-animate"
+                                                :class="{
+                                                    'bootstrap-switch-on':
+                                                        oUsuario?.auth2fa == 1,
+                                                    'bootstrap-switch-off':
+                                                        oUsuario?.auth2fa != 1,
+                                                }"
+                                                style="width: 170px"
+                                                @click="cambiaAuth2"
+                                            >
+                                                <div
+                                                    class="bootstrap-switch-container"
+                                                    :style="{
+                                                        marginLeft:
+                                                            oUsuario?.auth2fa !=
+                                                            1
+                                                                ? '-153px'
+                                                                : '0px',
+                                                    }"
+                                                >
+                                                    <span
+                                                        class="bootstrap-switch-handle-on bootstrap-switch-primary"
+                                                        style="width: 65px"
+                                                        >HABILITADO</span
+                                                    ><span
+                                                        class="bootstrap-switch-label"
+                                                        style="width: 65px"
+                                                        >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span
+                                                    ><span
+                                                        class="bootstrap-switch-handle-off bootstrap-switch-default"
+                                                        style="width: 65px"
+                                                        >DESHABILITADO</span
+                                                    >
+                                                    <input
+                                                        type="checkbox"
+                                                        name="my-checkbox"
+                                                        data-bootstrap-switch=""
+                                                    />
                                                 </div>
                                             </div>
                                         </form>
@@ -308,6 +385,7 @@ export default {
             this.imagen_cargada = false;
             document.getElementById("img_perfil").src = this.src_perfil;
         },
+
         getUsuario() {
             axios.get("/admin/usuarios/" + this.id).then((res) => {
                 this.oUsuario = res.data.usuario;
@@ -323,7 +401,7 @@ export default {
                 axios
                     .post(
                         "/admin/usuarios/actualizaContrasenia/" +
-                            this.oUsuario.id,
+                            this.oUsuario?.id,
                         this.formPassword
                     )
                     .then((res) => {
@@ -419,6 +497,34 @@ export default {
             this.formPassword.password = "";
             this.formPassword.password_confirmation = "";
             this.errors = [];
+        },
+        cambiaAuth2() {
+            const value = this.oUsuario.auth2fa == 1 ? 0 : 1;
+            axios
+                .post("/admin/usuarios/update2Fa/" + this.oUsuario.id, {
+                    auth2fa: value,
+                })
+                .then((response) => {
+                    this.oUsuario = response.data.user;
+                    Swal.fire({
+                        icon: "success",
+                        title: response.data.msj,
+                        showConfirmButton: false,
+                        timer: 1500,
+                    });
+                    const self = this;
+                    setTimeout(() => {
+                        self.obtienePermisos();
+                    }, 100);
+                });
+        },
+        obtienePermisos() {
+            axios
+                .get("/admin/usuarios/getPermisos/" + this.oUsuario.id)
+                .then((res) => {
+                    localStorage.setItem("permisos", JSON.stringify(res.data));
+                    localStorage.setItem("user", JSON.stringify(this.oUsuario));
+                });
         },
     },
 };

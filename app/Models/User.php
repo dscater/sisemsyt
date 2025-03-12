@@ -33,7 +33,11 @@ class User extends Authenticatable
         'foto',
         'fecha_registro',
         'acceso',
-        'status'
+        'status',
+        'b_auth',
+        'update_password',
+        'auth2fa',
+        'google2fa_secret'
     ];
 
 

@@ -54,6 +54,15 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row" v-if="error_login">
+                            <div class="col-12">
+                                <div class="callout callout-danger">
+                                    <h5>¡Atención!</h5>
+                                    <p v-html="error_login"></p>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="row">
                             <!-- /.col -->
                             <div class="col-12">
@@ -95,7 +104,9 @@ export default {
             usuario: "",
             password: "",
             error: false,
+            error_login: null,
             fullscreenLoading: false,
+            user: null,
         };
     },
     methods: {
@@ -107,27 +118,52 @@ export default {
                     password: this.password,
                 })
                 .then((res) => {
-                    let user = res.data.user;
-                    setTimeout(() => {
-                        this.obtienePermisos(user);
-                    }, 50);
+                    // console.log(res);
+                    if (!res.data.error) {
+                        this.error_login = null;
+                        this.user = res.data.user;
+                        if (this.user.auth2fa == 1) {
+                            this.verificacion2FA();
+                        } else {
+                            this.obtienePermisos();
+                        }
+                    } else {
+                        this.fullscreenLoading = false;
+                        this.error_login = res.data.error;
+                    }
                 })
                 .catch((error) => {
+                    this.user = null;
                     this.error = true;
                     this.password = "";
                     console.log(error);
                     this.fullscreenLoading = false;
                 });
         },
-        obtienePermisos(user) {
-            axios.get("/admin/usuarios/getPermisos/" + user.id).then((res) => {
-                this.error = false;
-                this.$router.push({ name: "inicio" });
-                localStorage.setItem("configuracion", this.configuracion);
-                localStorage.setItem("permisos", JSON.stringify(res.data));
-                localStorage.setItem("user", JSON.stringify(user));
-                location.reload();
-            });
+        verificacion2FA() {
+            axios
+                .post("/genera2fa", { user_id: this.user.id })
+                .then((response) => {
+                    setTimeout(() => {
+                        this.obtienePermisos();
+                    }, 50);
+                });
+        },
+        obtienePermisos() {
+            axios
+                .get("/admin/usuarios/getPermisos/" + this.user.id)
+                .then((res) => {
+                    this.error = false;
+                    localStorage.setItem("configuracion", this.configuracion);
+                    localStorage.setItem("permisos", JSON.stringify(res.data));
+                    localStorage.setItem("user", JSON.stringify(this.user));
+                    if (this.user.auth2fa == 1) {
+                        this.$router.push({ name: "verificacion" });
+                    } else {
+                        this.$router.push({ name: "inicio" });
+                    }
+                    location.reload();
+                });
         },
     },
 };

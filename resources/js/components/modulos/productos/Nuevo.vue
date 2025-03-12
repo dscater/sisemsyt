@@ -102,6 +102,7 @@
                                         'is-invalid': errors.stock_min,
                                     }"
                                     v-model="producto.stock_min"
+                                    @keyup.native="validarDecimales"
                                     clearable
                                 >
                                 </el-input>
@@ -361,6 +362,10 @@ export default {
                 this.enviando = false;
                 console.log(e);
             }
+        },
+        validarDecimales() {
+            // Remueve decimales del valor ingresado
+            this.producto.stock_min = this.producto.stock_min.toString().replace(/\./g, '');
         },
         // Dialog/modal
         cierraModal() {
