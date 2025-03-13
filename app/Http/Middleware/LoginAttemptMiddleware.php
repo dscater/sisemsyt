@@ -23,9 +23,11 @@ class LoginAttemptMiddleware
         /**
          * $decayMinutes: tiempo que se almacena en cache
          */
-        
-        $key = 'login_attempts:' . $request->ip();
-        
+
+        $user_key = mb_strtolower(trim($request->usuario ?? 'ne'));
+
+        $key = 'login_attempts:' . $request->ip() . ':' . $user_key;
+
         $existe_user = User::where("usuario", $request->usuario)->get()->first();
         $response = $next($request);
         if (Cache::has($key . ':blocked')) {
