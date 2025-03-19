@@ -41,7 +41,7 @@
                     <div class="col-md-6">
                         <div class="card">
                             <div class="card-body">
-                                <h4>Cantidades compradas por clientes</h4>
+                                <h4>Cantidades compradas por clientes en un rango de fechas</h4>
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="row">
@@ -119,7 +119,7 @@
                     <div class="col-md-6">
                         <div class="card">
                             <div class="card-body">
-                                <h4>Monto por clientes</h4>
+                                <h4>Monto por clientes en un rango de fechas</h4>
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="row">
@@ -508,7 +508,7 @@ export default {
                             type: "bar",
                         },
                         title: {
-                            text: "CANTIDAD VENDIDA POR PRODUCTOS",
+                            text: "CANTIDAD VENDIDAS POR PRODUCTOS",
                         },
                         subtitle: {
                             text: "",
@@ -684,7 +684,7 @@ export default {
                             type: "bar",
                         },
                         title: {
-                            text: "CANTIDAD VENDIDAD POR PRODUCTOS",
+                            text: "CANTIDAD VENDIDAS POR PRODUCTOS",
                         },
                         subtitle: {
                             text: "",
@@ -865,7 +865,7 @@ export default {
                         },
                         title: {
                             text:
-                                "CANTIDAD VENDIDAD POR PRODUCTOS PARA " +
+                                "CANTIDAD VENDIDAS POR PRODUCTOS PARA " +
                                 response.data.mes_anio,
                         },
                         subtitle: {

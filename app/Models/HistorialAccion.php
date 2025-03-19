@@ -12,7 +12,14 @@ class HistorialAccion extends Model
     use HasFactory;
 
     protected $fillable = [
-        "user_id", "accion", "descripcion", "datos_original", "datos_nuevo", "modulo", "fecha", "hora",
+        "user_id",
+        "accion",
+        "descripcion",
+        "datos_original",
+        "datos_nuevo",
+        "modulo",
+        "fecha",
+        "hora",
     ];
 
     public function user()
@@ -25,7 +32,11 @@ class HistorialAccion extends Model
         $columns = Schema::getColumnListing($table);
         $datos = "";
         foreach ($columns as $key => $col) {
-            $datos .= $col . ": " . $item[$col];
+            if ($col == 'conf_email') {
+                $datos .= $col . ":" . json_encode($item[$col]);
+            } else {
+                $datos .= $col . ": " . $item[$col];
+            }
             if ($key < count($columns)) {
                 $datos .= '<br/>';
             }

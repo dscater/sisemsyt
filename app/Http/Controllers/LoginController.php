@@ -124,13 +124,13 @@ class LoginController extends Controller
         $productos = Producto::whereRaw('stock_min < stock_actual')->get();
         $usuarios = User::all();
         foreach ($productos as $producto) {
-            $notificacion = Notificacion::where("tipo", "STOCK MINIMO")
+            $notificacion = Notificacion::where("tipo", "DEBAJO STOCK MINIMO")
                 ->where("fecha", $fecha_actual)
                 ->where("registro_id", $producto->id)
                 ->get()->first();
             if (!$notificacion) {
                 $notificacion =  Notificacion::create([
-                    "tipo" => "STOCK MINIMO",
+                    "tipo" => "DEBAJO STOCK MINIMO",
                     "registro_id" => $producto->id,
                     "descripcion" => "ALERTA URGENTE EL PRODUCTO " . $producto->nombre . " SE ENCUENTRA MENOR AL STOCK MÍNIMO, LE SUGERIMOS REABASTECER EL PRODUCTO CON URGENCIA",
                     "fecha" => $fecha_actual,

@@ -163,7 +163,7 @@ export default {
 
                     response.data.fmd.forEach((item) => {
                         var div = document.createElement("div");
-                        div.classList.add("col-md-6");
+                        div.classList.add("col-md-12");
                         div.classList.add("mt-2");
                         div.id = item.id; // Asignar el id al div
                         cont_grafs.appendChild(div);

@@ -22,13 +22,30 @@
                     </p>
                     <div class="input-group mb-3">
                         <input
-                            type="password"
+                            :type="muestra_password ? 'text' : 'password'"
                             class="form-control"
                             placeholder="Contraseña"
                             v-model="password"
                             @keypress.enter="actualizarPassword()"
                             autofocus
                         />
+                        <div class="input-group-append">
+                            <button
+                                class="btn btn-default"
+                                :class="[muestra_password ? 'bg-white' : '']"
+                                type="button"
+                                @click="muestra_password = !muestra_password"
+                            >
+                                <i
+                                    class="fa"
+                                    :class="[
+                                        muestra_password
+                                            ? 'fa-eye'
+                                            : 'fa-eye-slash',
+                                    ]"
+                                ></i>
+                            </button>
+                        </div>
                         <div class="input-group-append">
                             <div class="input-group-text bg-primary">
                                 <span class="fas fa-key"></span>
@@ -37,13 +54,31 @@
                     </div>
                     <div class="input-group mb-3">
                         <input
-                            type="password"
+                            :type="muestra_password2 ? 'text' : 'password'"
                             class="form-control"
                             placeholder="Confirmar contraseña"
                             v-model="password_confirmation"
                             @keypress.enter="actualizarPassword()"
                             autofocus
                         />
+
+                        <div class="input-group-append">
+                            <button
+                                class="btn btn-default"
+                                :class="[muestra_password2 ? 'bg-white' : '']"
+                                type="button"
+                                @click="muestra_password2 = !muestra_password2"
+                            >
+                                <i
+                                    class="fa"
+                                    :class="[
+                                        muestra_password2
+                                            ? 'fa-eye'
+                                            : 'fa-eye-slash',
+                                    ]"
+                                ></i>
+                            </button>
+                        </div>
                         <div class="input-group-append">
                             <div class="input-group-text bg-primary">
                                 <span class="fas fa-key"></span>
@@ -103,6 +138,8 @@ export default {
         return {
             password: "",
             password_confirmation: "",
+            muestra_password: false,
+            muestra_password2: false,
             error: false,
             errors: null,
             fullscreenLoading: false,

@@ -7,6 +7,7 @@ use App\Models\HistorialAccion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ConfiguracionController extends Controller
 {
@@ -80,9 +81,7 @@ class ConfiguracionController extends Controller
         if ($configuracion) {
             DB::beginTransaction();
             try {
-
                 $datos_original = HistorialAccion::getDetalleRegistro($configuracion, "configuracions");
-
                 $configuracion->update(array_map('mb_strtoupper', $request->except('logo')));
                 if ($request->hasFile('logo')) {
                     $antiguo = $configuracion->logo;

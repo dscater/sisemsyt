@@ -12,10 +12,10 @@
         <section class="content">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4>Cantidad proveída por proveedor</h4>
+                                <h4>Cantidad actual proveída por proveedor</h4>
                                 <div class="row">
                                     <div
                                         class="col-md-12"
@@ -25,11 +25,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="card">
                             <div class="card-body">
                                 <h4>
-                                    Cantidad proveída por proveedor
+                                    Predicción Cantidad proveída por proveedor
                                 </h4>
                                 <div class="row">
                                     <div class="col-md-12">
@@ -113,7 +113,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="card">
                             <div class="card-body">
                                 <h4>
@@ -321,7 +321,7 @@ export default {
                             type: "column",
                         },
                         title: {
-                            text: "CANTIDAD PROVEÍDA POR PROVEEDORS",
+                            text: "CANTIDAD ACTUAL PROVEÍDA POR PROVEEDOR",
                         },
                         subtitle: {
                             text: "",
@@ -504,7 +504,7 @@ export default {
                         },
                         title: {
                             text:
-                                "PREDICCIÓN CANTIDAD PROVEÍDA POR PROVEEDORS PARA " +
+                                "PREDICCIÓN CANTIDAD PROVEÍDA POR PROVEEDOR PARA " +
                                 response.data.mes_anio,
                         },
                         subtitle: {

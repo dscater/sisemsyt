@@ -40,7 +40,14 @@
                                         </p>
                                     </div>
                                     <div class="col-md-4">
-                                        <router-link :to="{name:'notificacion_users.index'}" class="btn btn-default"><i class="fa fa-arrow-left"></i> Volver</router-link>
+                                        <router-link
+                                            :to="{
+                                                name: 'notificacion_users.index',
+                                            }"
+                                            class="btn btn-default"
+                                            ><i class="fa fa-arrow-left"></i>
+                                            Volver</router-link
+                                        >
                                     </div>
                                 </div>
                             </div>
@@ -57,9 +64,7 @@ export default {
     data() {
         return {
             fullscreenLoading: true,
-            loadingWindow: Loading.service({
-                fullscreen: this.fullscreenLoading,
-            }),
+            loadingWindow: null,
             oNotificacionUser: {
                 id: 0,
                 notificacion_id: 0,
@@ -73,19 +78,39 @@ export default {
             },
         };
     },
+    created() {
+        this.loadingWindow = Loading.service({
+            fullscreen: this.fullscreenLoading,
+        });
+    },
+    watch: {
+        "$route.params.id": {
+            immediate: true, // Para ejecutar la función al inicio
+            handler(newId) {
+                this.loadingWindow = Loading.service({
+                    fullscreen: this.fullscreenLoading,
+                });
+
+                this.getNotificacionUser().finally(() => {
+                    setTimeout(() => {
+                        this.loadingWindow.close();
+                    }, 300);
+                });
+            },
+        },
+    },
     mounted() {
-        this.getNotificacionUser();
         this.loadingWindow.close();
+        this.getNotificacionUser();
     },
     methods: {
-        getNotificacionUser() {
-            axios
-                .get("/admin/notificacion_users/" + this.id)
-                .then((response) => {
-                    console.log(response.data);
-                    this.oNotificacionUser = response.data.notificacion_user;
-                    console.log(this.oNotificacionUser);
-                });
+        async getNotificacionUser() {
+            const response = await axios.get(
+                "/admin/notificacion_users/" + this.id
+            );
+            if (response) {
+                this.oNotificacionUser = response.data.notificacion_user;
+            }
         },
     },
 };

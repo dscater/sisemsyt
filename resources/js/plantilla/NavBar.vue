@@ -72,6 +72,7 @@
                             >
                                 <i class="fas fa-info-circle mr-2"></i>
                                 <p class="desc_notificacion">
+                                    {{ item.visto }}
                                     {{ item.notificacion?.descripcion }}
                                 </p>
                                 <span class="float-right text-muted text-sm">{{

@@ -32,12 +32,33 @@
                         </div>
                         <div class="input-group mb-3">
                             <input
-                                type="password"
+                                :type="muestra_password ? 'text' : 'password'"
                                 class="form-control"
                                 placeholder="Contraseña"
                                 v-model="password"
                                 @keypress.enter="login()"
                             />
+                            <div class="input-group-append">
+                                <button
+                                    class="btn btn-default"
+                                    :class="[
+                                        muestra_password ? 'bg-white' : '',
+                                    ]"
+                                    type="button"
+                                    @click="
+                                        muestra_password = !muestra_password
+                                    "
+                                >
+                                    <i
+                                        class="fa"
+                                        :class="[
+                                            muestra_password
+                                                ? 'fa-eye'
+                                                : 'fa-eye-slash',
+                                        ]"
+                                    ></i>
+                                </button>
+                            </div>
                             <div class="input-group-append">
                                 <div class="input-group-text bg-primary">
                                     <span class="fas fa-lock"></span>
@@ -103,6 +124,7 @@ export default {
         return {
             usuario: "",
             password: "",
+            muestra_password: false,
             error: false,
             error_login: null,
             fullscreenLoading: false,

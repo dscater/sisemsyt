@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 12-03-2025 a las 20:20:37
+-- Tiempo de generación: 19-03-2025 a las 14:46:53
 -- Versión del servidor: 8.0.30
--- Versión de PHP: 7.4.19
+-- Versión de PHP: 8.2.22
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -102,7 +102,7 @@ CREATE TABLE `configuracions` (
 --
 
 INSERT INTO `configuracions` (`id`, `nombre_sistema`, `alias`, `razon_social`, `nit`, `ciudad`, `dir`, `fono`, `web`, `actividad`, `correo`, `logo`, `conf_email`, `created_at`, `updated_at`) VALUES
-(1, 'SISTEMA SISEMSYT', 'SISEMSYT', 'SISEMSYT S.A.', '10000000000', 'LA PAZ', 'LA PAZ', '2222222', 'SISEMSYT.TEST', 'ACTIVIDAD', 'SISEMSYT@GMAIL.COM', '1682712649_logo.jpg', '{\"host\": \"smtp.hostinger.com\", \"correo\": \"mensaje@emsytsrl.com\", \"driver\": \"smtp\", \"nombre\": \"sisemsyt\", \"puerto\": \"587\", \"password\": \"8Z@d>&kj^y\", \"encriptado\": \"tls\"}', NULL, '2024-11-05 00:34:49');
+(1, 'SISTEMA SISEMSYT', 'SISEMSYT', 'SISEMSYT S.A.', '10000000000', 'LA PAZ', 'LA PAZ', '2222222', 'SISEMSYT.TEST', 'ACTIVIDAD', 'SISEMSYT@GMAIL.COM', '1742395524_logo.jpg', '{\"host\": \"smtp.hostinger.com\", \"correo\": \"mensaje@emsytsrl.com\", \"driver\": \"smtp\", \"nombre\": \"sisemsyt\", \"puerto\": \"587\", \"password\": \"8Z@d>&kj^y\", \"encriptado\": \"tls\"}', NULL, '2025-03-19 14:45:24');
 
 -- --------------------------------------------------------
 
@@ -206,7 +206,9 @@ INSERT INTO `historial_accions` (`id`, `user_id`, `accion`, `descripcion`, `dato
 (15, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UN USUARIO', 'id: 3<br/>usuario: MMAMANI<br/>nombre: MARIA<br/>paterno: MAMANI<br/>materno: GONZALES<br/>ci: 1234567<br/>ci_exp: LP<br/>dir: ZONA LOS OLIVOS<br/>correo: maria@gmail.com<br/>fono: 7777777<br/>tipo: SUPERVISOR<br/>foto: 1741794978_MMAMANI.jpg<br/>password: $2y$10$pI4VJXtae9x74kqWwmc2b.9oT6l.IgOFKnrO.1/fL0300Au/D1TXu<br/>acceso: 1<br/>fecha_registro: 2025-03-12<br/>status: <br/>b_auth: <br/>update_password: <br/>auth2fa: <br/>google2fa_secret: <br/>created_at: 2025-03-12 11:56:18<br/>updated_at: 2025-03-12 11:56:18<br/>', NULL, 'USUARIOS', '2025-03-12', '11:56:18', '2025-03-12 15:56:18', '2025-03-12 15:56:18'),
 (16, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA ORDEN DE VENTA', 'id: 2<br/>user_id: 1<br/>cliente_id: 1<br/>nit: 2312314<br/>total: 400.00<br/>descuento: 0<br/>total_final: 400.00<br/>estado: CANCELADO<br/>fecha_registro: 2025-03-12<br/>status: <br/>created_at: 2025-03-12 15:35:12<br/>updated_at: 2025-03-12 15:35:12<br/>', NULL, 'ORDEN DE VENTA', '2025-03-12', '15:35:12', '2025-03-12 19:35:12', '2025-03-12 19:35:12'),
 (17, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA ORDEN DE VENTA', 'id: 3<br/>user_id: 1<br/>cliente_id: 3<br/>nit: 43434<br/>total: 29999.70<br/>descuento: 0<br/>total_final: 29999.70<br/>estado: CANCELADO<br/>fecha_registro: 2025-03-12<br/>status: <br/>created_at: 2025-03-12 15:54:12<br/>updated_at: 2025-03-12 15:54:12<br/>', NULL, 'ORDEN DE VENTA', '2025-03-12', '15:54:12', '2025-03-12 19:54:12', '2025-03-12 19:54:12'),
-(18, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UNA ORDEN DE VENTA', 'id: 1<br/>user_id: 1<br/>cliente_id: 3<br/>nit: 111111<br/>total: 500.00<br/>descuento: 0<br/>total_final: 500.00<br/>estado: CANCELADO<br/>fecha_registro: 2024-12-06<br/>status: 1<br/>created_at: 2024-12-06 15:00:07<br/>updated_at: 2025-03-11 10:25:44<br/>', 'id: 1<br/>user_id: 1<br/>cliente_id: 3<br/>nit: 111111<br/>total: 1499.99<br/>descuento: 10<br/>total_final: 1349.99<br/>estado: CANCELADO<br/>fecha_registro: 2024-12-06<br/>status: 1<br/>created_at: 2024-12-06 15:00:07<br/>updated_at: 2025-03-12 16:15:47<br/>', 'ORDEN DE VENTA', '2025-03-12', '16:15:47', '2025-03-12 20:15:47', '2025-03-12 20:15:47');
+(18, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UNA ORDEN DE VENTA', 'id: 1<br/>user_id: 1<br/>cliente_id: 3<br/>nit: 111111<br/>total: 500.00<br/>descuento: 0<br/>total_final: 500.00<br/>estado: CANCELADO<br/>fecha_registro: 2024-12-06<br/>status: 1<br/>created_at: 2024-12-06 15:00:07<br/>updated_at: 2025-03-11 10:25:44<br/>', 'id: 1<br/>user_id: 1<br/>cliente_id: 3<br/>nit: 111111<br/>total: 1499.99<br/>descuento: 10<br/>total_final: 1349.99<br/>estado: CANCELADO<br/>fecha_registro: 2024-12-06<br/>status: 1<br/>created_at: 2024-12-06 15:00:07<br/>updated_at: 2025-03-12 16:15:47<br/>', 'ORDEN DE VENTA', '2025-03-12', '16:15:47', '2025-03-12 20:15:47', '2025-03-12 20:15:47'),
+(19, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ LA CONFIGURACIÓN DEL SISTEMA', 'actividad: ACTIVIDAD<br/>alias: SISEMSYT<br/>ciudad: LA PAZ<br/>conf_email:{\"host\":\"smtp.hostinger.com\",\"correo\":\"mensaje@emsytsrl.com\",\"driver\":\"smtp\",\"nombre\":\"sisemsyt\",\"puerto\":\"587\",\"password\":\"8Z@d>&kj^y\",\"encriptado\":\"tls\"}<br/>correo: SISEMSYT@GMAIL.COM<br/>created_at: <br/>dir: LA PAZ<br/>fono: 2222222<br/>id: 1<br/>logo: 1682712649_logo.jpg<br/>nit: 10000000000<br/>nombre_sistema: SISTEMA SISEMSYT<br/>razon_social: SISEMSYT S.A.<br/>updated_at: 2024-11-04 20:34:49<br/>web: SISEMSYT.TEST<br/>', 'actividad: ACTIVIDAD<br/>alias: SISEMSYT<br/>ciudad: LA PAZ<br/>conf_email:{\"host\":\"smtp.hostinger.com\",\"correo\":\"mensaje@emsytsrl.com\",\"driver\":\"smtp\",\"nombre\":\"sisemsyt\",\"puerto\":\"587\",\"password\":\"8Z@d>&kj^y\",\"encriptado\":\"tls\"}<br/>correo: SISEMSYT@GMAIL.COM<br/>created_at: <br/>dir: LA PAZ<br/>fono: 2222222<br/>id: 1<br/>logo: 1742395468_logo.jpeg<br/>nit: 10000000000<br/>nombre_sistema: SISTEMA SISEMSYT<br/>razon_social: SISEMSYT S.A.<br/>updated_at: 2025-03-19 10:44:28<br/>web: SISEMSYT.TEST<br/>', 'CONFIGURACIÓN', '2025-03-19', '10:44:28', '2025-03-19 14:44:28', '2025-03-19 14:44:28'),
+(20, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ LA CONFIGURACIÓN DEL SISTEMA', 'actividad: ACTIVIDAD<br/>alias: SISEMSYT<br/>ciudad: LA PAZ<br/>conf_email:{\"host\":\"smtp.hostinger.com\",\"correo\":\"mensaje@emsytsrl.com\",\"driver\":\"smtp\",\"nombre\":\"sisemsyt\",\"puerto\":\"587\",\"password\":\"8Z@d>&kj^y\",\"encriptado\":\"tls\"}<br/>correo: SISEMSYT@GMAIL.COM<br/>created_at: <br/>dir: LA PAZ<br/>fono: 2222222<br/>id: 1<br/>logo: 1742395468_logo.jpeg<br/>nit: 10000000000<br/>nombre_sistema: SISTEMA SISEMSYT<br/>razon_social: SISEMSYT S.A.<br/>updated_at: 2025-03-19 10:44:28<br/>web: SISEMSYT.TEST<br/>', 'actividad: ACTIVIDAD<br/>alias: SISEMSYT<br/>ciudad: LA PAZ<br/>conf_email:{\"host\":\"smtp.hostinger.com\",\"correo\":\"mensaje@emsytsrl.com\",\"driver\":\"smtp\",\"nombre\":\"sisemsyt\",\"puerto\":\"587\",\"password\":\"8Z@d>&kj^y\",\"encriptado\":\"tls\"}<br/>correo: SISEMSYT@GMAIL.COM<br/>created_at: <br/>dir: LA PAZ<br/>fono: 2222222<br/>id: 1<br/>logo: 1742395524_logo.jpg<br/>nit: 10000000000<br/>nombre_sistema: SISTEMA SISEMSYT<br/>razon_social: SISEMSYT S.A.<br/>updated_at: 2025-03-19 10:45:24<br/>web: SISEMSYT.TEST<br/>', 'CONFIGURACIÓN', '2025-03-19', '10:45:24', '2025-03-19 14:45:24', '2025-03-19 14:45:24');
 
 -- --------------------------------------------------------
 
@@ -325,14 +327,17 @@ CREATE TABLE `notificacions` (
 --
 
 INSERT INTO `notificacions` (`id`, `tipo`, `registro_id`, `descripcion`, `fecha`, `hora`, `created_at`, `updated_at`) VALUES
-(1, 'STOCK MINIMO', 1, 'ALERTA URGENTE EL PRODUCTO TECLADO KEYBOARD SE ENCUENTRA MENOR AL STOCK MÍNIMO, LE SUGERIMOS REABASTECER EL PRODUCTO CON URGENCIA', '2024-12-06', '14:59:41', '2024-12-06 18:59:41', '2024-12-06 18:59:41'),
-(2, 'STOCK MINIMO', 2, 'ALERTA URGENTE EL PRODUCTO COD.DOS SE ENCUENTRA MENOR AL STOCK MÍNIMO, LE SUGERIMOS REABASTECER EL PRODUCTO CON URGENCIA', '2024-12-06', '14:59:41', '2024-12-06 18:59:41', '2024-12-06 18:59:41'),
-(3, 'STOCK MINIMO', 1, 'ALERTA URGENTE EL PRODUCTO TECLADO KEYBOARD SE ENCUENTRA MENOR AL STOCK MÍNIMO, LE SUGERIMOS REABASTECER EL PRODUCTO CON URGENCIA', '2025-03-11', '10:08:17', '2025-03-11 14:08:17', '2025-03-11 14:08:17'),
-(4, 'STOCK MINIMO', 2, 'ALERTA URGENTE EL PRODUCTO COD.DOS SE ENCUENTRA MENOR AL STOCK MÍNIMO, LE SUGERIMOS REABASTECER EL PRODUCTO CON URGENCIA', '2025-03-11', '10:08:17', '2025-03-11 14:08:17', '2025-03-11 14:08:17'),
-(5, 'STOCK MINIMO', 3, 'ALERTA URGENTE EL PRODUCTO PRODUCTO TRES SE ENCUENTRA MENOR AL STOCK MÍNIMO, LE SUGERIMOS REABASTECER EL PRODUCTO CON URGENCIA', '2025-03-11', '11:35:24', '2025-03-11 15:35:24', '2025-03-11 15:35:24'),
-(6, 'STOCK MINIMO', 1, 'ALERTA URGENTE EL PRODUCTO TECLADO KEYBOARD SE ENCUENTRA MENOR AL STOCK MÍNIMO, LE SUGERIMOS REABASTECER EL PRODUCTO CON URGENCIA', '2025-03-12', '08:42:20', '2025-03-12 12:42:20', '2025-03-12 12:42:20'),
-(7, 'STOCK MINIMO', 2, 'ALERTA URGENTE EL PRODUCTO COD.DOS SE ENCUENTRA MENOR AL STOCK MÍNIMO, LE SUGERIMOS REABASTECER EL PRODUCTO CON URGENCIA', '2025-03-12', '08:42:20', '2025-03-12 12:42:20', '2025-03-12 12:42:20'),
-(8, 'STOCK MINIMO', 3, 'ALERTA URGENTE EL PRODUCTO PRODUCTO TRES SE ENCUENTRA MENOR AL STOCK MÍNIMO, LE SUGERIMOS REABASTECER EL PRODUCTO CON URGENCIA', '2025-03-12', '08:42:20', '2025-03-12 12:42:20', '2025-03-12 12:42:20');
+(1, 'DEBAJO STOCK MINIMO', 1, 'ALERTA URGENTE EL PRODUCTO TECLADO KEYBOARD SE ENCUENTRA MENOR AL STOCK MÍNIMO, LE SUGERIMOS REABASTECER EL PRODUCTO CON URGENCIA', '2024-12-06', '14:59:41', '2024-12-06 18:59:41', '2024-12-06 18:59:41'),
+(2, 'DEBAJO STOCK MINIMO', 2, 'ALERTA URGENTE EL PRODUCTO COD.DOS SE ENCUENTRA MENOR AL STOCK MÍNIMO, LE SUGERIMOS REABASTECER EL PRODUCTO CON URGENCIA', '2024-12-06', '14:59:41', '2024-12-06 18:59:41', '2024-12-06 18:59:41'),
+(3, 'DEBAJO STOCK MINIMO', 1, 'ALERTA URGENTE EL PRODUCTO TECLADO KEYBOARD SE ENCUENTRA MENOR AL STOCK MÍNIMO, LE SUGERIMOS REABASTECER EL PRODUCTO CON URGENCIA', '2025-03-11', '10:08:17', '2025-03-11 14:08:17', '2025-03-11 14:08:17'),
+(4, 'DEBAJO STOCK MINIMO', 2, 'ALERTA URGENTE EL PRODUCTO COD.DOS SE ENCUENTRA MENOR AL STOCK MÍNIMO, LE SUGERIMOS REABASTECER EL PRODUCTO CON URGENCIA', '2025-03-11', '10:08:17', '2025-03-11 14:08:17', '2025-03-11 14:08:17'),
+(5, 'DEBAJO STOCK MINIMO', 3, 'ALERTA URGENTE EL PRODUCTO PRODUCTO TRES SE ENCUENTRA MENOR AL STOCK MÍNIMO, LE SUGERIMOS REABASTECER EL PRODUCTO CON URGENCIA', '2025-03-11', '11:35:24', '2025-03-11 15:35:24', '2025-03-11 15:35:24'),
+(6, 'DEBAJO STOCK MINIMO', 1, 'ALERTA URGENTE EL PRODUCTO TECLADO KEYBOARD SE ENCUENTRA MENOR AL STOCK MÍNIMO, LE SUGERIMOS REABASTECER EL PRODUCTO CON URGENCIA', '2025-03-12', '08:42:20', '2025-03-12 12:42:20', '2025-03-12 12:42:20'),
+(7, 'DEBAJO STOCK MINIMO', 2, 'ALERTA URGENTE EL PRODUCTO COD.DOS SE ENCUENTRA MENOR AL STOCK MÍNIMO, LE SUGERIMOS REABASTECER EL PRODUCTO CON URGENCIA', '2025-03-12', '08:42:20', '2025-03-12 12:42:20', '2025-03-12 12:42:20'),
+(8, 'DEBAJO STOCK MINIMO', 3, 'ALERTA URGENTE EL PRODUCTO PRODUCTO TRES SE ENCUENTRA MENOR AL STOCK MÍNIMO, LE SUGERIMOS REABASTECER EL PRODUCTO CON URGENCIA', '2025-03-12', '08:42:20', '2025-03-12 12:42:20', '2025-03-12 12:42:20'),
+(9, 'DEBAJO STOCK MINIMO', 1, 'ALERTA URGENTE EL PRODUCTO TECLADO KEYBOARD SE ENCUENTRA MENOR AL STOCK MÍNIMO, LE SUGERIMOS REABASTECER EL PRODUCTO CON URGENCIA', '2025-03-19', '09:31:51', '2025-03-19 13:31:51', '2025-03-19 13:31:51'),
+(10, 'DEBAJO STOCK MINIMO', 2, 'ALERTA URGENTE EL PRODUCTO COD.DOS SE ENCUENTRA MENOR AL STOCK MÍNIMO, LE SUGERIMOS REABASTECER EL PRODUCTO CON URGENCIA', '2025-03-19', '09:31:51', '2025-03-19 13:31:51', '2025-03-19 13:31:51'),
+(11, 'DEBAJO STOCK MINIMO', 3, 'ALERTA URGENTE EL PRODUCTO PRODUCTO TRES SE ENCUENTRA MENOR AL STOCK MÍNIMO, LE SUGERIMOS REABASTECER EL PRODUCTO CON URGENCIA', '2025-03-19', '09:31:51', '2025-03-19 13:31:51', '2025-03-19 13:31:51');
 
 -- --------------------------------------------------------
 
@@ -362,17 +367,26 @@ INSERT INTO `notificacion_users` (`id`, `notificacion_id`, `user_id`, `visto`, `
 (6, 3, 2, 0, '2025-03-11 14:08:17', '2025-03-11 14:08:17'),
 (7, 4, 1, 0, '2025-03-11 14:08:17', '2025-03-11 14:08:17'),
 (8, 4, 2, 0, '2025-03-11 14:08:17', '2025-03-11 14:08:17'),
-(9, 5, 1, 0, '2025-03-11 15:35:24', '2025-03-11 15:35:24'),
+(9, 5, 1, 1, '2025-03-11 15:35:24', '2025-03-19 14:30:01'),
 (10, 5, 2, 0, '2025-03-11 15:35:24', '2025-03-11 15:35:24'),
-(11, 6, 1, 0, '2025-03-12 12:42:20', '2025-03-12 12:42:20'),
+(11, 6, 1, 1, '2025-03-12 12:42:20', '2025-03-19 14:29:58'),
 (12, 6, 2, 0, '2025-03-12 12:42:20', '2025-03-12 12:42:20'),
-(13, 7, 1, 0, '2025-03-12 12:42:20', '2025-03-12 12:42:20'),
+(13, 7, 1, 1, '2025-03-12 12:42:20', '2025-03-19 14:29:57'),
 (14, 7, 2, 0, '2025-03-12 12:42:20', '2025-03-12 12:42:20'),
-(15, 8, 1, 0, '2025-03-12 12:42:20', '2025-03-12 12:42:20'),
+(15, 8, 1, 1, '2025-03-12 12:42:20', '2025-03-19 14:28:44'),
 (16, 8, 2, 0, '2025-03-12 12:42:20', '2025-03-12 12:42:20'),
 (17, 6, 3, 0, '2025-03-12 15:56:29', '2025-03-12 15:56:29'),
 (18, 7, 3, 0, '2025-03-12 15:56:29', '2025-03-12 15:56:29'),
-(19, 8, 3, 0, '2025-03-12 15:56:29', '2025-03-12 15:56:29');
+(19, 8, 3, 0, '2025-03-12 15:56:29', '2025-03-12 15:56:29'),
+(20, 9, 1, 1, '2025-03-19 13:31:51', '2025-03-19 14:28:22'),
+(21, 9, 2, 0, '2025-03-19 13:31:51', '2025-03-19 13:31:51'),
+(22, 9, 3, 0, '2025-03-19 13:31:51', '2025-03-19 13:31:51'),
+(23, 10, 1, 1, '2025-03-19 13:31:51', '2025-03-19 14:19:40'),
+(24, 10, 2, 0, '2025-03-19 13:31:51', '2025-03-19 13:31:51'),
+(25, 10, 3, 0, '2025-03-19 13:31:51', '2025-03-19 13:31:51'),
+(26, 11, 1, 1, '2025-03-19 13:31:51', '2025-03-19 14:18:52'),
+(27, 11, 2, 0, '2025-03-19 13:31:51', '2025-03-19 13:31:51'),
+(28, 11, 3, 0, '2025-03-19 13:31:51', '2025-03-19 13:31:51');
 
 -- --------------------------------------------------------
 
@@ -555,7 +569,7 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `usuario`, `nombre`, `paterno`, `materno`, `ci`, `ci_exp`, `dir`, `correo`, `fono`, `tipo`, `foto`, `password`, `acceso`, `fecha_registro`, `status`, `b_auth`, `update_password`, `auth2fa`, `google2fa_secret`, `created_at`, `updated_at`) VALUES
 (1, 'admin', 'admin', 'admin', NULL, '', '', '', NULL, '', 'ADMINISTRADOR', NULL, '$2y$10$RrCZZySOwPej2gMFWsrjMe6dLzfaL5Q88h4J75I1FesEBRNPwq1x.', 1, '2023-01-11', 1, 0, 1, 0, NULL, NULL, NULL),
 (2, 'JPERES', 'JUAN', 'PERES', 'MAMANI', '1234', 'LP', 'LOS OLIVOS', 'victorgonzalo.as@gmail.com', '7777777', 'SUPERVISOR', 'default.png', '$2y$10$tM3Q4FMvwtcW8srzubFgou7QPfzkPfyc5ALC7nLwgaj7yTGSZqJPK', 1, '2023-04-24', 1, 0, 1, 1, 'ATBX5IITF46JOATW', '2023-04-24 20:23:30', '2025-03-12 20:16:58'),
-(3, 'MMAMANI', 'MARIA', 'MAMANI', 'GONZALES', '1234567', 'LP', 'ZONA LOS OLIVOS', 'maria@gmail.com', '7777777', 'SUPERVISOR', '1741794978_MMAMANI.jpg', '$2y$10$pI4VJXtae9x74kqWwmc2b.9oT6l.IgOFKnrO.1/fL0300Au/D1TXu', 1, '2025-03-12', 1, 0, 0, 0, NULL, '2025-03-12 15:56:18', '2025-03-12 15:56:18');
+(3, 'MMAMANI', 'MARIA', 'MAMANI', 'GONZALES', '1234567', 'LP', 'ZONA LOS OLIVOS', 'maria@gmail.com', '7777777', 'SUPERVISOR', '1741794978_MMAMANI.jpg', '$2y$10$Jbi.AFSOz5KDg6hwjH9yNu3mEQQ31bCsIHrIuCp2g9pXqEEV5NQW6', 1, '2025-03-12', 1, 0, 1, 0, NULL, '2025-03-12 15:56:18', '2025-03-19 13:41:49');
 
 -- --------------------------------------------------------
 
@@ -758,7 +772,7 @@ ALTER TABLE `fecha_stocks`
 -- AUTO_INCREMENT de la tabla `historial_accions`
 --
 ALTER TABLE `historial_accions`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT de la tabla `ingreso_productos`
@@ -782,13 +796,13 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT de la tabla `notificacions`
 --
 ALTER TABLE `notificacions`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `notificacion_users`
 --
 ALTER TABLE `notificacion_users`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT de la tabla `personal_access_tokens`

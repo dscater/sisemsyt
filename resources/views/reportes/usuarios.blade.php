@@ -184,7 +184,6 @@
                 <th>DIRECCIÓN</th>
                 <th>TELEFÓNO(S)</th>
                 <th>TIPO DE USUARIO</th>
-                <th>CAJA</th>
                 <th width="9%">FECHA DE REGISTRO</th>
             </tr>
         </thead>
@@ -204,7 +203,6 @@
                     <td class="centreado">{{ $user->dir }}</td>
                     <td class="centreado">{{ $user->fono }}</td>
                     <td class="centreado">{{ $user->tipo }}</td>
-                    <td class="centreado">{{ $user->tipo == 'CAJA' ? $user->caja_usuario->caja->nombre : '' }}</td>
                     <td class="centreado">{{ $user->fecha_registro }}</td>
                 </tr>
             @endforeach

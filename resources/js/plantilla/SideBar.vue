@@ -135,7 +135,7 @@
                             class="nav-link"
                         >
                             <i class="nav-icon fas fa-chart-pie"></i>
-                            <p>Clientes</p>
+                            <p>Análisis de Clientes</p>
                         </router-link>
                     </li>
                     <li
@@ -147,7 +147,7 @@
                             class="nav-link"
                         >
                             <i class="nav-icon fas fa-chart-pie"></i>
-                            <p>Recomendaciones de suministro</p>
+                            <p>Análisis de Recomendaciones de suministro</p>
                         </router-link>
                     </li>
                     <li
@@ -159,7 +159,7 @@
                             class="nav-link"
                         >
                             <i class="nav-icon fas fa-chart-pie"></i>
-                            <p>Tendencias de consumo</p>
+                            <p>Análisis de Tendencias de consumo</p>
                         </router-link>
                     </li>
                     <li
@@ -324,7 +324,7 @@
                             class="nav-link"
                         >
                             <i class="fas fa-file-pdf nav-icon"></i>
-                            <p>Lista de Usuarios</p>
+                            <p>Reporte lista de Usuario</p>
                         </router-link>
                     </li>
                     <li
@@ -336,7 +336,7 @@
                             class="nav-link"
                         >
                             <i class="fas fa-file-pdf nav-icon"></i>
-                            <p>Stock de productos</p>
+                            <p>Reporte de stock de productos</p>
                         </router-link>
                     </li>
                     <li
@@ -348,7 +348,7 @@
                             class="nav-link"
                         >
                             <i class="fas fa-file-pdf nav-icon"></i>
-                            <p>Kardex de productos</p>
+                            <p>Reporte de kardex de productos</p>
                         </router-link>
                     </li>
                     <li
@@ -360,7 +360,7 @@
                             class="nav-link"
                         >
                             <i class="fas fa-file-pdf nav-icon"></i>
-                            <p>Ventas</p>
+                            <p>Reporte de ventas</p>
                         </router-link>
                     </li>
                     <!-- <li
