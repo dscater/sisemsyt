@@ -183,7 +183,7 @@ export default {
                                 labels: {
                                     rotation: 0,
                                     style: {
-                                        fontSize: "10px",
+                                        fontSize: "14px",
                                         fontFamily: "Verdana, sans-serif",
                                     },
                                 },
@@ -208,7 +208,7 @@ export default {
                             },
                             tooltip: {
                                 headerFormat:
-                                    '<span style="font-size:10px"><b>{point.key}</b></span><table>',
+                                    '<span style="font-size:14px"><b>{point.key}</b></span><table>',
                                 pointFormat:
                                     '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
                                     '<td style="padding:0"><b>{point.y:.2f}</b></td></tr>',
@@ -223,11 +223,11 @@ export default {
                                     data: item.datos, // Asegúrate de que item.datos existe
                                     dataLabels: {
                                         rotation: 0,
-                                        color: "#000000",
+                                        color: "#FFFFFF",
                                         format: "{point.y:.2f}", // one decimal
                                         y: 0, // 10 pixels down from the top
                                         style: {
-                                            fontSize: "10px",
+                                            fontSize: "14px",
                                             fontFamily: "Verdana, sans-serif",
                                         },
                                     },

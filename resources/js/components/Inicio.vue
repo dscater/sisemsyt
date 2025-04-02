@@ -91,7 +91,7 @@ export default {
                         options3d: {
                             enabled: true,
                             alpha: 20,
-                            beta: 12,
+                            beta: 4,
                             depth: 40,
                             viewDistance: 0,
                         },
@@ -109,7 +109,7 @@ export default {
                         },
                         labels: {
                             skew3d: true,
-                            rotation: -55,
+                            rotation: -45,
                             style: {
                                 fontSize: "14px",
                                 fontFamily: "Verdana, sans-serif",
@@ -130,12 +130,16 @@ export default {
                     },
                     plotOptions: {
                         series: {
-                            depth: 80,
+                            depth: 100,
                             colorByPoint: true,
                             // pointWidth: 45,
                             dataLabels: {
                                 enabled: true,
                                 format: "{point.y:.2f}",
+                                style: {
+                                    fontSize: "14px", // Aumentar tamaño de texto de los valores
+                                    // fontWeight: "bold",
+                                },
                             },
                         },
                     },

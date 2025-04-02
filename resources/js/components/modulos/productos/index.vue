@@ -302,7 +302,7 @@ export default {
 
         eliminaProducto(id, descripcion) {
             Swal.fire({
-                title: "¿Quierés eliminar este registro?",
+                title: "¿Quierés eliminar este producto?",
                 html: `Esta acción eliminara también los registros de Kardex; siempre y cuando no se hallan realizado ventas<br><strong>${descripcion}</strong>`,
                 showCancelButton: true,
                 confirmButtonColor: "#149FDA",

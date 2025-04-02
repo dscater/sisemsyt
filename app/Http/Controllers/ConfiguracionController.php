@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Configuracion;
 use App\Models\HistorialAccion;
+use App\Services\HistorialAccionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -11,6 +12,10 @@ use Illuminate\Support\Facades\Log;
 
 class ConfiguracionController extends Controller
 {
+    private $modulo = "CONFIGURACIÓN";
+
+    public function __construct(private HistorialAccionService $historialAccionService) {}
+
     public function getConfiguracion()
     {
         $configuracion = Configuracion::first();
@@ -81,7 +86,7 @@ class ConfiguracionController extends Controller
         if ($configuracion) {
             DB::beginTransaction();
             try {
-                $datos_original = HistorialAccion::getDetalleRegistro($configuracion, "configuracions");
+                $old_configuracion = clone $configuracion;
                 $configuracion->update(array_map('mb_strtoupper', $request->except('logo')));
                 if ($request->hasFile('logo')) {
                     $antiguo = $configuracion->logo;
@@ -93,17 +98,8 @@ class ConfiguracionController extends Controller
                     $configuracion->save();
                 }
 
-                $datos_nuevo = HistorialAccion::getDetalleRegistro($configuracion, "configuracions");
-                HistorialAccion::create([
-                    'user_id' => Auth::user()->id,
-                    'accion' => 'MODIFICACIÓN',
-                    'descripcion' => 'EL USUARIO ' . Auth::user()->usuario . ' MODIFICÓ LA CONFIGURACIÓN DEL SISTEMA',
-                    'datos_original' => $datos_original,
-                    'datos_nuevo' => $datos_nuevo,
-                    'modulo' => 'CONFIGURACIÓN',
-                    'fecha' => date('Y-m-d'),
-                    'hora' => date('H:i:s')
-                ]);
+                // registrar accion
+                $this->historialAccionService->registrarAccion($this->modulo, "MODIFICACIÓN", "ACTUALIZÓ LA CONFIGURACIÓN DEL SISTEMA", $old_configuracion, $configuracion);
 
                 DB::commit();
                 return response()->JSON([

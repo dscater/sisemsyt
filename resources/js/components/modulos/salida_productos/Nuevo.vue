@@ -116,6 +116,9 @@
                                     :class="{ 'is-invalid': errors.cantidad }"
                                     v-model="salida_producto.cantidad"
                                     clearable
+                                    @keyup.native="
+                                        quitaDecimalNumero($event, 'cantidad')
+                                    "
                                 >
                                 </el-input>
                                 <span
@@ -299,6 +302,23 @@ export default {
         this.getTipoSalidas();
     },
     methods: {
+        quitaDecimalNumero(e, key) {
+            let valorOriginal = e.target.value;
+            let valorLimpio = valorOriginal.replace(/[.,]/g, ""); // Quita puntos y comas
+
+            console.log("Valor original:", valorOriginal);
+            console.log("Valor después de limpiar:", valorLimpio);
+
+            // Solo convertir si hay un número válido
+            if (valorLimpio !== "") {
+                this.salida_producto[key] = parseInt(valorLimpio, 10);
+            }
+
+            console.log(
+                "Valor convertido a entero:",
+                this.salida_producto[key]
+            );
+        },
         getTipoSalidas() {
             axios.get("/admin/tipo_salidas").then((response) => {
                 this.listTipoSalidas = response.data.tipo_salidas;

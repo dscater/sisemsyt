@@ -29,6 +29,91 @@
                         <div class="card">
                             <div class="card-body">
                                 <h4>
+                                    Cantidad proveída por proveedor en un rango
+                                    de fechas
+                                </h4>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label>Fecha inicio</label>
+                                                <input
+                                                    type="date"
+                                                    v-model="
+                                                        oGrafico2.fecha_ini
+                                                    "
+                                                    class="form-control"
+                                                />
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Fecha fin</label>
+                                                <input
+                                                    type="date"
+                                                    v-model="
+                                                        oGrafico2.fecha_fin
+                                                    "
+                                                    class="form-control"
+                                                />
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Seleccione</label>
+                                                <el-select
+                                                    class="d-block"
+                                                    v-model="oGrafico2.filtro"
+                                                >
+                                                    <el-option
+                                                        v-for="(
+                                                            item, index
+                                                        ) in [
+                                                            'TODOS',
+                                                            'POR PROVEEDOR',
+                                                        ]"
+                                                        :key="index"
+                                                        :value="item"
+                                                        :label="item"
+                                                    ></el-option>
+                                                </el-select>
+                                            </div>
+                                            <div
+                                                class="col-md-3"
+                                                v-if="
+                                                    oGrafico2.filtro ==
+                                                    'POR PROVEEDOR'
+                                                "
+                                            >
+                                                <label>Proveedor</label>
+                                                <el-select
+                                                    class="d-block"
+                                                    v-model="
+                                                        oGrafico2.proveedor
+                                                    "
+                                                >
+                                                    <el-option
+                                                        v-for="(
+                                                            item, index
+                                                        ) in listProveedors"
+                                                        :key="index"
+                                                        :value="item.id"
+                                                        :label="
+                                                            item.razon_social
+                                                        "
+                                                    ></el-option>
+                                                </el-select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="col-md-12"
+                                        id="container2"
+                                    ></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4>
                                     Predicción Cantidad proveída por proveedor
                                 </h4>
                                 <div class="row">
@@ -108,91 +193,6 @@
                                     <div
                                         class="col-md-12"
                                         id="container3"
-                                    ></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4>
-                                    Cantidad proveída por proveedor en un rango
-                                    de fechas
-                                </h4>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="row">
-                                            <div class="col-md-3">
-                                                <label>Fecha inicio</label>
-                                                <input
-                                                    type="date"
-                                                    v-model="
-                                                        oGrafico2.fecha_ini
-                                                    "
-                                                    class="form-control"
-                                                />
-                                            </div>
-                                            <div class="col-md-3">
-                                                <label>Fecha fin</label>
-                                                <input
-                                                    type="date"
-                                                    v-model="
-                                                        oGrafico2.fecha_fin
-                                                    "
-                                                    class="form-control"
-                                                />
-                                            </div>
-                                            <div class="col-md-3">
-                                                <label>Seleccione</label>
-                                                <el-select
-                                                    class="d-block"
-                                                    v-model="oGrafico2.filtro"
-                                                >
-                                                    <el-option
-                                                        v-for="(
-                                                            item, index
-                                                        ) in [
-                                                            'TODOS',
-                                                            'POR PROVEEDOR',
-                                                        ]"
-                                                        :key="index"
-                                                        :value="item"
-                                                        :label="item"
-                                                    ></el-option>
-                                                </el-select>
-                                            </div>
-                                            <div
-                                                class="col-md-3"
-                                                v-if="
-                                                    oGrafico2.filtro ==
-                                                    'POR PROVEEDOR'
-                                                "
-                                            >
-                                                <label>Proveedor</label>
-                                                <el-select
-                                                    class="d-block"
-                                                    v-model="
-                                                        oGrafico2.proveedor
-                                                    "
-                                                >
-                                                    <el-option
-                                                        v-for="(
-                                                            item, index
-                                                        ) in listProveedors"
-                                                        :key="index"
-                                                        :value="item.id"
-                                                        :label="
-                                                            item.razon_social
-                                                        "
-                                                    ></el-option>
-                                                </el-select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div
-                                        class="col-md-12"
-                                        id="container2"
                                     ></div>
                                 </div>
                             </div>
@@ -332,7 +332,7 @@ export default {
                             labels: {
                                 rotation: -45,
                                 style: {
-                                    fontSize: "10px",
+                                    fontSize: "14px",
                                     fontFamily: "Verdana, sans-serif",
                                 },
                             },
@@ -357,13 +357,17 @@ export default {
                         },
                         tooltip: {
                             headerFormat:
-                                '<span style="font-size:10px"><b>{point.key}</b></span><table>',
+                                '<span style="font-size:14px"><b>{point.key}</b></span><table>',
                             pointFormat:
                                 '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
                                 '<td style="padding:0"><b>{point.y:.2f}</b></td></tr>',
                             footerFormat: "</table>",
                             shared: true,
                             useHTML: true,
+                            style: {
+                                fontSize: "14px",
+                                fontFamily: "Arial, sans-serif",
+                            },
                         },
 
                         series: [
@@ -373,11 +377,11 @@ export default {
                                 data: response.data.datos,
                                 dataLabels: {
                                     rotation: 0,
-                                    color: "#000000",
+                                    color: "#FFFFFF",
                                     format: "{point.y:.2f}", // one decimal
                                     y: 0, // 10 pixels down from the top
                                     style: {
-                                        fontSize: "10px",
+                                        fontSize: "14px",
                                         fontFamily: "Verdana, sans-serif",
                                     },
                                 },
@@ -426,7 +430,7 @@ export default {
                             labels: {
                                 rotation: -45,
                                 style: {
-                                    fontSize: "10px",
+                                    fontSize: "14px",
                                     fontFamily: "Verdana, sans-serif",
                                 },
                             },
@@ -452,13 +456,17 @@ export default {
                         },
                         tooltip: {
                             headerFormat:
-                                '<span style="font-size:10px"><b>{point.key}</b></span><table>',
+                                '<span style="font-size:14px"><b>{point.key}</b></span><table>',
                             pointFormat:
                                 '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
                                 '<td style="padding:0"><b>{point.y:.2f}</b></td></tr>',
                             footerFormat: "</table>",
                             shared: true,
                             useHTML: true,
+                            style: {
+                                fontSize: "14px",
+                                fontFamily: "Arial, sans-serif",
+                            },
                         },
 
                         series: [
@@ -468,11 +476,11 @@ export default {
                                 data: response.data.datos,
                                 dataLabels: {
                                     rotation: 0,
-                                    color: "#000000",
+                                    color: "#FFFFFF",
                                     format: "{point.y:.2f}", // one decimal
                                     y: 0, // 10 pixels down from the top
                                     style: {
-                                        fontSize: "10px",
+                                        fontSize: "14px",
                                         fontFamily: "Verdana, sans-serif",
                                     },
                                 },
@@ -516,7 +524,7 @@ export default {
                             labels: {
                                 rotation: -45,
                                 style: {
-                                    fontSize: "10px",
+                                    fontSize: "14px",
                                     fontFamily: "Verdana, sans-serif",
                                 },
                             },
@@ -541,13 +549,17 @@ export default {
                         },
                         tooltip: {
                             headerFormat:
-                                '<span style="font-size:10px"><b>{point.key}</b></span><table>',
+                                '<span style="font-size:14px"><b>{point.key}</b></span><table>',
                             pointFormat:
                                 '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
                                 '<td style="padding:0"><b>{point.y:.2f}</b></td></tr>',
                             footerFormat: "</table>",
                             shared: true,
                             useHTML: true,
+                            style: {
+                                fontSize: "14px",
+                                fontFamily: "Arial, sans-serif",
+                            },
                         },
 
                         series: [
@@ -557,11 +569,11 @@ export default {
                                 data: response.data.datos,
                                 dataLabels: {
                                     rotation: 0,
-                                    color: "#000000",
+                                    color: "#FFFFFF",
                                     format: "{point.y:.2f}", // one decimal
                                     y: 0, // 10 pixels down from the top
                                     style: {
-                                        fontSize: "10px",
+                                        fontSize: "14px",
                                         fontFamily: "Verdana, sans-serif",
                                     },
                                 },

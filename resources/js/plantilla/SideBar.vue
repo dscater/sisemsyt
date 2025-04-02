@@ -324,7 +324,7 @@
                             class="nav-link"
                         >
                             <i class="fas fa-file-pdf nav-icon"></i>
-                            <p>Reporte lista de Usuario</p>
+                            <p>Reporte de lista de usuarios</p>
                         </router-link>
                     </li>
                     <li

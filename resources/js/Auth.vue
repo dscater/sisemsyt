@@ -131,7 +131,23 @@ export default {
             user: null,
         };
     },
+    created() {
+        this.verificaLogin();
+    },
+    onMounted() {},
     methods: {
+        verificaLogin() {
+            axios
+                .get("/verificaLogin")
+                .then((response) => {
+                    if (response.data) {
+                        this.$router.push({ name: "inicio" });
+                    }
+                })
+                .catch((error) => {
+                    window.location.reload();
+                });
+        },
         login() {
             this.fullscreenLoading = true;
             axios

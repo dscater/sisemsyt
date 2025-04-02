@@ -146,21 +146,44 @@
                                                     >Contraseña actual</label
                                                 >
                                                 <div class="col-sm-10">
-                                                    <input
-                                                        type="password"
-                                                        class="form-control"
-                                                        :class="{
-                                                            'is-invalid':
-                                                                errors.password_actual,
-                                                        }"
-                                                        v-model="
-                                                            formPassword.password_actual
-                                                        "
-                                                        @keypress.enter="
-                                                            setPassword
-                                                        "
-                                                        autocomplete=""
-                                                    />
+                                                    <div class="input-group">
+                                                        <input
+                                                            :type="
+                                                                muestra_password3
+                                                                    ? 'text'
+                                                                    : 'password'
+                                                            "
+                                                            class="form-control"
+                                                            :class="{
+                                                                'is-invalid':
+                                                                    errors.password_actual,
+                                                            }"
+                                                            v-model="
+                                                                formPassword.password_actual
+                                                            "
+                                                            @keypress.enter="
+                                                                setPassword
+                                                            "
+                                                            autocomplete=""
+                                                        />
+                                                        <button
+                                                            class="btn btn-default"
+                                                            type="button"
+                                                            @click="
+                                                                muestra_password3 =
+                                                                    !muestra_password3
+                                                            "
+                                                        >
+                                                            <i
+                                                                class="fa"
+                                                                :class="[
+                                                                    muestra_password3
+                                                                        ? 'fa-eye'
+                                                                        : 'fa-eye-slash',
+                                                                ]"
+                                                            ></i>
+                                                        </button>
+                                                    </div>
                                                     <span
                                                         class="error invalid-feedback"
                                                         v-if="
@@ -407,6 +430,7 @@ export default {
             },
             muestra_password: false,
             muestra_password2: false,
+            muestra_password3: false,
             errors: [],
             fullscreenLoading: true,
             imagen_cargada: false,

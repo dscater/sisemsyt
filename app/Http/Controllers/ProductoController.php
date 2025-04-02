@@ -12,6 +12,7 @@ use App\Models\Producto;
 use App\Models\SalidaProducto;
 use App\Models\SucursalStock;
 use App\Models\TransferenciaProducto;
+use App\Services\HistorialAccionService;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,9 +23,9 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 class ProductoController extends Controller
 {
     public $validacion = [
-        'nombre' => 'required|regex:/^[\pL\s\.\'\"\,áéíóúÁÉÍÓÚñÑ]+$/uu',
+        'nombre' => 'required|regex:/^[\pL\s\.\'\"\,áéíóúÁÉÍÓÚñÑ0-9]+$/u',
         'precio' => 'required|numeric|min:0.01',
-        'descripcion' => 'required|regex:/^[\pL\s\.\'\"\,áéíóúÁÉÍÓÚñÑ]+$/uu',
+        'descripcion' => 'required|regex:/^[\pL\s\.\'\"\,áéíóúÁÉÍÓÚñÑ0-9]+$/u',
         'stock_min' => 'required|integer|min:0',
         'categoria_id' => 'required',
     ];
@@ -42,6 +43,10 @@ class ProductoController extends Controller
         "stock_min.min" => "Debes ingresar un valor mayor o igual a :min",
         "categoria_id.required" => "Este campo es obligatorio",
     ];
+
+    private $modulo = "PRODUCTOS";
+
+    public function __construct(private HistorialAccionService $historialAccionService) {}
 
     public function index(Request $request)
     {
@@ -261,16 +266,8 @@ class ProductoController extends Controller
             }
             $nuevo_producto->save();
 
-            $datos_original = HistorialAccion::getDetalleRegistro($nuevo_producto, "productos");
-            HistorialAccion::create([
-                'user_id' => Auth::user()->id,
-                'accion' => 'CREACIÓN',
-                'descripcion' => 'EL USUARIO ' . Auth::user()->usuario . ' REGISTRO UN PRODUCTO',
-                'datos_original' => $datos_original,
-                'modulo' => 'PRODUCTOS',
-                'fecha' => date('Y-m-d'),
-                'hora' => date('H:i:s')
-            ]);
+            // registrar accion
+            $this->historialAccionService->registrarAccion($this->modulo, "CREACIÓN", "REGISTRO UN PRODUCTO", $nuevo_producto);
 
             DB::commit();
             return response()->JSON([
@@ -293,7 +290,7 @@ class ProductoController extends Controller
 
         DB::beginTransaction();
         try {
-            $datos_original = HistorialAccion::getDetalleRegistro($producto, "productos");
+            $old_producto = clone $producto;
             $producto->update(array_map('mb_strtoupper', $request->all()));
 
             if ($request->hasFile('imagen')) {
@@ -309,17 +306,8 @@ class ProductoController extends Controller
             }
             $producto->save();
 
-            $datos_nuevo = HistorialAccion::getDetalleRegistro($producto, "productos");
-            HistorialAccion::create([
-                'user_id' => Auth::user()->id,
-                'accion' => 'MODIFICACIÓN',
-                'descripcion' => 'EL USUARIO ' . Auth::user()->usuario . ' MODIFICÓ UN PRODUCTO',
-                'datos_original' => $datos_original,
-                'datos_nuevo' => $datos_nuevo,
-                'modulo' => 'PRODUCTOS',
-                'fecha' => date('Y-m-d'),
-                'hora' => date('H:i:s')
-            ]);
+            // registrar accion
+            $this->historialAccionService->registrarAccion($this->modulo, "MODIFICACIÓN", "ACTUALIZÓ UN PRODUCTO", $old_producto, $producto);
 
             DB::commit();
             return response()->JSON([
@@ -359,7 +347,7 @@ class ProductoController extends Controller
             $producto->salida_productos()->update(["status" => 0]);
             $producto->kardex_productos()->update(["status" => 0]);
 
-            $datos_original = HistorialAccion::getDetalleRegistro($producto, "productos");
+            $old_producto = clone $producto;
 
             $antiguo = $producto->imagen;
             if ($antiguo && trim($antiguo) && $antiguo != 'default.png') {
@@ -368,15 +356,8 @@ class ProductoController extends Controller
 
             $producto->status = 0;
             $producto->save();
-            HistorialAccion::create([
-                'user_id' => Auth::user()->id,
-                'accion' => 'ELIMINACIÓN',
-                'descripcion' => 'EL USUARIO ' . Auth::user()->usuario . ' ELIMINO UN PRODUCTO',
-                'datos_original' => $datos_original,
-                'modulo' => 'PRODUCTOS',
-                'fecha' => date('Y-m-d'),
-                'hora' => date('H:i:s')
-            ]);
+            // registrar accion
+            $this->historialAccionService->registrarAccion($this->modulo, "ELIMINACIÓN", "ELIMINÓ UN PRODUCTO", $old_producto);
             DB::commit();
             return response()->JSON([
                 'sw' => true,

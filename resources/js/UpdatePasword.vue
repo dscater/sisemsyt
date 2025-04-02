@@ -147,6 +147,9 @@ export default {
             qr2fa: "",
         };
     },
+    created() {
+        this.verificaLogin();
+    },
     mounted() {
         // Swal.fire({
         //     icon: "info",
@@ -156,6 +159,18 @@ export default {
         // });
     },
     methods: {
+        verificaLogin() {
+            axios
+                .get("/verificaLogin")
+                .then((response) => {
+                    if (response.data) {
+                        this.$router.push({ name: "inicio" });
+                    }
+                })
+                .catch((error) => {
+                    window.location.reload();
+                });
+        },
         actualizarPassword() {
             axios
                 .post("/admin/usuarios/updatePassword", {

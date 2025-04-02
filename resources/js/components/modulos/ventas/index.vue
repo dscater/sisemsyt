@@ -288,7 +288,7 @@ export default {
         },
         eliminaVenta(id, descripcion) {
             Swal.fire({
-                title: "¿Quierés eliminar este registro?",
+                title: "¿Quierés eliminar esta venta?",
                 html: `<strong>${descripcion}</strong>`,
                 showCancelButton: true,
                 confirmButtonColor: "#149FDA",

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cliente;
 use App\Models\HistorialAccion;
+use App\Services\HistorialAccionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -39,7 +40,9 @@ class ClienteController extends Controller
         'dir.required' => 'Este campo es obligatorio',
         'dir.regex' => 'El formato del texto es incorrecto',
     ];
+    private $modulo = "CLIENTES";
 
+    public function __construct(private HistorialAccionService $historialAccionService) {}
     public function index(Request $request)
     {
         $clientes = Cliente::where("status", 1)->get();
@@ -71,16 +74,8 @@ class ClienteController extends Controller
             $request["fecha_registro"] = date("Y-m-d");
             $nuevo_cliente = Cliente::create(array_map('mb_strtoupper', $request->all()));
 
-            $datos_original = HistorialAccion::getDetalleRegistro($nuevo_cliente, "clientes");
-            HistorialAccion::create([
-                'user_id' => Auth::user()->id,
-                'accion' => 'CREACIÓN',
-                'descripcion' => 'EL USUARIO ' . Auth::user()->usuario . ' REGISTRO UN CLIENTE',
-                'datos_original' => $datos_original,
-                'modulo' => 'CLIENTES',
-                'fecha' => date('Y-m-d'),
-                'hora' => date('H:i:s')
-            ]);
+            // registrar accion
+            $this->historialAccionService->registrarAccion($this->modulo, "CREACIÓN", "REGISTRO UN CLIENTE", $nuevo_cliente);
 
             DB::commit();
             return response()->JSON([
@@ -118,20 +113,11 @@ class ClienteController extends Controller
 
         DB::beginTransaction();
         try {
-            $datos_original = HistorialAccion::getDetalleRegistro($cliente, "clientes");
+            $old_cliente = clone $cliente;
             $cliente->update(array_map('mb_strtoupper', $request->all()));
 
-            $datos_nuevo = HistorialAccion::getDetalleRegistro($cliente, "clientes");
-            HistorialAccion::create([
-                'user_id' => Auth::user()->id,
-                'accion' => 'MODIFICACIÓN',
-                'descripcion' => 'EL USUARIO ' . Auth::user()->usuario . ' MODIFICÓ UN CLIENTE',
-                'datos_original' => $datos_original,
-                'datos_nuevo' => $datos_nuevo,
-                'modulo' => 'CLIENTES',
-                'fecha' => date('Y-m-d'),
-                'hora' => date('H:i:s')
-            ]);
+            // registrar accion
+            $this->historialAccionService->registrarAccion($this->modulo, "MODIFICACIÓN", "ACTUALIZÓ UN CLIENTE", $old_cliente, $cliente);
 
             DB::commit();
             return response()->JSON([
@@ -160,18 +146,11 @@ class ClienteController extends Controller
     {
         DB::beginTransaction();
         try {
-            $datos_original = HistorialAccion::getDetalleRegistro($cliente, "clientes");
+            $old_cliente = clone $cliente;
             $cliente->status = 0;
             $cliente->save();
-            HistorialAccion::create([
-                'user_id' => Auth::user()->id,
-                'accion' => 'ELIMINACIÓN',
-                'descripcion' => 'EL USUARIO ' . Auth::user()->usuario . ' ELIMINÓ UN CLIENTE',
-                'datos_original' => $datos_original,
-                'modulo' => 'CLIENTES',
-                'fecha' => date('Y-m-d'),
-                'hora' => date('H:i:s')
-            ]);
+            // registrar accion
+            $this->historialAccionService->registrarAccion($this->modulo, "ELIMINACIÓN", "ELIMINÓ UN CLIENTE", $old_cliente);
             DB::commit();
             return response()->JSON([
                 'sw' => true,

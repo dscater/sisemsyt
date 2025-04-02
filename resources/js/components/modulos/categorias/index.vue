@@ -261,7 +261,7 @@ export default {
         },
         eliminaCategoria(id, descripcion) {
             Swal.fire({
-                title: "¿Quierés eliminar este registro?",
+                title: "¿Quierés eliminar esta categoría?",
                 html: `<strong>${descripcion}</strong>`,
                 showCancelButton: true,
                 confirmButtonColor: "#149FDA",

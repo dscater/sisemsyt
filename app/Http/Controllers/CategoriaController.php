@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Categoria;
 use App\Models\HistorialAccion;
 use App\Models\Producto;
+use App\Services\HistorialAccionService;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,6 +22,9 @@ class CategoriaController extends Controller
         "nombre.min" => "Debes ingresar al menos :min caracteres",
         "nombre.regex" => "Debes ingresar solo texto",
     ];
+    private $modulo = "CATEGORÍAS";
+
+    public function __construct(private HistorialAccionService $historialAccionService) {}
 
     public function index(Request $request)
     {
@@ -37,16 +41,8 @@ class CategoriaController extends Controller
             // crear Categoria
             $nuevo_categoria = Categoria::create(array_map('mb_strtoupper', $request->all()));
 
-            $datos_original = HistorialAccion::getDetalleRegistro($nuevo_categoria, "categorias");
-            HistorialAccion::create([
-                'user_id' => Auth::user()->id,
-                'accion' => 'CREACIÓN',
-                'descripcion' => 'EL USUARIO ' . Auth::user()->usuario . ' REGISTRO UNA CATEGORIA',
-                'datos_original' => $datos_original,
-                'modulo' => 'CATEGORIAS',
-                'fecha' => date('Y-m-d'),
-                'hora' => date('H:i:s')
-            ]);
+            // registrar accion
+            $this->historialAccionService->registrarAccion($this->modulo, "CREACIÓN", "REGISTRO UNA CATEGORÍA", $nuevo_categoria);
 
             DB::commit();
             return response()->JSON([
@@ -69,20 +65,12 @@ class CategoriaController extends Controller
 
         DB::beginTransaction();
         try {
-            $datos_original = HistorialAccion::getDetalleRegistro($categoria, "categorias");
+            $old_categoria = clone $categoria;
+
             $categoria->update(array_map('mb_strtoupper', $request->all()));
 
-            $datos_nuevo = HistorialAccion::getDetalleRegistro($categoria, "categorias");
-            HistorialAccion::create([
-                'user_id' => Auth::user()->id,
-                'accion' => 'MODIFICACIÓN',
-                'descripcion' => 'EL USUARIO ' . Auth::user()->usuario . ' MODIFICÓ UNA CATEGORIA',
-                'datos_original' => $datos_original,
-                'datos_nuevo' => $datos_nuevo,
-                'modulo' => 'CATEGORIAS',
-                'fecha' => date('Y-m-d'),
-                'hora' => date('H:i:s')
-            ]);
+            // registrar accion
+            $this->historialAccionService->registrarAccion($this->modulo, "MODIFICACIÓN", "ACTUALIZÓ UNA CATEGORÍA", $old_categoria, $categoria);
 
             DB::commit();
             return response()->JSON([
@@ -116,18 +104,11 @@ class CategoriaController extends Controller
                 throw new Exception('No es posible eliminar el registro debido a que existen registros que lo utilizan');
             }
 
-            $datos_original = HistorialAccion::getDetalleRegistro($categoria, "categorias");
+            $old_categoria = clone $categoria;
             $categoria->status = 0;
             $categoria->save();
-            HistorialAccion::create([
-                'user_id' => Auth::user()->id,
-                'accion' => 'ELIMINACIÓN',
-                'descripcion' => 'EL USUARIO ' . Auth::user()->usuario . ' ELIMINÓ UNA CATEGORIA',
-                'datos_original' => $datos_original,
-                'modulo' => 'CATEGORIAS',
-                'fecha' => date('Y-m-d'),
-                'hora' => date('H:i:s')
-            ]);
+            // registrar accion
+            $this->historialAccionService->registrarAccion($this->modulo, "ELIMINACIÓN", "ELIMINÓ UNA CATEGORÍA", $old_categoria);
             DB::commit();
             return response()->JSON([
                 'sw' => true,

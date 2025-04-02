@@ -18,6 +18,8 @@ class ReporteController extends Controller
     public function usuarios(Request $request)
     {
         $filtro =  $request->filtro;
+        $fecha_ini =  $request->fecha_ini;
+        $fecha_fin =  $request->fecha_fin;
         $usuarios = User::where('id', '!=', 1)->where("status", 1)->orderBy("paterno", "ASC")->get();
 
         if ($filtro == 'Tipo de usuario') {
@@ -25,6 +27,19 @@ class ReporteController extends Controller
                 'tipo' => 'required',
             ]);
             $usuarios = User::where('id', '!=', 1)->where('tipo', $request->tipo)->where("status", 1)->orderBy("paterno", "ASC")->get();
+        }
+
+        if ($filtro == 'Rango de fechas') {
+            $request->validate([
+                'fecha_ini' => 'required',
+                'fecha_fin' => 'required',
+            ], [
+                "fecha_ini.required" => "Debes ingresar una fecha de inicio",
+                "fecha_fin.required" => "Debes ingresar una fecha fin",
+            ]);
+            $usuarios = User::where('id', '!=', 1)->where("status", 1)
+                ->whereBetween("fecha_registro", [$fecha_ini, $fecha_fin])
+                ->orderBy("paterno", "ASC")->get();
         }
 
         $pdf = PDF::loadView('reportes.usuarios', compact('usuarios'))->setPaper('legal', 'landscape');
@@ -43,13 +58,13 @@ class ReporteController extends Controller
     public function kardex(Request $request)
     {
         $filtro = $request->filtro;
-        $producto_id = $request->producto_id;
+        $producto_id = $request->producto;
         $fecha_ini = $request->fecha_ini;
         $fecha_fin = $request->fecha_fin;
 
-        if ($request->filtro == 'Producto') {
+        if ($request->filtro == 'Por productos') {
             $request->validate([
-                'producto_id' => 'required',
+                'producto' => 'required',
             ]);
         }
 
@@ -62,7 +77,7 @@ class ReporteController extends Controller
 
         $productos = Producto::where("status", 1);
         if ($filtro != 'todos') {
-            if ($filtro == 'Producto') {
+            if ($filtro == 'Por productos') {
                 $productos->where("id", $producto_id);
             }
         }
@@ -118,13 +133,13 @@ class ReporteController extends Controller
     public function ventas(Request $request)
     {
         $filtro = $request->filtro;
-        $producto_id = $request->producto_id;
+        $producto_id = $request->producto;
         $fecha_ini = $request->fecha_ini;
         $fecha_fin = $request->fecha_fin;
 
-        if ($filtro == 'Producto') {
+        if ($filtro == 'Por productos') {
             $request->validate([
-                'producto_id' => 'required',
+                'producto' => 'required',
             ]);
         }
         if ($filtro == 'Rango de fechas') {
@@ -136,7 +151,7 @@ class ReporteController extends Controller
 
         $ventas = Venta::where("status", 1)->get();
         if ($filtro != 'todos') {
-            if ($filtro == 'Producto') {
+            if ($filtro == 'Por productos') {
                 $ventas = Venta::select("ventas.*")
                     ->join("detalle_ventas", "detalle_ventas.venta_id", "=", "ventas.id")
                     ->where("ventas.status", 1)
@@ -165,12 +180,12 @@ class ReporteController extends Controller
         $filtro =  $request->filtro;
         $producto =  $request->producto;
 
-        if ($filtro != 'TODOS') {
+        if ($filtro != 'Todos') {
             $request->validate(['producto' => 'required']);
         }
 
         $registros = Producto::where("status", 1)->orderBy("productos.nombre")->get();
-        if ($filtro != 'TODOS') {
+        if ($filtro != 'Todos') {
             $registros = Producto::where("status", 1)->where("id", $producto)->orderBy("productos.nombre")->get();
         }
 

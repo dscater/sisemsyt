@@ -15,12 +15,14 @@ use App\Models\SeguimientoRectificacion;
 use App\Models\SeguimientoTramite;
 use App\Models\Tcont;
 use App\Models\User;
+use App\Services\HistorialAccionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Cache;
 
 class UserController extends Controller
 {
@@ -223,6 +225,9 @@ class UserController extends Controller
         ],
     ];
 
+    private $modulo = "USUARIOS";
+
+    public function __construct(private HistorialAccionService $historialAccionService) {}
 
     public function index(Request $request)
     {
@@ -289,16 +294,8 @@ class UserController extends Controller
                 ]);
             }
 
-            $datos_original = HistorialAccion::getDetalleRegistro($nuevo_usuario, "users");
-            HistorialAccion::create([
-                'user_id' => Auth::user()->id,
-                'accion' => 'CREACIÓN',
-                'descripcion' => 'EL USUARIO ' . Auth::user()->usuario . ' REGISTRO UN USUARIO',
-                'datos_original' => $datos_original,
-                'modulo' => 'USUARIOS',
-                'fecha' => date('Y-m-d'),
-                'hora' => date('H:i:s')
-            ]);
+            // registrar accion
+            $this->historialAccionService->registrarAccion($this->modulo, "CREACIÓN", "REGISTRO UN USUARIO", $nuevo_usuario);
 
             DB::commit();
             return response()->JSON([
@@ -350,8 +347,19 @@ class UserController extends Controller
 
         DB::beginTransaction();
         try {
-            $datos_original = HistorialAccion::getDetalleRegistro($usuario, "users");
+            $old_user = clone $usuario;
+            $acceso_anterior = $usuario->acceso;
             $usuario->update(array_map('mb_strtoupper', $request->except('foto')));
+            if ($usuario->b_auth == 1 && $acceso_anterior == 0) {
+                $usuario->password = Hash::make($usuario->ci);
+                $user_key = mb_strtolower(trim($request->usuario ?? 'ne'));
+                $key = 'login_attempts:' . $user_key;
+                Cache::forget($key);
+                Cache::forget($key . ':blocked');
+                $usuario->b_auth = 0;
+                $usuario->acceso = 1;
+                $usuario->save();
+            }
             if ($usuario->correo == "") {
                 $usuario->correo = NULL;
             }
@@ -369,17 +377,8 @@ class UserController extends Controller
             $usuario->correo = mb_strtolower($usuario->correo);
             $usuario->save();
 
-            $datos_nuevo = HistorialAccion::getDetalleRegistro($usuario, "users");
-            HistorialAccion::create([
-                'user_id' => Auth::user()->id,
-                'accion' => 'MODIFICACIÓN',
-                'descripcion' => 'EL USUARIO ' . Auth::user()->usuario . ' MODIFICÓ UN USUARIO',
-                'datos_original' => $datos_original,
-                'datos_nuevo' => $datos_nuevo,
-                'modulo' => 'USUARIOS',
-                'fecha' => date('Y-m-d'),
-                'hora' => date('H:i:s')
-            ]);
+            // registrar accion
+            $this->historialAccionService->registrarAccion($this->modulo, "MODIFICACIÓN", "ACTUALIZÓ UN USUARIO", $old_user, $usuario);
 
             DB::commit();
             return response()->JSON([
@@ -531,20 +530,12 @@ class UserController extends Controller
             if ($antiguo != 'default.png') {
                 \File::delete(public_path() . '/imgs/users/' . $antiguo);
             }
-            $datos_original = HistorialAccion::getDetalleRegistro($usuario, "users");
+            $old_user = clone $usuario;
             $usuario->status = 0;
             $usuario->save();
 
-            HistorialAccion::create([
-                'user_id' => Auth::user()->id,
-                'accion' => 'ELIMINACIÓN',
-                'descripcion' => 'EL USUARIO ' . Auth::user()->usuario . ' ELIMINÓ UN USUARIO',
-                'datos_original' => $datos_original,
-                'modulo' => 'USUARIOS',
-                'fecha' => date('Y-m-d'),
-                'hora' => date('H:i:s')
-            ]);
-
+            // registrar accion
+            $this->historialAccionService->registrarAccion($this->modulo, "ELIMINACIÓN", "ELIMINÓ UN USUARIO", $old_user);
             DB::commit();
             return response()->JSON([
                 'sw' => true,

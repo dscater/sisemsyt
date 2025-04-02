@@ -67,7 +67,8 @@
                                                     #cell(notificacion.descripcion)="row"
                                                 >
                                                     <p :class="{
-                                                        'text-yellow':row.item.notificacion.tipo=='A 5 STOCK MINIMO',
+                                                        // 'text-yellow':row.item.notificacion.tipo=='A 5 STOCK MINIMO',
+                                                        'text-yellow':row.item.notificacion.tipo=='LLEGANDO A STOCK MINIMO',
                                                         'text-orange':row.item.notificacion.tipo=='STOCK MINIMO',
                                                         'text-danger':row.item.notificacion.tipo=='DEBAJO STOCK MINIMO',
                                                     }">

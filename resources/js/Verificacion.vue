@@ -110,6 +110,9 @@ export default {
             qr2fa: "",
         };
     },
+    created() {
+        this.verificaLogin();
+    },
     mounted() {
         // Swal.fire({
         //     icon: "info",
@@ -120,6 +123,18 @@ export default {
         this.getQR2FA();
     },
     methods: {
+        verificaLogin() {
+            axios
+                .get("/verificaLogin")
+                .then((response) => {
+                    if (response.data) {
+                        this.$router.push({ name: "inicio" });
+                    }
+                })
+                .catch((error) => {
+                    window.location.reload();
+                });
+        },
         getQR2FA() {
             axios.post("/genera2fa").then((response) => {
                 this.qr2fa = response.data.qr_code;

@@ -4,7 +4,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Reportes - Lista de Usuarios</h1>
+                        <h1>Reporte de lista de usuarios</h1>
                     </div>
                 </div>
             </div>
@@ -182,17 +182,14 @@ export default {
             aFechas: [],
             enviando: false,
             textoBtn: "Generar Reporte",
-            listFiltro: [
-                "Todos",
-                "Tipo de usuario",
-                // "Rango de fechas",
-            ],
+            listFiltro: ["Todos", "Tipo de usuario", "Rango de fechas"],
             listTipos: ["ADMINISTRADOR", "GERENCIA", "SUPERVISOR", "VENDEDOR"],
             errors: [],
         };
     },
     mounted() {
         this.loadingWindow.close();
+        this.obtieneFechas();
     },
     methods: {
         limpiarFormulario() {

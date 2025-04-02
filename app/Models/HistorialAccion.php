@@ -22,6 +22,12 @@ class HistorialAccion extends Model
         "hora",
     ];
 
+    protected $casts = [
+        'datos_original' => 'array',
+        'datos_nuevo' => 'array',
+    ];
+
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');

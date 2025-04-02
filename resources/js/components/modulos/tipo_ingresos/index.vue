@@ -263,7 +263,7 @@ export default {
         },
         eliminaTipoIngreso(id, descripcion) {
             Swal.fire({
-                title: "¿Quierés eliminar este registro?",
+                title: "¿Quierés eliminar este tipo de ingreso?",
                 html: `<strong>${descripcion}</strong>`,
                 showCancelButton: true,
                 confirmButtonColor: "#149FDA",

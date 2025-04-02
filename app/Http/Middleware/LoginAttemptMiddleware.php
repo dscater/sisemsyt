@@ -26,7 +26,8 @@ class LoginAttemptMiddleware
 
         $user_key = mb_strtolower(trim($request->usuario ?? 'ne'));
 
-        $key = 'login_attempts:' . $request->ip() . ':' . $user_key;
+        // $key = 'login_attempts:' . $request->ip() . ':' . $user_key;
+        $key = 'login_attempts:' . $user_key;
 
         $existe_user = User::where("usuario", $request->usuario)->get()->first();
         $response = $next($request);
@@ -54,10 +55,11 @@ class LoginAttemptMiddleware
                     $blockDuration = 1440; // 24 horas
                     if ($existe_user) {
                         $existe_user->b_auth = 1;
+                        $existe_user->acceso = 0;
                         $existe_user->save();
                     }
                     // Cache::add($key . ':blocked', true, now()->addMinutes($blockDuration));
-                    return response()->JSON(['error' => 'Intento fallido de inicio de sesión. Debe contactarse con el administrador del sistema']);
+                    return response()->JSON(['error' => 'Cuenta bloqueada por intentos fallidos de inicio de sesión. Debe contactarse con el administrador del sistema']);
                 }
                 // 4to intento
                 if (Cache::get($key) >= 4) {
@@ -78,7 +80,7 @@ class LoginAttemptMiddleware
             $intentos_resantes = (int)$maxAttempts - (int)$attempts;
             if ($intentos_resantes == 0) {
                 Cache::add($key . ':blocked', true, now()->addMinutes($blockDuration));
-                return response()->JSON(['error' => 'Intento fallido de inicio de sesión. Debe contactarse con el administrador del sistema']);
+                return response()->JSON(['error' => 'Cuenta bloqueada por intentos fallidos de inicio de sesión. Debe contactarse con el administrador del sistema']);
             }
             return response()->JSON(['error' => $intentos_resantes . ' intentos restantes']);
         }

@@ -170,6 +170,9 @@
                                     :class="{ 'is-invalid': errors.cantidad }"
                                     v-model="ingreso_producto.cantidad"
                                     clearable
+                                    @keyup.native="
+                                        quitaDecimalNumero($event, 'cantidad')
+                                    "
                                 >
                                 </el-input>
                                 <span
@@ -324,7 +327,7 @@ export default {
                 id: 0,
                 producto_id: "",
                 proveedor_id: "",
-                precio_compra: "",
+                precio_compra: 0.01,
                 cantidad: "",
                 lote: "",
                 fecha_fabricacion: "",
@@ -337,7 +340,9 @@ export default {
         muestra_modal: function (newVal, oldVal) {
             this.errors = [];
             if (newVal) {
-                if(this.accion == 0){
+                console.log(this.accion)
+                if (this.accion == 'nuevo') {
+                    this.ingreso_producto.precio_compra = "0.01";
                     this.ingreso_producto.lote = this.getAnioActual();
                 }
                 this.bModal = true;
@@ -390,6 +395,23 @@ export default {
         this.getAniosLote();
     },
     methods: {
+        quitaDecimalNumero(e, key) {
+            let valorOriginal = e.target.value;
+            let valorLimpio = valorOriginal.replace(/[.,]/g, ""); // Quita puntos y comas
+
+            console.log("Valor original:", valorOriginal);
+            console.log("Valor después de limpiar:", valorLimpio);
+
+            // Solo convertir si hay un número válido
+            if (valorLimpio !== "") {
+                this.ingreso_producto[key] = parseInt(valorLimpio, 10);
+            }
+
+            console.log(
+                "Valor convertido a entero:",
+                this.ingreso_producto[key]
+            );
+        },
         getProveedors() {
             axios.get("/admin/proveedors").then((response) => {
                 this.listProveedors = response.data.proveedors;

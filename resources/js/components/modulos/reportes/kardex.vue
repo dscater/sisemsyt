@@ -4,7 +4,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Reportes - Kardex de productos</h1>
+                        <h1>Reportes de kardex de productos</h1>
                     </div>
                 </div>
             </div>
@@ -55,7 +55,7 @@
                                                 class="form-group col-md-12"
                                                 v-if="
                                                     oReporte.filtro ==
-                                                    'Producto'
+                                                    'Por productos'
                                                 "
                                             >
                                                 <label
@@ -237,7 +237,7 @@ export default {
             aFechas: [],
             enviando: false,
             textoBtn: "Generar Reporte",
-            listFiltro: ["Todos", "Producto", "Rango de fechas"],
+            listFiltro: ["Todos", "Por productos", "Rango de fechas"],
             listProductos: [],
             aux_lista_productos: [],
             loading_buscador: false,
@@ -253,7 +253,7 @@ export default {
         verificarListado() {
             this.$nextTick(() => {
                 if (
-                    this.oReporte.filtro === "Producto" &&
+                    this.oReporte.filtro === "Por productos" &&
                     this.$refs["selectProductos"]
                 ) {
                     this.$refs["selectProductos"].focus();

@@ -41,7 +41,10 @@
                     <div class="col-md-6">
                         <div class="card">
                             <div class="card-body">
-                                <h4>Cantidades compradas por clientes en un rango de fechas</h4>
+                                <h4>
+                                    Cantidades compradas por clientes en un
+                                    rango de fechas
+                                </h4>
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="row">
@@ -119,7 +122,9 @@
                     <div class="col-md-6">
                         <div class="card">
                             <div class="card-body">
-                                <h4>Monto por clientes en un rango de fechas</h4>
+                                <h4>
+                                    Monto por clientes en un rango de fechas
+                                </h4>
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="row">
@@ -197,7 +202,9 @@
                     <div class="col-md-6">
                         <div class="card">
                             <div class="card-body">
-                                <h4>Predicción cantidades compradas por clientes</h4>
+                                <h4>
+                                    Predicción cantidades compradas por clientes
+                                </h4>
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="row">
@@ -519,7 +526,7 @@ export default {
                             labels: {
                                 rotation: 0,
                                 style: {
-                                    fontSize: "10px",
+                                    fontSize: "14px",
                                     fontFamily: "Verdana, sans-serif",
                                 },
                             },
@@ -544,13 +551,17 @@ export default {
                         },
                         tooltip: {
                             headerFormat:
-                                '<span style="font-size:10px"><b>{point.key}</b></span><table>',
+                                '<span style="font-size:14px"><b>{point.key}</b></span><table>',
                             pointFormat:
                                 '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
                                 '<td style="padding:0"><b>{point.y:.2f}</b></td></tr>',
                             footerFormat: "</table>",
                             shared: true,
                             useHTML: true,
+                            style: {
+                                fontSize: "14px",
+                                fontFamily: "Arial, sans-serif",
+                            },
                         },
 
                         series: [
@@ -560,11 +571,11 @@ export default {
                                 data: response.data.datos,
                                 dataLabels: {
                                     rotation: 0,
-                                    color: "#000000",
+                                    color: "#FFFFFF",
                                     format: "{point.y:.2f}", // one decimal
                                     y: 0, // 10 pixels down from the top
                                     style: {
-                                        fontSize: "10px",
+                                        fontSize: "14px",
                                         fontFamily: "Verdana, sans-serif",
                                     },
                                 },
@@ -604,7 +615,7 @@ export default {
                             labels: {
                                 rotation: -45,
                                 style: {
-                                    fontSize: "10px",
+                                    fontSize: "14px",
                                     fontFamily: "Verdana, sans-serif",
                                 },
                             },
@@ -629,13 +640,17 @@ export default {
                         },
                         tooltip: {
                             headerFormat:
-                                '<span style="font-size:10px"><b>{point.key}</b></span><table>',
+                                '<span style="font-size:14px"><b>{point.key}</b></span><table>',
                             pointFormat:
                                 '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
                                 '<td style="padding:0"><b>{point.y:.2f}</b></td></tr>',
                             footerFormat: "</table>",
                             shared: true,
                             useHTML: true,
+                            style: {
+                                fontSize: "14px",
+                                fontFamily: "Arial, sans-serif",
+                            },
                         },
 
                         series: [
@@ -645,11 +660,11 @@ export default {
                                 data: response.data.datos,
                                 dataLabels: {
                                     rotation: 0,
-                                    color: "#000000",
+                                    color: "#FFFFFF",
                                     format: "{point.y:.2f}", // one decimal
                                     y: 0, // 10 pixels down from the top
                                     style: {
-                                        fontSize: "10px",
+                                        fontSize: "14px",
                                         fontFamily: "Verdana, sans-serif",
                                     },
                                 },
@@ -695,7 +710,7 @@ export default {
                             labels: {
                                 rotation: 0,
                                 style: {
-                                    fontSize: "10px",
+                                    fontSize: "14px",
                                     fontFamily: "Verdana, sans-serif",
                                 },
                             },
@@ -721,13 +736,17 @@ export default {
                         },
                         tooltip: {
                             headerFormat:
-                                '<span style="font-size:10px"><b>{point.key}</b></span><table>',
+                                '<span style="font-size:14px"><b>{point.key}</b></span><table>',
                             pointFormat:
                                 '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
                                 '<td style="padding:0"><b>{point.y:.2f}</b></td></tr>',
                             footerFormat: "</table>",
                             shared: true,
                             useHTML: true,
+                            style: {
+                                fontSize: "14px",
+                                fontFamily: "Arial, sans-serif",
+                            },
                         },
 
                         series: [
@@ -737,11 +756,11 @@ export default {
                                 data: response.data.datos,
                                 dataLabels: {
                                     rotation: 0,
-                                    color: "#000000",
+                                    color: "#FFFFFF",
                                     format: "{point.y:.2f}", // one decimal
                                     y: 0, // 10 pixels down from the top
                                     style: {
-                                        fontSize: "10px",
+                                        fontSize: "14px",
                                         fontFamily: "Verdana, sans-serif",
                                     },
                                 },
@@ -787,7 +806,7 @@ export default {
                             labels: {
                                 rotation: -75,
                                 style: {
-                                    fontSize: "10px",
+                                    fontSize: "14px",
                                     fontFamily: "Verdana, sans-serif",
                                 },
                             },
@@ -813,13 +832,17 @@ export default {
                         },
                         tooltip: {
                             headerFormat:
-                                '<span style="font-size:10px"><b>{point.key}</b></span><table>',
+                                '<span style="font-size:14px"><b>{point.key}</b></span><table>',
                             pointFormat:
                                 '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
                                 '<td style="padding:0"><b>{point.y:.2f}</b></td></tr>',
                             footerFormat: "</table>",
                             shared: true,
                             useHTML: true,
+                            style: {
+                                fontSize: "14px",
+                                fontFamily: "Arial, sans-serif",
+                            },
                         },
 
                         series: [
@@ -829,11 +852,11 @@ export default {
                                 data: response.data.datos,
                                 dataLabels: {
                                     rotation: 0,
-                                    color: "#000000",
+                                    color: "#FFFFFF",
                                     format: "{point.y:.2f}", // one decimal
                                     y: 0, // 10 pixels down from the top
                                     style: {
-                                        fontSize: "10px",
+                                        fontSize: "14px",
                                         fontFamily: "Verdana, sans-serif",
                                     },
                                 },
@@ -877,7 +900,7 @@ export default {
                             labels: {
                                 rotation: 0,
                                 style: {
-                                    fontSize: "10px",
+                                    fontSize: "14px",
                                     fontFamily: "Verdana, sans-serif",
                                 },
                             },
@@ -902,13 +925,17 @@ export default {
                         },
                         tooltip: {
                             headerFormat:
-                                '<span style="font-size:10px"><b>{point.key}</b></span><table>',
+                                '<span style="font-size:14px"><b>{point.key}</b></span><table>',
                             pointFormat:
                                 '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
                                 '<td style="padding:0"><b>{point.y:.2f}</b></td></tr>',
                             footerFormat: "</table>",
                             shared: true,
                             useHTML: true,
+                            style: {
+                                fontSize: "14px",
+                                fontFamily: "Arial, sans-serif",
+                            },
                         },
 
                         series: [
@@ -918,11 +945,11 @@ export default {
                                 data: response.data.datos,
                                 dataLabels: {
                                     rotation: 0,
-                                    color: "#000000",
+                                    color: "#FFFFFF",
                                     format: "{point.y:.2f}", // one decimal
                                     y: 0, // 10 pixels down from the top
                                     style: {
-                                        fontSize: "10px",
+                                        fontSize: "14px",
                                         fontFamily: "Verdana, sans-serif",
                                     },
                                 },
@@ -966,7 +993,7 @@ export default {
                             labels: {
                                 rotation: -45,
                                 style: {
-                                    fontSize: "10px",
+                                    fontSize: "14px",
                                     fontFamily: "Verdana, sans-serif",
                                 },
                             },
@@ -991,13 +1018,17 @@ export default {
                         },
                         tooltip: {
                             headerFormat:
-                                '<span style="font-size:10px"><b>{point.key}</b></span><table>',
+                                '<span style="font-size:14px"><b>{point.key}</b></span><table>',
                             pointFormat:
                                 '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
                                 '<td style="padding:0"><b>{point.y:.2f}</b></td></tr>',
                             footerFormat: "</table>",
                             shared: true,
                             useHTML: true,
+                            style: {
+                                fontSize: "14px",
+                                fontFamily: "Arial, sans-serif",
+                            },
                         },
 
                         series: [
@@ -1007,11 +1038,11 @@ export default {
                                 data: response.data.datos,
                                 dataLabels: {
                                     rotation: 0,
-                                    color: "#000000",
+                                    color: "#FFFFFF",
                                     format: "{point.y:.2f}", // one decimal
                                     y: 0, // 10 pixels down from the top
                                     style: {
-                                        fontSize: "10px",
+                                        fontSize: "14px",
                                         fontFamily: "Verdana, sans-serif",
                                     },
                                 },

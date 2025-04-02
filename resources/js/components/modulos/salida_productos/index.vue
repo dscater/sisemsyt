@@ -297,7 +297,7 @@ export default {
         },
         eliminaSalidaProducto(id, descripcion) {
             Swal.fire({
-                title: "¿Quierés eliminar este registro?",
+                title: "¿Quierés eliminar esta salida de producto?",
                 html: `<strong>${descripcion}</strong>`,
                 showCancelButton: true,
                 confirmButtonColor: "#149FDA",

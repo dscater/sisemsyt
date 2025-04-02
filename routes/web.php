@@ -9,6 +9,7 @@ use App\Http\Controllers\HistorialAccionController;
 use App\Http\Controllers\IngresoProductoController;
 use App\Http\Controllers\InicioController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\NotificacionController;
 use App\Http\Controllers\NotificacionUserController;
 use App\Http\Controllers\VentaController;
 use App\Http\Controllers\ProductoController;
@@ -25,6 +26,8 @@ use Illuminate\Support\Facades\Route;
 Route::post('/login', [LoginController::class, 'login'])->middleware('login.attempts');;
 Route::post('/logout', [LoginController::class, 'logout']);
 Route::post('/genera2fa', [LoginController::class, 'genera2fa']);
+
+Route::get("/verificaLogin", [LoginController::class, 'verificaLogin']);
 
 // CONFIGURACIÓN
 Route::get('/configuracion/getConfiguracion', [ConfiguracionController::class, 'getConfiguracion']);
@@ -156,6 +159,9 @@ Route::middleware(['auth'])->group(function () {
             'index',
             'show'
         ]);
+
+        // notificacions
+        Route::get("notificacions", [NotificacionController::class, "index"])->name("notificacions.index");
 
         // notificacion_users
         Route::resource('notificacion_users', NotificacionUserController::class)->only([

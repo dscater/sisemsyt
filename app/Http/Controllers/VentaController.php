@@ -14,6 +14,7 @@ use App\Models\KardexProducto;
 use App\Models\Venta;
 use App\Models\Producto;
 use App\Models\SucursalStock;
+use App\Services\HistorialAccionService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -25,6 +26,9 @@ class VentaController extends Controller
         "descuento" => "required|numeric|min:0|max:100",
         "total_final" => "required",
     ];
+    private $modulo = "VENTAS";
+
+    public function __construct(private HistorialAccionService $historialAccionService) {}
 
     public function index()
     {
@@ -64,18 +68,8 @@ class VentaController extends Controller
                 // registrar kardex
                 KardexProducto::registroEgreso("VENTA", $dv->id, $dv->producto, $dv->cantidad, $dv->precio, "VENTA DE PRODUCTO");
             }
-
-            $datos_original = HistorialAccion::getDetalleRegistro($venta, "ventas");
-            HistorialAccion::create([
-                'user_id' => Auth::user()->id,
-                'accion' => 'CREACIÓN',
-                'descripcion' => 'EL USUARIO ' . Auth::user()->usuario . ' REGISTRO UNA ORDEN DE VENTA',
-                'datos_original' => $datos_original,
-                'modulo' => 'ORDEN DE VENTA',
-                'fecha' => date('Y-m-d'),
-                'hora' => date('H:i:s')
-            ]);
-
+            // registrar accion
+            $this->historialAccionService->registrarAccion($this->modulo, "CREACIÓN", "REGISTRO UNA VENTA", $venta, null, ["detalle_ventas"]);
             DB::commit();
             return response()->JSON(["sw" => true, "venta" => $venta, "id" => $venta->id, "msj" => "El registro se almacenó correctamente"]);
         } catch (\Exception $e) {
@@ -98,7 +92,7 @@ class VentaController extends Controller
 
         DB::beginTransaction();
         try {
-            $datos_original = HistorialAccion::getDetalleRegistro($venta, "ventas");
+            $old_venta = clone $venta;
 
             $request["estado"] = "CANCELADO";
             $venta->update(array_map("mb_strtoupper", $request->except("detalle_ventas", "eliminados", "cliente", "user")));
@@ -180,17 +174,8 @@ class VentaController extends Controller
                 $dv->delete();
             }
 
-            $datos_nuevo = HistorialAccion::getDetalleRegistro($venta, "ventas");
-            HistorialAccion::create([
-                'user_id' => Auth::user()->id,
-                'accion' => 'MODIFICACIÓN',
-                'descripcion' => 'EL USUARIO ' . Auth::user()->usuario . ' MODIFICÓ UNA ORDEN DE VENTA',
-                'datos_original' => $datos_original,
-                'datos_nuevo' => $datos_nuevo,
-                'modulo' => 'ORDEN DE VENTA',
-                'fecha' => date('Y-m-d'),
-                'hora' => date('H:i:s')
-            ]);
+            // registrar accion
+            $this->historialAccionService->registrarAccion($this->modulo, "MODIFICACIÓN", "ACTUALIZÓ UNA VENTA", $old_venta, $venta, ["detalle_ventas"]);
 
             DB::commit();
             return response()->JSON(["sw" => true, "venta" => $venta, "id" => $venta->id, "msj" => "El registro se actualizó correctamente"]);
@@ -257,19 +242,12 @@ class VentaController extends Controller
                 $venta->credito->delete();
             }
 
-            $datos_original = HistorialAccion::getDetalleRegistro($venta, "ventas");
+            $old_venta = clone $venta;
             // $venta->delete();
             $venta->status = 0;
             $venta->save();
-            HistorialAccion::create([
-                'user_id' => Auth::user()->id,
-                'accion' => 'ELIMINACIÓN',
-                'descripcion' => 'EL USUARIO ' . Auth::user()->usuario . ' ELIMINÓ UNA ORDEN DE VENTA',
-                'datos_original' => $datos_original,
-                'modulo' => 'ORDEN DE VENTA',
-                'fecha' => date('Y-m-d'),
-                'hora' => date('H:i:s')
-            ]);
+            // registrar accion
+            $this->historialAccionService->registrarAccion($this->modulo, "ELIMINACIÓN", "ELIMINÓ UNA VENTA", $old_venta, null, ["detalle_ventas"]);
 
             DB::commit();
             return response()->JSON(["sw" => true, "msj" => "El registro se eliminó correctamente"]);

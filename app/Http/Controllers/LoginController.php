@@ -15,6 +15,8 @@ use PragmaRX\Google2FA\Google2FA;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
@@ -28,23 +30,28 @@ class LoginController extends Controller
             self::notificacion1();
             self::notificacion2();
             self::notificacion3();
+            $user = User::where("usuario", $usuario)->get()->first();
+            if ($user) {
+                if ($user->b_auth == 1 || $user->acceso == 0) {
+                    Auth::logout();
+                    return response()->JSON(["error" => "La cuenta a sido bloqueda por seguridad. Contactese con el administrador del sistema"]);
+                }
+            }
 
             return response()->JSON([
                 'user' => Auth::user(),
             ], 200);
         }
 
-        $user = User::where("usuario", $usuario)->get()->first();
-        if ($user) {
-            if ($user->b_auth == 1) {
-                return response()->JSON(["error" => "La cuenta a sido bloqueda por seguridad. Contactese con el administrador del sistema"]);
-            }
-        }
         return response()->JSON([], 401);
     }
 
     public function logout()
     {
+        // $user = User::find(Auth::user()->id);
+        // $user->google2fa_secret = NULL;
+        // $user->save();
+
         session()->forget('2fa_authenticated');
         Auth::logout();
         return response()->JSON(['code' => 204], 204);
@@ -55,25 +62,33 @@ class LoginController extends Controller
         $fecha_actual = date("Y-m-d");
         $hora = date("H:i:s");
 
-        $productos = Producto::whereRaw('stock_min = stock_actual - 5')->get();
+        // Obtener productos cuyo stock actual está entre stock_min y stock_min + 3
+        $productos = Producto::whereBetween('stock_actual', [DB::raw('stock_min'), DB::raw('stock_min + 3')])->get();
+
         $usuarios = User::all();
         foreach ($productos as $producto) {
-            $notificacion = Notificacion::where("tipo", "A 5 STOCK MINIMO")
+            // $notificacion = Notificacion::where("tipo", "A 3 STOCK MINIMO")
+            $notificacion = Notificacion::where("tipo", "LLEGANDO A STOCK MINIMO")
                 ->where("fecha", $fecha_actual)
                 ->where("registro_id", $producto->id)
-                ->get()->first();
+                ->first(); // Usamos first() directamente
+
             if (!$notificacion) {
-                $notificacion =  Notificacion::create([
-                    "tipo" => "A 5 STOCK MINIMO",
+                $notificacion = Notificacion::create([
+                    "tipo" => "LLEGANDO A STOCK MINIMO",
+                    // "tipo" => "A 3 STOCK MINIMO",
                     "registro_id" => $producto->id,
                     "descripcion" => "EL PRODUCTO " . $producto->nombre . " SE ENCUENTRA CERCA DEL STOCK MÍNIMO, LE SUGERIMOS REABASTECER EL PRODUCTO",
                     "fecha" => $fecha_actual,
                     "hora" => $hora,
                 ]);
             }
+
             foreach ($usuarios as $user) {
                 $notificacion_user = NotificacionUser::where("user_id", $user->id)
-                    ->where("notificacion_id", $notificacion->id)->get()->first();
+                    ->where("notificacion_id", $notificacion->id)
+                    ->first();
+
                 if (!$notificacion_user) {
                     NotificacionUser::create([
                         "notificacion_id" => $notificacion->id,
@@ -83,6 +98,7 @@ class LoginController extends Controller
             }
         }
     }
+
 
     public static function notificacion2()
     {
@@ -150,6 +166,42 @@ class LoginController extends Controller
         }
     }
 
+
+
+    // public static function notificacion1()
+    // {
+    //     $fecha_actual = date("Y-m-d");
+    //     $hora = date("H:i:s");
+
+    //     $productos = Producto::whereRaw('stock_min = stock_actual - 5')->get();
+    //     $usuarios = User::all();
+    //     foreach ($productos as $producto) {
+    //         $notificacion = Notificacion::where("tipo", "A 5 STOCK MINIMO")
+    //             ->where("fecha", $fecha_actual)
+    //             ->where("registro_id", $producto->id)
+    //             ->get()->first();
+    //         if (!$notificacion) {
+    //             $notificacion =  Notificacion::create([
+    //                 "tipo" => "A 5 STOCK MINIMO",
+    //                 "registro_id" => $producto->id,
+    //                 "descripcion" => "EL PRODUCTO " . $producto->nombre . " SE ENCUENTRA CERCA DEL STOCK MÍNIMO, LE SUGERIMOS REABASTECER EL PRODUCTO",
+    //                 "fecha" => $fecha_actual,
+    //                 "hora" => $hora,
+    //             ]);
+    //         }
+    //         foreach ($usuarios as $user) {
+    //             $notificacion_user = NotificacionUser::where("user_id", $user->id)
+    //                 ->where("notificacion_id", $notificacion->id)->get()->first();
+    //             if (!$notificacion_user) {
+    //                 NotificacionUser::create([
+    //                     "notificacion_id" => $notificacion->id,
+    //                     "user_id" => $user->id,
+    //                 ]);
+    //             }
+    //         }
+    //     }
+    // }
+
     // AUTHENTIFACION 2FA
 
     /**
@@ -166,18 +218,20 @@ class LoginController extends Controller
                 $google2fa = new Google2FA();
                 $secret = $google2fa->generateSecretKey();
 
-                // guardar secret
-                $user->google2fa_secret = $secret;
+                // Encriptar y guardar secret
+                $user->google2fa_secret = Crypt::encryptString($secret);
                 $user->save();
             } else {
-                $secret = $user->google2fa_secret;
+                $secret = Crypt::decryptString($user->google2fa_secret);
             }
+
             // Generar URL para el QR
             $QR_url = "otpauth://totp/" . config('app.name') . ":" . $user->email .
                 "?secret=" . $secret . "&issuer=" . config('app.name');
 
             // Generar la imagen QR
             $qrCode = QrCode::size(200)->generate($QR_url);
+
             return response()->json([
                 'message' => 'Escanea este código QR con Google Authenticator',
                 'secret' => $secret,
@@ -198,7 +252,10 @@ class LoginController extends Controller
         $user = Auth::user();
         $google2fa = new Google2FA();
 
-        $isValid = $google2fa->verifyKey($user->google2fa_secret, $request->code);
+        // Desencriptar el secret antes de verificar
+        $secret = Crypt::decryptString($user->google2fa_secret);
+
+        $isValid = $google2fa->verifyKey($secret, $request->code);
 
         if ($isValid) {
             session(['2fa_authenticated' => true]); // Marcar sesión autenticada
@@ -208,51 +265,8 @@ class LoginController extends Controller
         return response()->json(['error' => 'Código incorrecto'], 422);
     }
 
-    // public function genera2fa(Request $request)
-    // {
-    //     $google2fa = new Google2FA();
-    //     $secret = $google2fa->generateSecretKey();
-
-    //     // guardar secret
-    //     $user = User::findOrFail($request->user_id);
-    //     $user->google2fa_secret = $secret;
-    //     $user->save();
-
-    //     // enviar mail
-    //     $configuracion = Configuracion::first();
-    //     if ($configuracion) {
-    //         $servidor_correo = $configuracion->conf_correos;
-    //         Config::set(
-    //             [
-    //                 'mail.mailers.default' => $servidor_correo["driver"] ?? 'smtp',
-    //                 'mail.mailers.smtp.host' => $servidor_correo["host"] ?? 'smtp.hostinger.com',
-    //                 'mail.mailers.smtp.port' => $servidor_correo["puerto"] ?? '587',
-    //                 'mail.mailers.smtp.encryption' => $servidor_correo["encriptado"] ?? 'tls',
-    //                 'mail.mailers.smtp.username' => $servidor_correo["correo"] ?? 'mensaje@emsytsrl.com',
-    //                 'mail.mailers.smtp.password' => $servidor_correo["password"] ?? '8Z@d>&kj^y',
-    //                 'mail.from.address' => $servidor_correo["correo"] ?? 'mensaje@emsytsrl.com',
-    //                 'mail.from.name' => $servidor_correo["nombre"] ?? 'SISEMSYT',
-    //             ]
-    //         );
-    //         $mensaje = 'Hola ' . $user->full_name . ' este es tu código de seguridad:<br/>';
-    //         $codigo = $secret;
-
-    //         $datos = [
-    //             "mensaje" => $mensaje,
-    //             "codigo" => $codigo,
-    //         ];
-
-    //         Mail::to($user->correo)
-    //             ->send(new CodigoAuthMail($datos));
-
-    //         return response()->json([
-    //             'message' => "Te envíamos un código a tu correo electrónico",
-    //             "sw" => true
-    //         ]);
-    //     }
-    //     return response()->json([
-    //         'message' => "No se pudo envíar el código a su correo electrónico",
-    //         "sw" => false
-    //     ]);
-    // }
+    public function verificaLogin()
+    {
+        return response()->JSON(Auth::check());
+    }
 }

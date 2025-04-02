@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\HistorialAccion;
 use App\Models\IngresoProducto;
 use App\Models\Proveedor;
+use App\Services\HistorialAccionService;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -38,6 +39,9 @@ class ProveedorController extends Controller
         'fono.numeric' => 'Debes ingresar un número',
         'fono.digits_between' => 'Debes ingresar minimo 7 dígitos',
     ];
+    private $modulo = "PROVEEDORES";
+
+    public function __construct(private HistorialAccionService $historialAccionService) {}
 
     public function index(Request $request)
     {
@@ -70,16 +74,8 @@ class ProveedorController extends Controller
             $request["fecha_registro"] = date("Y-m-d");
             $nuevo_proveedor = Proveedor::create(array_map('mb_strtoupper', $request->all()));
 
-            $datos_original = HistorialAccion::getDetalleRegistro($nuevo_proveedor, "proveedors");
-            HistorialAccion::create([
-                'user_id' => Auth::user()->id,
-                'accion' => 'CREACIÓN',
-                'descripcion' => 'EL USUARIO ' . Auth::user()->usuario . ' REGISTRO UN PROVEEDOR',
-                'datos_original' => $datos_original,
-                'modulo' => 'PROVEEDORES',
-                'fecha' => date('Y-m-d'),
-                'hora' => date('H:i:s')
-            ]);
+            // registrar accion
+            $this->historialAccionService->registrarAccion($this->modulo, "CREACIÓN", "REGISTRO UN PROVEEDOR", $nuevo_proveedor);
 
             DB::commit();
             return response()->JSON([
@@ -115,23 +111,13 @@ class ProveedorController extends Controller
             return response()->json(['errors' => $errores], 422);
         }
 
-
         DB::beginTransaction();
         try {
-            $datos_original = HistorialAccion::getDetalleRegistro($proveedor, "proveedors");
+            $old_proveedor = clone $proveedor;
             $proveedor->update(array_map('mb_strtoupper', $request->all()));
 
-            $datos_nuevo = HistorialAccion::getDetalleRegistro($proveedor, "proveedors");
-            HistorialAccion::create([
-                'user_id' => Auth::user()->id,
-                'accion' => 'MODIFICACIÓN',
-                'descripcion' => 'EL USUARIO ' . Auth::user()->usuario . ' MODIFICÓ UN PROVEEDOR',
-                'datos_original' => $datos_original,
-                'datos_nuevo' => $datos_nuevo,
-                'modulo' => 'PROVEEDORES',
-                'fecha' => date('Y-m-d'),
-                'hora' => date('H:i:s')
-            ]);
+            // registrar accion
+            $this->historialAccionService->registrarAccion($this->modulo, "MODIFICACIÓN", "ACTUALIZÓ UN PROVEEDOR", $old_proveedor, $proveedor);
 
             DB::commit();
             return response()->JSON([
@@ -165,18 +151,11 @@ class ProveedorController extends Controller
                 throw new Exception("No es posible eliminar este registro porque esta siendo utlizado");
             }
 
-            $datos_original = HistorialAccion::getDetalleRegistro($proveedor, "proveedors");
+            $old_proveedor = clone $proveedor;
             $proveedor->status = 0;
             $proveedor->save();
-            HistorialAccion::create([
-                'user_id' => Auth::user()->id,
-                'accion' => 'ELIMINACIÓN',
-                'descripcion' => 'EL USUARIO ' . Auth::user()->usuario . ' ELIMINÓ UN PROVEEDOR',
-                'datos_original' => $datos_original,
-                'modulo' => 'PROVEEDORES',
-                'fecha' => date('Y-m-d'),
-                'hora' => date('H:i:s')
-            ]);
+            // registrar accion
+            $this->historialAccionService->registrarAccion($this->modulo, "ELIMINACIÓN", "ELIMINÓ UN PROVEEDOR", $old_proveedor);
             DB::commit();
             return response()->JSON([
                 'sw' => true,

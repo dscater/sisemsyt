@@ -118,6 +118,7 @@ class KardexProducto extends Model
         ]);
 
         Producto::decrementarStock($producto, $cantidad);
+        Notificacion::verificaNotificacionProducto($producto->id);
 
         return true;
     }

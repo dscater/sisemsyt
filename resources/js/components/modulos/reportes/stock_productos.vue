@@ -4,7 +4,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Reportes - Stock de productos</h1>
+                        <h1>Reportes de stock de productos</h1>
                     </div>
                 </div>
             </div>
@@ -56,7 +56,7 @@
                                                 class="form-group col-md-12"
                                                 v-if="
                                                     oReporte.filtro ==
-                                                    'Por producto'
+                                                    'Por productos'
                                                 "
                                             >
                                                 <label
@@ -132,13 +132,13 @@ export default {
             }),
             errors: [],
             oReporte: {
-                filtro: "TODOS",
+                filtro: "Todos",
                 producto: "",
             },
             aFechas: [],
             enviando: false,
             textoBtn: "Generar Reporte",
-            listFiltro: ["TODOS", "Por producto"],
+            listFiltro: ["Todos", "Por productos"],
             listProductos: [],
             errors: [],
         };
