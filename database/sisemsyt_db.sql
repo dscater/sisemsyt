@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 02-04-2025 a las 00:37:17
+-- Tiempo de generación: 05-04-2025 a las 22:21:11
 -- Versión del servidor: 8.0.30
 -- Versión de PHP: 8.2.22
 
@@ -136,7 +136,11 @@ INSERT INTO `detalle_ventas` (`id`, `venta_id`, `producto_id`, `cantidad`, `prec
 (8, 4, 4, 4, 230.00, 920.00, 1, '2025-03-31 23:28:42', '2025-03-31 23:28:42'),
 (9, 5, 4, 1, 230.00, 230.00, 0, '2025-03-31 23:38:58', '2025-04-01 23:09:46'),
 (10, 1, 4, 1, 230.00, 230.00, 1, '2025-04-01 23:11:21', '2025-04-01 23:11:21'),
-(11, 6, 1, 1, 100.00, 100.00, 1, '2025-04-01 23:29:31', '2025-04-01 23:29:31');
+(11, 6, 1, 1, 100.00, 100.00, 1, '2025-04-01 23:29:31', '2025-04-01 23:29:31'),
+(12, 7, 2, 1, 200.00, 200.00, 1, '2025-04-05 15:03:26', '2025-04-05 15:03:26'),
+(13, 7, 1, 1, 100.00, 100.00, 1, '2025-04-05 15:03:26', '2025-04-05 15:03:26'),
+(14, 8, 1, 1, 100.00, 100.00, 1, '2025-04-05 15:08:01', '2025-04-05 15:08:01'),
+(15, 8, 2, 1, 200.00, 200.00, 1, '2025-04-05 15:08:01', '2025-04-05 15:08:01');
 
 -- --------------------------------------------------------
 
@@ -173,7 +177,11 @@ INSERT INTO `fecha_stocks` (`id`, `producto_id`, `fecha`, `stock`, `created_at`,
 (13, 1, '2025-04-01', 93, '2025-04-01 18:31:53', '2025-04-01 23:29:31'),
 (15, 4, '2025-04-01', 5, '2025-04-01 23:09:46', '2025-04-01 23:11:21'),
 (16, 2, '2025-04-01', 121, '2025-04-01 23:11:21', '2025-04-01 23:11:21'),
-(17, 3, '2025-04-01', 69, '2025-04-01 23:11:21', '2025-04-01 23:11:21');
+(17, 3, '2025-04-01', 69, '2025-04-01 23:11:21', '2025-04-01 23:11:21'),
+(18, 2, '2025-04-05', 119, '2025-04-05 15:03:26', '2025-04-05 15:32:13'),
+(19, 1, '2025-04-05', 91, '2025-04-05 15:03:26', '2025-04-05 15:32:13'),
+(20, 3, '2025-04-05', 69, '2025-04-05 15:29:37', '2025-04-05 15:32:13'),
+(21, 4, '2025-04-05', 5, '2025-04-05 15:29:37', '2025-04-05 15:32:13');
 
 -- --------------------------------------------------------
 
@@ -214,7 +222,13 @@ INSERT INTO `historial_accions` (`id`, `user_id`, `accion`, `descripcion`, `dato
 (12, 1, 'MODIFICACIÓN', 'EL USUARIO admin ACTUALIZÓ LA CONFIGURACIÓN DEL SISTEMA', '{\"id\": 1, \"dir\": \"LA PAZ\", \"nit\": \"10000000000\", \"web\": \"SISEMSYT.TEST\", \"fono\": \"2222222\", \"logo\": \"1742395524_logo.jpg\", \"alias\": \"SISEMSYT\", \"ciudad\": \"LA PAZ\", \"correo\": \"SISEMSYT@GMAIL.COM\", \"actividad\": \"ACTIVIDAD\", \"conf_email\": {\"host\": \"smtp.hostinger.com\", \"correo\": \"mensaje@emsytsrl.com\", \"driver\": \"smtp\", \"nombre\": \"sisemsyt\", \"puerto\": \"587\", \"password\": \"8Z@d>&kj^y\", \"encriptado\": \"tls\"}, \"created_at\": null, \"updated_at\": \"2025-03-19T14:45:24.000000Z\", \"razon_social\": \"SISEMSYT S.A.\", \"nombre_sistema\": \"SISTEMA SISEMSYT\"}', '{\"id\": 1, \"dir\": \"LA PAZ\", \"nit\": \"10000000000\", \"web\": \"SISEMSYT.TEST\", \"fono\": \"2222222\", \"logo\": \"1743550143_logo.jpg\", \"alias\": \"SISEMSYT\", \"ciudad\": \"LA PAZ\", \"correo\": \"SISEMSYT@GMAIL.COM\", \"actividad\": \"ACTIVIDAD\", \"conf_email\": {\"host\": \"smtp.hostinger.com\", \"correo\": \"mensaje@emsytsrl.com\", \"driver\": \"smtp\", \"nombre\": \"sisemsyt\", \"puerto\": \"587\", \"password\": \"8Z@d>&kj^y\", \"encriptado\": \"tls\"}, \"created_at\": null, \"updated_at\": \"2025-04-01T23:29:03.000000Z\", \"razon_social\": \"SISEMSYT S.A.\", \"nombre_sistema\": \"SISTEMA SISEMSYTS\"}', 'CONFIGURACIÓN', '2025-04-01', '19:29:03', '2025-04-01 23:29:03', '2025-04-01 23:29:03'),
 (13, 1, 'MODIFICACIÓN', 'EL USUARIO admin ACTUALIZÓ LA CONFIGURACIÓN DEL SISTEMA', '{\"id\": 1, \"dir\": \"LA PAZ\", \"nit\": \"10000000000\", \"web\": \"SISEMSYT.TEST\", \"fono\": \"2222222\", \"logo\": \"1743550143_logo.jpg\", \"alias\": \"SISEMSYT\", \"ciudad\": \"LA PAZ\", \"correo\": \"SISEMSYT@GMAIL.COM\", \"actividad\": \"ACTIVIDAD\", \"conf_email\": {\"host\": \"smtp.hostinger.com\", \"correo\": \"mensaje@emsytsrl.com\", \"driver\": \"smtp\", \"nombre\": \"sisemsyt\", \"puerto\": \"587\", \"password\": \"8Z@d>&kj^y\", \"encriptado\": \"tls\"}, \"created_at\": null, \"updated_at\": \"2025-04-01T23:29:03.000000Z\", \"razon_social\": \"SISEMSYT S.A.\", \"nombre_sistema\": \"SISTEMA SISEMSYTS\"}', '{\"id\": 1, \"dir\": \"LA PAZ\", \"nit\": \"10000000000\", \"web\": \"SISEMSYT.TEST\", \"fono\": \"2222222\", \"logo\": \"1743550156_logo.jpg\", \"alias\": \"SISEMSYT\", \"ciudad\": \"LA PAZ\", \"correo\": \"SISEMSYT@GMAIL.COM\", \"actividad\": \"ACTIVIDAD\", \"conf_email\": {\"host\": \"smtp.hostinger.com\", \"correo\": \"mensaje@emsytsrl.com\", \"driver\": \"smtp\", \"nombre\": \"sisemsyt\", \"puerto\": \"587\", \"password\": \"8Z@d>&kj^y\", \"encriptado\": \"tls\"}, \"created_at\": null, \"updated_at\": \"2025-04-01T23:29:16.000000Z\", \"razon_social\": \"SISEMSYT S.A.\", \"nombre_sistema\": \"SISTEMA SISEMSYT\"}', 'CONFIGURACIÓN', '2025-04-01', '19:29:16', '2025-04-01 23:29:16', '2025-04-01 23:29:16'),
 (14, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA VENTA', '{\"id\": 6, \"nit\": \"2312314\", \"total\": \"100.00\", \"estado\": \"CANCELADO\", \"user_id\": \"1\", \"descuento\": \"0\", \"cliente_id\": \"1\", \"created_at\": \"2025-04-01T23:29:31.000000Z\", \"updated_at\": \"2025-04-01T23:29:31.000000Z\", \"total_final\": \"100.00\", \"detalle_ventas\": [{\"id\": 11, \"precio\": \"100.00\", \"status\": 1, \"cantidad\": 1, \"subtotal\": \"100.00\", \"venta_id\": 6, \"created_at\": \"2025-04-01T23:29:31.000000Z\", \"updated_at\": \"2025-04-01T23:29:31.000000Z\", \"producto_id\": 1}], \"fecha_registro\": \"2025-04-01\"}', NULL, 'VENTAS', '2025-04-01', '19:29:31', '2025-04-01 23:29:31', '2025-04-01 23:29:31'),
-(15, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UN USUARIO', '{\"ci\": \"3232323\", \"id\": 4, \"dir\": \"ZONA LOS OLIVOS\", \"fono\": \"7777777\", \"foto\": \"1743551222_PCORTEZ.png\", \"tipo\": \"VENDEDOR\", \"acceso\": \"1\", \"ci_exp\": \"LP\", \"correo\": \"pedro@gmail.com\", \"nombre\": \"PEDRO\", \"materno\": \"RAMIRES\", \"paterno\": \"CORTEZ\", \"usuario\": \"PCORTEZ\", \"created_at\": \"2025-04-01T23:47:02.000000Z\", \"updated_at\": \"2025-04-01T23:47:02.000000Z\", \"fecha_registro\": \"2025-04-01\"}', NULL, 'USUARIOS', '2025-04-01', '19:47:02', '2025-04-01 23:47:02', '2025-04-01 23:47:02');
+(15, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UN USUARIO', '{\"ci\": \"3232323\", \"id\": 4, \"dir\": \"ZONA LOS OLIVOS\", \"fono\": \"7777777\", \"foto\": \"1743551222_PCORTEZ.png\", \"tipo\": \"VENDEDOR\", \"acceso\": \"1\", \"ci_exp\": \"LP\", \"correo\": \"pedro@gmail.com\", \"nombre\": \"PEDRO\", \"materno\": \"RAMIRES\", \"paterno\": \"CORTEZ\", \"usuario\": \"PCORTEZ\", \"created_at\": \"2025-04-01T23:47:02.000000Z\", \"updated_at\": \"2025-04-01T23:47:02.000000Z\", \"fecha_registro\": \"2025-04-01\"}', NULL, 'USUARIOS', '2025-04-01', '19:47:02', '2025-04-01 23:47:02', '2025-04-01 23:47:02'),
+(16, 1, 'MODIFICACIÓN', 'EL USUARIO admin ACTUALIZÓ UN USUARIO', '{\"ci\": \"1234\", \"id\": 2, \"dir\": \"LOS OLIVOS\", \"fono\": \"7777777\", \"foto\": \"default.png\", \"tipo\": \"SUPERVISOR\", \"acceso\": 1, \"b_auth\": 0, \"ci_exp\": \"LP\", \"correo\": \"juan@gmail.com\", \"nombre\": \"JUAN\", \"status\": 1, \"auth2fa\": 0, \"materno\": \"CONDORI\", \"paterno\": \"PERES\", \"usuario\": \"JPERES\", \"created_at\": \"2023-04-24T20:23:30.000000Z\", \"updated_at\": \"2025-04-05T14:20:08.000000Z\", \"fecha_registro\": \"2023-04-24\", \"update_password\": 1, \"google2fa_secret\": \"eyJpdiI6IkNzdk1EWVBEQTFYSVZLQ1ZKWTZON3c9PSIsInZhbHVlIjoibDlmbEdRc2hNdmZzNmdqalQ3VlVqWTdaenhjSytiSFFLUk1FUnZlUmo5bz0iLCJtYWMiOiJhOGFjNmJhNmM1Yzk5NTljNzYwM2U1ODE0ODY4OWM3ZDEyNDZkMTRlYjlkYmVhZjcwN2U1MGYyMjhmNDljY2FjIiwidGFnIjoiIn0=\"}', '{\"ci\": \"1234\", \"id\": 2, \"dir\": \"LOS OLIVOS\", \"fono\": \"7777777\", \"foto\": \"default.png\", \"tipo\": \"SUPERVISOR\", \"acceso\": \"0\", \"b_auth\": 0, \"ci_exp\": \"LP\", \"correo\": \"juan@gmail.com\", \"nombre\": \"JUAN\", \"status\": 1, \"auth2fa\": 0, \"materno\": \"CONDORI\", \"paterno\": \"PERES\", \"usuario\": \"JPERES\", \"created_at\": \"2023-04-24T20:23:30.000000Z\", \"updated_at\": \"2025-04-05T14:20:20.000000Z\", \"fecha_registro\": \"2023-04-24\", \"update_password\": 1, \"google2fa_secret\": \"eyJpdiI6IkNzdk1EWVBEQTFYSVZLQ1ZKWTZON3c9PSIsInZhbHVlIjoibDlmbEdRc2hNdmZzNmdqalQ3VlVqWTdaenhjSytiSFFLUk1FUnZlUmo5bz0iLCJtYWMiOiJhOGFjNmJhNmM1Yzk5NTljNzYwM2U1ODE0ODY4OWM3ZDEyNDZkMTRlYjlkYmVhZjcwN2U1MGYyMjhmNDljY2FjIiwidGFnIjoiIn0=\"}', 'USUARIOS', '2025-04-05', '10:20:20', '2025-04-05 14:20:20', '2025-04-05 14:20:20'),
+(17, 1, 'MODIFICACIÓN', 'EL USUARIO admin ACTUALIZÓ UN USUARIO', '{\"ci\": \"1234\", \"id\": 2, \"dir\": \"LOS OLIVOS\", \"fono\": \"7777777\", \"foto\": \"default.png\", \"tipo\": \"SUPERVISOR\", \"acceso\": 0, \"b_auth\": 0, \"ci_exp\": \"LP\", \"correo\": \"juan@gmail.com\", \"nombre\": \"JUAN\", \"status\": 1, \"auth2fa\": 0, \"materno\": \"CONDORI\", \"paterno\": \"PERES\", \"usuario\": \"JPERES\", \"created_at\": \"2023-04-24T20:23:30.000000Z\", \"updated_at\": \"2025-04-05T14:20:20.000000Z\", \"fecha_registro\": \"2023-04-24\", \"update_password\": 1, \"google2fa_secret\": \"eyJpdiI6IkNzdk1EWVBEQTFYSVZLQ1ZKWTZON3c9PSIsInZhbHVlIjoibDlmbEdRc2hNdmZzNmdqalQ3VlVqWTdaenhjSytiSFFLUk1FUnZlUmo5bz0iLCJtYWMiOiJhOGFjNmJhNmM1Yzk5NTljNzYwM2U1ODE0ODY4OWM3ZDEyNDZkMTRlYjlkYmVhZjcwN2U1MGYyMjhmNDljY2FjIiwidGFnIjoiIn0=\"}', '{\"ci\": \"1234\", \"id\": 2, \"dir\": \"LOS OLIVOS\", \"fono\": \"7777777\", \"foto\": \"default.png\", \"tipo\": \"SUPERVISOR\", \"acceso\": \"1\", \"b_auth\": 0, \"ci_exp\": \"LP\", \"correo\": \"juan@gmail.com\", \"nombre\": \"JUAN\", \"status\": 1, \"auth2fa\": 0, \"materno\": \"CONDORI\", \"paterno\": \"PERES\", \"usuario\": \"JPERES\", \"created_at\": \"2023-04-24T20:23:30.000000Z\", \"updated_at\": \"2025-04-05T14:21:44.000000Z\", \"fecha_registro\": \"2023-04-24\", \"update_password\": 1, \"google2fa_secret\": \"eyJpdiI6IkNzdk1EWVBEQTFYSVZLQ1ZKWTZON3c9PSIsInZhbHVlIjoibDlmbEdRc2hNdmZzNmdqalQ3VlVqWTdaenhjSytiSFFLUk1FUnZlUmo5bz0iLCJtYWMiOiJhOGFjNmJhNmM1Yzk5NTljNzYwM2U1ODE0ODY4OWM3ZDEyNDZkMTRlYjlkYmVhZjcwN2U1MGYyMjhmNDljY2FjIiwidGFnIjoiIn0=\"}', 'USUARIOS', '2025-04-05', '10:21:44', '2025-04-05 14:21:44', '2025-04-05 14:21:44'),
+(18, 1, 'ELIMINACIÓN', 'EL USUARIO admin ELIMINÓ UN TIPO DE SALIDA', '{\"id\": 2, \"nombre\": \"TIPO DE SALIDA DOS\", \"status\": 1, \"created_at\": \"2023-04-25T14:38:21.000000Z\", \"updated_at\": \"2025-04-01T23:27:56.000000Z\", \"descripcion\": \"DESC SALIDA DOS\"}', NULL, 'TIPO DE SALIDAS', '2025-04-05', '10:27:29', '2025-04-05 14:27:29', '2025-04-05 14:27:29'),
+(19, 1, 'ELIMINACIÓN', 'EL USUARIO admin ELIMINÓ UNA SUGERENCIA DE STOCK MÍNIMO', '{\"id\": 4, \"fecha\": \"2025-04-05\", \"status\": 1, \"stock_min\": 5, \"created_at\": \"2025-04-05T14:46:20.000000Z\", \"updated_at\": \"2025-04-05T14:46:20.000000Z\", \"producto_id\": 4}', NULL, 'STOCK MÍNIMO', '2025-04-05', '10:50:48', '2025-04-05 14:50:48', '2025-04-05 14:50:48'),
+(20, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA VENTA', '{\"id\": 7, \"nit\": \"2312314\", \"total\": \"300.00\", \"estado\": \"CANCELADO\", \"user_id\": \"1\", \"descuento\": \"2\", \"cliente_id\": \"1\", \"created_at\": \"2025-04-05T15:03:26.000000Z\", \"updated_at\": \"2025-04-05T15:03:26.000000Z\", \"total_final\": \"294.00\", \"detalle_ventas\": [{\"id\": 12, \"precio\": \"200.00\", \"status\": 1, \"cantidad\": 1, \"subtotal\": \"200.00\", \"venta_id\": 7, \"created_at\": \"2025-04-05T15:03:26.000000Z\", \"updated_at\": \"2025-04-05T15:03:26.000000Z\", \"producto_id\": 2}, {\"id\": 13, \"precio\": \"100.00\", \"status\": 1, \"cantidad\": 1, \"subtotal\": \"100.00\", \"venta_id\": 7, \"created_at\": \"2025-04-05T15:03:26.000000Z\", \"updated_at\": \"2025-04-05T15:03:26.000000Z\", \"producto_id\": 1}], \"fecha_registro\": \"2025-04-05\"}', NULL, 'VENTAS', '2025-04-05', '11:03:26', '2025-04-05 15:03:26', '2025-04-05 15:03:26'),
+(21, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA VENTA', '{\"id\": 8, \"nit\": \"2312314\", \"total\": \"300.00\", \"estado\": \"CANCELADO\", \"user_id\": \"1\", \"descuento\": \"3\", \"cliente_id\": \"1\", \"created_at\": \"2025-04-05T15:08:01.000000Z\", \"updated_at\": \"2025-04-05T15:08:01.000000Z\", \"total_final\": \"291.00\", \"detalle_ventas\": [{\"id\": 14, \"precio\": \"100.00\", \"status\": 1, \"cantidad\": 1, \"subtotal\": \"100.00\", \"venta_id\": 8, \"created_at\": \"2025-04-05T15:08:01.000000Z\", \"updated_at\": \"2025-04-05T15:08:01.000000Z\", \"producto_id\": 1}, {\"id\": 15, \"precio\": \"200.00\", \"status\": 1, \"cantidad\": 1, \"subtotal\": \"200.00\", \"venta_id\": 8, \"created_at\": \"2025-04-05T15:08:01.000000Z\", \"updated_at\": \"2025-04-05T15:08:01.000000Z\", \"producto_id\": 2}], \"fecha_registro\": \"2025-04-05\"}', NULL, 'VENTAS', '2025-04-05', '11:08:01', '2025-04-05 15:08:01', '2025-04-05 15:08:01');
 
 -- --------------------------------------------------------
 
@@ -283,18 +297,22 @@ CREATE TABLE `kardex_productos` (
 INSERT INTO `kardex_productos` (`id`, `lugar`, `tipo_registro`, `registro_id`, `producto_id`, `detalle`, `precio`, `tipo_is`, `cantidad_ingreso`, `cantidad_salida`, `cantidad_saldo`, `cu`, `monto_ingreso`, `monto_salida`, `monto_saldo`, `fecha`, `status`, `created_at`, `updated_at`) VALUES
 (1, NULL, 'INGRESO', 1, 1, 'VALOR INICIAL', 100.00, 'INGRESO', 100, NULL, 100, 100.00, 10000.00, NULL, 10000.00, '2024-12-06', 1, '2024-12-06 18:52:06', '2025-04-01 23:14:24'),
 (2, NULL, 'INGRESO', 2, 2, 'VALOR INICIAL', 200.00, 'INGRESO', 123, NULL, 123, 200.00, 24600.00, NULL, 24600.00, '2024-12-06', 1, '2024-12-06 18:54:25', '2025-03-11 14:24:44'),
-(3, NULL, 'VENTA', 1, 1, 'VENTA DE PRODUCTO', 100.00, 'EGRESO', NULL, 1, 99, 100.00, NULL, 100.00, 9900.00, '2024-12-06', 1, '2024-12-06 19:00:07', '2025-04-01 23:14:24'),
+(3, NULL, 'VENTA', 1, 1, 'VENTA DE PRODUCTO', 100.00, 'EGRESO', NULL, 1, 99, 100.00, NULL, 100.00, 9900.00, '2024-12-06', 1, '2024-12-06 19:00:07', '2025-04-05 15:32:13'),
 (5, NULL, 'INGRESO', 3, 3, 'VALOR INICIAL', 999.99, 'INGRESO', 100, NULL, 100, 999.99, 99999.00, NULL, 99999.00, '2025-03-11', 1, '2025-03-11 14:21:01', '2025-03-11 14:25:44'),
-(7, NULL, 'VENTA', 4, 2, 'VENTA DE PRODUCTO', 200.00, 'EGRESO', NULL, 2, 121, 200.00, NULL, 400.00, 24200.00, '2025-03-11', 1, '2025-03-11 14:25:44', '2025-04-01 23:11:21'),
-(8, NULL, 'VENTA', 5, 1, 'VENTA DE PRODUCTO', 100.00, 'EGRESO', NULL, 4, 95, 100.00, NULL, 400.00, 9500.00, '2025-03-12', 1, '2025-03-12 19:35:12', '2025-04-01 23:14:24'),
+(7, NULL, 'VENTA', 4, 2, 'VENTA DE PRODUCTO', 200.00, 'EGRESO', NULL, 2, 121, 200.00, NULL, 400.00, 24200.00, '2025-03-11', 1, '2025-03-11 14:25:44', '2025-04-05 15:32:13'),
+(8, NULL, 'VENTA', 5, 1, 'VENTA DE PRODUCTO', 100.00, 'EGRESO', NULL, 4, 95, 100.00, NULL, 400.00, 9500.00, '2025-03-12', 1, '2025-03-12 19:35:12', '2025-04-05 15:32:13'),
 (9, NULL, 'VENTA', 6, 3, 'VENTA DE PRODUCTO', 999.99, 'EGRESO', NULL, 30, 70, 999.99, NULL, 29999.70, 69999.30, '2025-03-12', 1, '2025-03-12 19:54:12', '2025-03-12 19:54:12'),
 (10, NULL, 'VENTA', 7, 3, 'VENTA DE PRODUCTO', 999.99, 'EGRESO', NULL, 1, 69, 999.99, NULL, 999.99, 68999.31, '2025-03-12', 1, '2025-03-12 20:15:47', '2025-03-12 20:15:47'),
 (11, NULL, 'INGRESO', 4, 4, 'VALOR INICIAL', 230.00, 'INGRESO', 10, NULL, 10, 230.00, 2300.00, NULL, 2300.00, '2025-03-31', 1, '2025-03-31 23:28:20', '2025-03-31 23:28:20'),
 (12, NULL, 'VENTA', 8, 4, 'VENTA DE PRODUCTO', 230.00, 'EGRESO', NULL, 4, 6, 230.00, NULL, 920.00, 1380.00, '2025-03-31', 1, '2025-03-31 23:28:42', '2025-04-01 23:09:46'),
 (13, NULL, 'VENTA', 9, 4, 'VENTA DE PRODUCTO', 230.00, 'EGRESO', NULL, 1, 5, 230.00, NULL, 230.00, 1150.00, '2025-03-31', 0, '2025-03-31 23:38:58', '2025-04-01 23:09:46'),
-(14, NULL, 'SALIDA', 1, 1, 'DESC', 100.00, 'EGRESO', NULL, 1, 94, 100.00, NULL, 100.00, 9400.00, '2025-03-31', 1, '2025-03-31 23:40:28', '2025-04-01 23:16:55'),
-(15, NULL, 'VENTA', 10, 4, 'VENTA DE PRODUCTO', 230.00, 'EGRESO', NULL, 1, 5, 230.00, NULL, 230.00, 1150.00, '2025-04-01', 1, '2025-04-01 23:11:21', '2025-04-01 23:11:21'),
-(16, NULL, 'VENTA', 11, 1, 'VENTA DE PRODUCTO', 100.00, 'EGRESO', NULL, 1, 93, 100.00, NULL, 100.00, 9300.00, '2025-04-01', 1, '2025-04-01 23:29:31', '2025-04-01 23:29:31');
+(14, NULL, 'SALIDA', 1, 1, 'DESC', 100.00, 'EGRESO', NULL, 1, 94, 100.00, NULL, 100.00, 9400.00, '2025-03-31', 1, '2025-03-31 23:40:28', '2025-04-05 15:32:13'),
+(15, NULL, 'VENTA', 10, 4, 'VENTA DE PRODUCTO', 230.00, 'EGRESO', NULL, 1, 5, 230.00, NULL, 230.00, 1150.00, '2025-04-01', 1, '2025-04-01 23:11:21', '2025-04-05 15:32:13'),
+(16, NULL, 'VENTA', 11, 1, 'VENTA DE PRODUCTO', 100.00, 'EGRESO', NULL, 1, 93, 100.00, NULL, 100.00, 9300.00, '2025-04-01', 1, '2025-04-01 23:29:31', '2025-04-05 15:32:13'),
+(17, NULL, 'VENTA', 12, 2, 'VENTA DE PRODUCTO', 200.00, 'EGRESO', NULL, 1, 120, 200.00, NULL, 200.00, 24000.00, '2025-04-05', 1, '2025-04-05 15:03:26', '2025-04-05 15:32:13'),
+(18, NULL, 'VENTA', 13, 1, 'VENTA DE PRODUCTO', 100.00, 'EGRESO', NULL, 1, 92, 100.00, NULL, 100.00, 9200.00, '2025-04-05', 1, '2025-04-05 15:03:26', '2025-04-05 15:32:13'),
+(19, NULL, 'VENTA', 14, 1, 'VENTA DE PRODUCTO', 100.00, 'EGRESO', NULL, 1, 91, 100.00, NULL, 100.00, 9100.00, '2025-04-05', 1, '2025-04-05 15:08:01', '2025-04-05 15:32:13'),
+(20, NULL, 'VENTA', 15, 2, 'VENTA DE PRODUCTO', 200.00, 'EGRESO', NULL, 1, 119, 200.00, NULL, 200.00, 23800.00, '2025-04-05', 1, '2025-04-05 15:08:01', '2025-04-05 15:32:13');
 
 -- --------------------------------------------------------
 
@@ -316,7 +334,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (1, '2023_04_27_123517_create_fecha_stocks_table', 1),
 (2, '2023_05_19_193721_create_categorias_table', 2),
 (3, '2024_09_11_112545_create_notificacions_table', 3),
-(4, '2024_09_11_112717_create_notificacion_users_table', 4);
+(4, '2024_09_11_112717_create_notificacion_users_table', 4),
+(5, '2025_04_05_102817_create_stock_minimos_table', 5);
 
 -- --------------------------------------------------------
 
@@ -359,7 +378,12 @@ INSERT INTO `notificacions` (`id`, `tipo`, `registro_id`, `descripcion`, `fecha`
 (17, 'DEBAJO STOCK MINIMO', 1, 'ALERTA URGENTE EL PRODUCTO TECLADO KEYBOARD SE ENCUENTRA MENOR AL STOCK MÍNIMO, LE SUGERIMOS REABASTECER EL PRODUCTO CON URGENCIA', '2025-04-01', '13:48:46', '2025-04-01 17:48:46', '2025-04-01 17:48:46'),
 (18, 'DEBAJO STOCK MINIMO', 2, 'ALERTA URGENTE EL PRODUCTO COD.DOS SE ENCUENTRA MENOR AL STOCK MÍNIMO, LE SUGERIMOS REABASTECER EL PRODUCTO CON URGENCIA', '2025-04-01', '13:48:46', '2025-04-01 17:48:46', '2025-04-01 17:48:46'),
 (19, 'DEBAJO STOCK MINIMO', 3, 'ALERTA URGENTE EL PRODUCTO PRODUCTO TRES SE ENCUENTRA MENOR AL STOCK MÍNIMO, LE SUGERIMOS REABASTECER EL PRODUCTO CON URGENCIA', '2025-04-01', '13:48:46', '2025-04-01 17:48:46', '2025-04-01 17:48:46'),
-(20, 'DEBAJO STOCK MINIMO', 4, 'ALERTA URGENTE EL PRODUCTO PRODUCTO CUATRO SE ENCUENTRA MENOR AL STOCK MÍNIMO, LE SUGERIMOS REABASTECER EL PRODUCTO CON URGENCIA', '2025-04-01', '13:48:46', '2025-04-01 17:48:46', '2025-04-01 17:48:46');
+(20, 'DEBAJO STOCK MINIMO', 4, 'ALERTA URGENTE EL PRODUCTO PRODUCTO CUATRO SE ENCUENTRA MENOR AL STOCK MÍNIMO, LE SUGERIMOS REABASTECER EL PRODUCTO CON URGENCIA', '2025-04-01', '13:48:46', '2025-04-01 17:48:46', '2025-04-01 17:48:46'),
+(21, 'LLEGANDO A STOCK MINIMO', 4, 'EL PRODUCTO PRODUCTO CUATRO SE ENCUENTRA CERCA DEL STOCK MÍNIMO, LE SUGERIMOS REABASTECER EL PRODUCTO', '2025-04-05', '10:06:52', '2025-04-05 14:06:52', '2025-04-05 14:06:52'),
+(22, 'DEBAJO STOCK MINIMO', 1, 'ALERTA URGENTE EL PRODUCTO TECLADO KEYBOARD SE ENCUENTRA MENOR AL STOCK MÍNIMO, LE SUGERIMOS REABASTECER EL PRODUCTO CON URGENCIA', '2025-04-05', '10:06:52', '2025-04-05 14:06:52', '2025-04-05 14:06:52'),
+(23, 'DEBAJO STOCK MINIMO', 2, 'ALERTA URGENTE EL PRODUCTO COD.DOS SE ENCUENTRA MENOR AL STOCK MÍNIMO, LE SUGERIMOS REABASTECER EL PRODUCTO CON URGENCIA', '2025-04-05', '10:06:52', '2025-04-05 14:06:52', '2025-04-05 14:06:52'),
+(24, 'DEBAJO STOCK MINIMO', 3, 'ALERTA URGENTE EL PRODUCTO PRODUCTO TRES SE ENCUENTRA MENOR AL STOCK MÍNIMO, LE SUGERIMOS REABASTECER EL PRODUCTO CON URGENCIA', '2025-04-05', '10:06:52', '2025-04-05 14:06:52', '2025-04-05 14:06:52'),
+(25, 'DEBAJO STOCK MINIMO', 4, 'ALERTA URGENTE EL PRODUCTO PRODUCTO CUATRO SE ENCUENTRA MENOR AL STOCK MÍNIMO, LE SUGERIMOS REABASTECER EL PRODUCTO CON URGENCIA', '2025-04-05', '10:06:52', '2025-04-05 14:06:52', '2025-04-05 14:06:52');
 
 -- --------------------------------------------------------
 
@@ -440,7 +464,27 @@ INSERT INTO `notificacion_users` (`id`, `notificacion_id`, `user_id`, `visto`, `
 (57, 17, 4, 0, '2025-04-01 23:47:19', '2025-04-01 23:47:19'),
 (58, 18, 4, 0, '2025-04-01 23:47:19', '2025-04-01 23:47:19'),
 (59, 19, 4, 0, '2025-04-01 23:47:19', '2025-04-01 23:47:19'),
-(60, 20, 4, 0, '2025-04-01 23:47:19', '2025-04-01 23:47:19');
+(60, 20, 4, 0, '2025-04-01 23:47:19', '2025-04-01 23:47:19'),
+(61, 21, 1, 0, '2025-04-05 14:06:52', '2025-04-05 14:06:52'),
+(62, 21, 2, 0, '2025-04-05 14:06:52', '2025-04-05 14:06:52'),
+(63, 21, 3, 0, '2025-04-05 14:06:52', '2025-04-05 14:06:52'),
+(64, 21, 4, 0, '2025-04-05 14:06:52', '2025-04-05 14:06:52'),
+(65, 22, 1, 0, '2025-04-05 14:06:52', '2025-04-05 14:06:52'),
+(66, 22, 2, 0, '2025-04-05 14:06:52', '2025-04-05 14:06:52'),
+(67, 22, 3, 0, '2025-04-05 14:06:52', '2025-04-05 14:06:52'),
+(68, 22, 4, 0, '2025-04-05 14:06:52', '2025-04-05 14:06:52'),
+(69, 23, 1, 0, '2025-04-05 14:06:52', '2025-04-05 14:06:52'),
+(70, 23, 2, 0, '2025-04-05 14:06:52', '2025-04-05 14:06:52'),
+(71, 23, 3, 0, '2025-04-05 14:06:52', '2025-04-05 14:06:52'),
+(72, 23, 4, 0, '2025-04-05 14:06:52', '2025-04-05 14:06:52'),
+(73, 24, 1, 0, '2025-04-05 14:06:52', '2025-04-05 14:06:52'),
+(74, 24, 2, 0, '2025-04-05 14:06:52', '2025-04-05 14:06:52'),
+(75, 24, 3, 0, '2025-04-05 14:06:52', '2025-04-05 14:06:52'),
+(76, 24, 4, 0, '2025-04-05 14:06:52', '2025-04-05 14:06:52'),
+(77, 25, 1, 0, '2025-04-05 14:06:52', '2025-04-05 14:06:52'),
+(78, 25, 2, 0, '2025-04-05 14:06:52', '2025-04-05 14:06:52'),
+(79, 25, 3, 0, '2025-04-05 14:06:52', '2025-04-05 14:06:52'),
+(80, 25, 4, 0, '2025-04-05 14:06:52', '2025-04-05 14:06:52');
 
 -- --------------------------------------------------------
 
@@ -488,10 +532,10 @@ CREATE TABLE `productos` (
 --
 
 INSERT INTO `productos` (`id`, `codigo_producto`, `nro_codigo`, `nombre`, `descripcion`, `precio`, `stock_min`, `stock_actual`, `imagen`, `categoria_id`, `fecha_registro`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'COD.1', 1, 'TECLADO KEYBOARD', 'DESC. PRODUCTO 31', 100.00, 5, 93, '', 1, '2024-09-25', 1, '2024-09-25 19:27:16', '2025-04-01 23:29:31'),
-(2, 'COD.2', 2, 'COD.DOS', 'PRODUCTO DOS', 200.00, 0, 121, '1732760350_2.png', 1, '2024-11-27', 1, '2024-11-28 02:19:10', '2025-04-01 23:11:21'),
-(3, 'COD.3', 3, 'PRODUCTO TRES', 'DESC PROD TRES', 999.99, 38, 69, '', 2, '2025-03-11', 1, '2025-03-11 14:20:32', '2025-04-01 23:11:21'),
-(4, 'COD.4', 4, 'PRODUCTO CUATRO', 'DESC CUATR', 230.00, 4, 5, '', 1, '2025-03-19', 1, '2025-03-19 14:48:53', '2025-04-01 23:11:21');
+(1, 'COD.1', 1, 'TECLADO KEYBOARD', 'DESC. PRODUCTO 31', 100.00, 5, 91, '', 1, '2024-09-25', 1, '2024-09-25 19:27:16', '2025-04-05 15:32:13'),
+(2, 'COD.2', 2, 'COD.DOS', 'PRODUCTO DOS', 200.00, 0, 119, '1732760350_2.png', 1, '2024-11-27', 1, '2024-11-28 02:19:10', '2025-04-05 15:32:13'),
+(3, 'COD.3', 3, 'PRODUCTO TRES', 'DESC PROD TRES', 999.99, 38, 69, '', 2, '2025-03-11', 1, '2025-03-11 14:20:32', '2025-04-05 15:32:13'),
+(4, 'COD.4', 4, 'PRODUCTO CUATRO', 'DESC CUATR', 230.00, 4, 5, '', 1, '2025-03-19', 1, '2025-03-19 14:48:53', '2025-04-05 15:32:13');
 
 -- --------------------------------------------------------
 
@@ -550,6 +594,32 @@ INSERT INTO `salida_productos` (`id`, `producto_id`, `cantidad`, `fecha_salida`,
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `stock_minimos`
+--
+
+CREATE TABLE `stock_minimos` (
+  `id` bigint UNSIGNED NOT NULL,
+  `producto_id` bigint UNSIGNED NOT NULL,
+  `fecha` date NOT NULL,
+  `stock_min` double NOT NULL,
+  `status` int NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `stock_minimos`
+--
+
+INSERT INTO `stock_minimos` (`id`, `producto_id`, `fecha`, `stock_min`, `status`, `created_at`, `updated_at`) VALUES
+(1, 1, '2025-04-05', 5, 1, '2025-04-05 14:46:20', '2025-04-05 14:46:20'),
+(2, 2, '2025-04-05', 0, 1, '2025-04-05 14:46:20', '2025-04-05 14:46:20'),
+(3, 3, '2025-04-05', 38, 1, '2025-04-05 14:46:20', '2025-04-05 14:46:20'),
+(4, 4, '2025-04-05', 5, 0, '2025-04-05 14:46:20', '2025-04-05 14:50:48');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `tipo_ingresos`
 --
 
@@ -591,7 +661,7 @@ CREATE TABLE `tipo_salidas` (
 
 INSERT INTO `tipo_salidas` (`id`, `nombre`, `descripcion`, `status`, `created_at`, `updated_at`) VALUES
 (1, 'SALIDA UNO', 'DESC. SALIDA UNO', 1, '2023-04-25 14:38:16', '2024-11-04 21:08:37'),
-(2, 'TIPO DE SALIDA DOS', 'DESC SALIDA DOS', 1, '2023-04-25 14:38:21', '2025-04-01 23:27:56');
+(2, 'TIPO DE SALIDA DOS', 'DESC SALIDA DOS', 1, '2023-04-25 14:38:21', '2025-04-05 14:27:29');
 
 -- --------------------------------------------------------
 
@@ -630,7 +700,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `usuario`, `nombre`, `paterno`, `materno`, `ci`, `ci_exp`, `dir`, `correo`, `fono`, `tipo`, `foto`, `password`, `acceso`, `fecha_registro`, `status`, `b_auth`, `update_password`, `auth2fa`, `google2fa_secret`, `created_at`, `updated_at`) VALUES
 (1, 'admin', 'admin', 'admin', NULL, '', '', '', NULL, '', 'ADMINISTRADOR', NULL, '$2y$10$RrCZZySOwPej2gMFWsrjMe6dLzfaL5Q88h4J75I1FesEBRNPwq1x.', 1, '2023-01-11', 1, 0, 1, 0, NULL, NULL, NULL),
-(2, 'JPERES', 'JUAN', 'PERES', 'CONDORI', '1234', 'LP', 'LOS OLIVOS', 'juan@gmail.com', '7777777', 'SUPERVISOR', 'default.png', '$2y$10$TBAsWARQnA/7Q42IkmQoPubombKWw5HXAP7eLNlzlCjZLUgXlbBGG', 1, '2023-04-24', 1, 0, 1, 1, 'eyJpdiI6IkNzdk1EWVBEQTFYSVZLQ1ZKWTZON3c9PSIsInZhbHVlIjoibDlmbEdRc2hNdmZzNmdqalQ3VlVqWTdaenhjSytiSFFLUk1FUnZlUmo5bz0iLCJtYWMiOiJhOGFjNmJhNmM1Yzk5NTljNzYwM2U1ODE0ODY4OWM3ZDEyNDZkMTRlYjlkYmVhZjcwN2U1MGYyMjhmNDljY2FjIiwidGFnIjoiIn0=', '2023-04-24 20:23:30', '2025-04-01 23:23:52'),
+(2, 'JPERES', 'JUAN', 'PERES', 'CONDORI', '1234', 'LP', 'LOS OLIVOS', 'juan@gmail.com', '7777777', 'SUPERVISOR', 'default.png', '$2y$10$TBAsWARQnA/7Q42IkmQoPubombKWw5HXAP7eLNlzlCjZLUgXlbBGG', 1, '2023-04-24', 1, 0, 1, 0, 'eyJpdiI6IkNzdk1EWVBEQTFYSVZLQ1ZKWTZON3c9PSIsInZhbHVlIjoibDlmbEdRc2hNdmZzNmdqalQ3VlVqWTdaenhjSytiSFFLUk1FUnZlUmo5bz0iLCJtYWMiOiJhOGFjNmJhNmM1Yzk5NTljNzYwM2U1ODE0ODY4OWM3ZDEyNDZkMTRlYjlkYmVhZjcwN2U1MGYyMjhmNDljY2FjIiwidGFnIjoiIn0=', '2023-04-24 20:23:30', '2025-04-05 14:21:44'),
 (3, 'MMAMANI', 'MARIA', 'MAMANI', 'GONZALES', '1234567', 'LP', 'ZONA LOS OLIVOS', 'maria@gmail.com', '7777777', 'SUPERVISOR', '1741794978_MMAMANI.jpg', '$2y$10$Jbi.AFSOz5KDg6hwjH9yNu3mEQQ31bCsIHrIuCp2g9pXqEEV5NQW6', 1, '2025-03-12', 1, 0, 1, 0, NULL, '2025-03-12 15:56:18', '2025-03-19 13:41:49'),
 (4, 'PCORTEZ', 'PEDRO', 'CORTEZ', 'RAMIRES', '3232323', 'LP', 'ZONA LOS OLIVOS', 'pedro@gmail.com', '7777777', 'VENDEDOR', '1743551222_PCORTEZ.png', '$2y$10$TMOD9nM9..pQ2IeQJQpwc.4Gzg8gAcqDQVsCder9Kv/hCMN6gpyrm', 1, '2025-04-01', 1, 0, 1, 0, NULL, '2025-04-01 23:47:02', '2025-04-02 00:35:49');
 
@@ -665,7 +735,9 @@ INSERT INTO `ventas` (`id`, `user_id`, `cliente_id`, `nit`, `total`, `descuento`
 (3, 1, 3, '43434', 29999.70, 0.00, 29999.70, 'CANCELADO', '2025-03-12', 1, '2025-03-12 19:54:12', '2025-03-12 19:54:12'),
 (4, 1, 2, '1231231', 920.00, 0.00, 920.00, 'CANCELADO', '2025-03-31', 1, '2025-03-31 23:28:42', '2025-03-31 23:28:42'),
 (5, 1, 1, '2312314', 230.00, 0.00, 230.00, 'CANCELADO', '2025-03-31', 0, '2025-03-31 23:38:58', '2025-04-01 23:09:46'),
-(6, 1, 1, '2312314', 100.00, 0.00, 100.00, 'CANCELADO', '2025-04-01', 1, '2025-04-01 23:29:31', '2025-04-01 23:29:31');
+(6, 1, 1, '2312314', 100.00, 0.00, 100.00, 'CANCELADO', '2025-04-01', 1, '2025-04-01 23:29:31', '2025-04-01 23:29:31'),
+(7, 1, 1, '2312314', 300.00, 2.00, 294.00, 'CANCELADO', '2025-04-05', 1, '2025-04-05 15:03:26', '2025-04-05 15:03:26'),
+(8, 1, 1, '2312314', 300.00, 3.00, 291.00, 'CANCELADO', '2025-04-05', 1, '2025-04-05 15:08:01', '2025-04-05 15:08:01');
 
 --
 -- Índices para tablas volcadas
@@ -775,6 +847,13 @@ ALTER TABLE `salida_productos`
   ADD KEY `salida_productos_tipo_salida_id_foreign` (`tipo_salida_id`);
 
 --
+-- Indices de la tabla `stock_minimos`
+--
+ALTER TABLE `stock_minimos`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `stock_minimos_producto_id_foreign` (`producto_id`);
+
+--
 -- Indices de la tabla `tipo_ingresos`
 --
 ALTER TABLE `tipo_ingresos`
@@ -826,19 +905,19 @@ ALTER TABLE `configuracions`
 -- AUTO_INCREMENT de la tabla `detalle_ventas`
 --
 ALTER TABLE `detalle_ventas`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de la tabla `fecha_stocks`
 --
 ALTER TABLE `fecha_stocks`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT de la tabla `historial_accions`
 --
 ALTER TABLE `historial_accions`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT de la tabla `ingreso_productos`
@@ -850,25 +929,25 @@ ALTER TABLE `ingreso_productos`
 -- AUTO_INCREMENT de la tabla `kardex_productos`
 --
 ALTER TABLE `kardex_productos`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT de la tabla `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `notificacions`
 --
 ALTER TABLE `notificacions`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT de la tabla `notificacion_users`
 --
 ALTER TABLE `notificacion_users`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
 
 --
 -- AUTO_INCREMENT de la tabla `personal_access_tokens`
@@ -895,6 +974,12 @@ ALTER TABLE `salida_productos`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT de la tabla `stock_minimos`
+--
+ALTER TABLE `stock_minimos`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT de la tabla `tipo_ingresos`
 --
 ALTER TABLE `tipo_ingresos`
@@ -916,7 +1001,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de la tabla `ventas`
 --
 ALTER TABLE `ventas`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Restricciones para tablas volcadas
@@ -934,6 +1019,12 @@ ALTER TABLE `fecha_stocks`
 ALTER TABLE `notificacion_users`
   ADD CONSTRAINT `notificacion_users_notificacion_id_foreign` FOREIGN KEY (`notificacion_id`) REFERENCES `notificacions` (`id`),
   ADD CONSTRAINT `notificacion_users_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+--
+-- Filtros para la tabla `stock_minimos`
+--
+ALTER TABLE `stock_minimos`
+  ADD CONSTRAINT `stock_minimos_producto_id_foreign` FOREIGN KEY (`producto_id`) REFERENCES `productos` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

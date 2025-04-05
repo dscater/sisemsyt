@@ -28,7 +28,7 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4>Stock de producto por fechas</h4>
+                                <h4>Stock de productos por Rango de Fechas</h4>
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="row">
@@ -106,7 +106,7 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4>Predicción de stock</h4>
+                                <h4>Predicción de Stock de Productos</h4>
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="row">
@@ -399,7 +399,7 @@ export default {
 
                     Highcharts.chart("container2", {
                         title: {
-                            text: "STOCK DE PRODUCTOS POR FECHAS",
+                            text: "STOCK DE PRODUCTOS POR RANGO DE FECHAS",
                         },
                         subtitle: {
                             text: "",
@@ -481,7 +481,7 @@ export default {
                         },
                         title: {
                             text:
-                                "PREDICCIÓN DE STOCK PRODUCTOS PARA " +
+                                "PREDICCIÓN DE STOCK DE PRODUCTOS PARA " +
                                 response.data.mes_anio,
                         },
                         subtitle: {

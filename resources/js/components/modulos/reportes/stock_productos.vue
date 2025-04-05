@@ -4,7 +4,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Reportes de stock de productos</h1>
+                        <h1>Reporte de stock de productos</h1>
                     </div>
                 </div>
             </div>

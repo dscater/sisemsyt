@@ -30,6 +30,13 @@ class LoginAttemptMiddleware
         $key = 'login_attempts:' . $user_key;
 
         $existe_user = User::where("usuario", $request->usuario)->get()->first();
+
+        if ($existe_user && $existe_user->acceso == 0) {
+            Cache::forget($key);
+            Cache::forget($key . ':blocked');
+            return response()->JSON(['error' => 'Cuenta bloqueada. Debe contactarse con el administrador del sistema']);
+        }
+
         $response = $next($request);
         if (Cache::has($key . ':blocked')) {
             $unlockTime = Cache::get($key . ':blocked'); // Hora exacta de desbloqueo

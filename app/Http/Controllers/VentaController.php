@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use PDF;
 use App\library\numero_a_letras\src\NumeroALetras;
+use App\Models\Configuracion;
 use App\Models\DetalleVenta;
 use App\Models\Devolucion;
 use App\Models\DevolucionDetalle;
@@ -18,6 +18,7 @@ use App\Services\HistorialAccionService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use PDF;
 
 class VentaController extends Controller
 {
@@ -84,6 +85,20 @@ class VentaController extends Controller
     public function show(Venta $venta)
     {
         return response()->JSON($venta->load("user")->load("cliente")->load("detalle_ventas.producto"));
+    }
+
+    public function printTicket(Venta $venta)
+    {
+        $oConfiguracion = Configuracion::first();
+        $convertir = new NumeroALetras();
+        $array_monto = explode('.', number_format($venta->total_final, 2, '.', ''));
+        $literal = $convertir->convertir($array_monto[0]);
+        $literal .= " " . $array_monto[1] . "/100." . " BOLIVIANOS";
+
+        $customPaper = [0, 0, 206.0, 700.0]; // [top, left, bottom, right]
+
+        $pdf = PDF::loadView('parcials.ticket', compact("venta", "oConfiguracion", 'literal'))->setPaper($customPaper, 'portrait');
+        return $pdf->stream('ticket.pdf', array('Attachment' => 1));
     }
 
     public function update(Venta $venta, Request $request)

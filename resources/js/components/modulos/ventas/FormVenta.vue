@@ -147,6 +147,7 @@
                                             :loading="loading_buscador"
                                             @change="getProducto"
                                             @focus="buscarProducto"
+                                            ref="selectProductos"
                                         >
                                             <el-option
                                                 v-for="item in aux_lista_productos"
@@ -456,6 +457,10 @@ export default {
     watch: {
         venta(newVal, oldVal) {
             if (newVal.id != 0) {
+                // this.$forceUpdate();
+                // this.$nextTick(() => {
+                //     this.$refs["selectProductos"].focus();
+                // });
                 this.getClientes();
                 this.getCliente();
             }

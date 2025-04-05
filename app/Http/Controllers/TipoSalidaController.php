@@ -34,7 +34,7 @@ class TipoSalidaController extends Controller
 
     public function index(Request $request)
     {
-        $tipo_salidas = TipoSalida::all();
+        $tipo_salidas = TipoSalida::where("status", 1)->get();
         return response()->JSON(['tipo_salidas' => $tipo_salidas, 'total' => count($tipo_salidas)], 200);
     }
 
@@ -110,7 +110,8 @@ class TipoSalidaController extends Controller
             }
 
             $old_tipo_salida = clone $tipo_salida;
-            $tipo_salida->delete();
+            $tipo_salida->status = 0;
+            $tipo_salida->save();
 
             // registrar accion
             $this->historialAccionService->registrarAccion($this->modulo, "ELIMINACIÓN", "ELIMINÓ UN TIPO DE SALIDA", $old_tipo_salida);

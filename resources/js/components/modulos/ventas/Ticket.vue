@@ -315,156 +315,157 @@ export default {
                 });
         },
         imrpimirContenedor() {
-            this.imprimiendo = true;
-            if (this.oVenta.qr && this.oVenta.qr.trim() != "") {
-                var divContents =
-                    document.getElementById("principal").innerHTML;
-                var a = window.open("", "");
-                a.document.write("<html>");
-                a.document.write("<head>");
-                a.document.write(
-                    `
-                    <style>
-                        @page { margin: 0;}
-                        body { width: 7cm !important;}
-    
-                        #principal{
-                            width: 7cm !important;
-                        }
-    
-                        #contenedor_imprimir {
-                            font-size: 0.95em;
-                            width: 7cm !important;
-                            padding-top: 15px;
-                            padding-bottom: 15px;
-                            font-family: 'Times New Roman', Times, serif;
-                        }
-    
-                        .elemento {
-                            text-align: center;
-                        }
-    
-                        .elemento.logo img {
-                            width: 60%;
-                        }
-    
-                        .separador {
-                            padding: 0px;
-                            margin: 0px;
-                        }
-    
-                        .fono,
-                        .lp {
-                            font-size: 0.75em;
-                        }
-    
-                        .txt_fo {
-                            margin-top: 3px;
-                            border-top: solid 1px black;
-                        }
-    
-                        .detalle {
-                            border-top: solid 1px black;
-                            border-bottom: solid 1px black;
-                        }
-    
-                        .act_eco {
-                            font-size: 0.73em;
-                        }
-    
-                        .info1 {
-                            text-align: center;
-                            font-weight: bold;
-                            font-size: 0.75em;
-                        }
-    
-                        .info2 {
-                            text-align: center;
-                            font-weight: bold;
-                            font-size: 0.7em;
-                        }
-    
-                        .izquierda {
-                            text-align: left;
-                            padding-left: 5px;
-                        }
-    
-                        .derecha {
-                            text-align: right;
-                            padding-right: 5px;
-                        }
-    
-                        .informacion {
-                            padding: 5px;
-                            width: 100%;
-                        }
-    
-                        .bold {
-                            font-weight: bold;
-                        }
-    
-                        .cobro {
-                            width: 100%;
-                            padding: 5px;
-                        }
-    
-                        .cobro table {
-                            width: 100%;
-                        }
-    
-                        .centreado {
-                            text-align: center;
-                        }
-    
-                        .cobro table tr td {
-                            font-size: 0.9em;
-                        }
-    
-                        .literal {
-                            font-size: 0.7em;
-                        }
-    
-                        .cod_control,
-                        .fecha_emision {
-                            font-size: 0.9em;
-                        }
-    
-                        .cobro table {
-                            border-collapse: collapse;
-                        }
-    
-                        .cobro table tr.punteado td {
-                            border-top: solid 1px black;
-                            border-bottom: solid 1px black;
-                        }
-       
-                        .total {
-                            font-size: 0.9em !important;
-                        }
+            window.open(this.oVenta.url_ticket, "_blank");
+            // this.imprimiendo = true;
+            // if (this.oVenta.qr && this.oVenta.qr.trim() != "") {
+            //     var divContents =
+            //         document.getElementById("principal").innerHTML;
+            //     var a = window.open("", "");
+            //     a.document.write("<html>");
+            //     a.document.write("<head>");
+            //     a.document.write(
+            //         `
+            //         <style>
+            //             @page { margin: 0;}
+            //             body { width: 7cm !important;}
 
-                        @media print{
-                            contenedor_qr{
-                                display:block;
-                                width:100%;
-                            }
-                            img.qr {
-                                width: 160px;
-                                height: 160px;
-                            }
-                        }
-                    </style>
-                    `
-                );
-                a.document.write("</head>");
-                a.document.write("<body >");
-                a.document.write(divContents);
-                a.document.write("</body></html>");
-                a.document.close();
-                a.onload = function () {
-                    a.print();
-                };
-                this.imprimiendo = false;
-            }
+            //             #principal{
+            //                 width: 7cm !important;
+            //             }
+
+            //             #contenedor_imprimir {
+            //                 font-size: 0.95em;
+            //                 width: 7cm !important;
+            //                 padding-top: 15px;
+            //                 padding-bottom: 15px;
+            //                 font-family: 'Times New Roman', Times, serif;
+            //             }
+
+            //             .elemento {
+            //                 text-align: center;
+            //             }
+
+            //             .elemento.logo img {
+            //                 width: 60%;
+            //             }
+
+            //             .separador {
+            //                 padding: 0px;
+            //                 margin: 0px;
+            //             }
+
+            //             .fono,
+            //             .lp {
+            //                 font-size: 0.75em;
+            //             }
+
+            //             .txt_fo {
+            //                 margin-top: 3px;
+            //                 border-top: solid 1px black;
+            //             }
+
+            //             .detalle {
+            //                 border-top: solid 1px black;
+            //                 border-bottom: solid 1px black;
+            //             }
+
+            //             .act_eco {
+            //                 font-size: 0.73em;
+            //             }
+
+            //             .info1 {
+            //                 text-align: center;
+            //                 font-weight: bold;
+            //                 font-size: 0.75em;
+            //             }
+
+            //             .info2 {
+            //                 text-align: center;
+            //                 font-weight: bold;
+            //                 font-size: 0.7em;
+            //             }
+
+            //             .izquierda {
+            //                 text-align: left;
+            //                 padding-left: 5px;
+            //             }
+
+            //             .derecha {
+            //                 text-align: right;
+            //                 padding-right: 5px;
+            //             }
+
+            //             .informacion {
+            //                 padding: 5px;
+            //                 width: 100%;
+            //             }
+
+            //             .bold {
+            //                 font-weight: bold;
+            //             }
+
+            //             .cobro {
+            //                 width: 100%;
+            //                 padding: 5px;
+            //             }
+
+            //             .cobro table {
+            //                 width: 100%;
+            //             }
+
+            //             .centreado {
+            //                 text-align: center;
+            //             }
+
+            //             .cobro table tr td {
+            //                 font-size: 0.9em;
+            //             }
+
+            //             .literal {
+            //                 font-size: 0.7em;
+            //             }
+
+            //             .cod_control,
+            //             .fecha_emision {
+            //                 font-size: 0.9em;
+            //             }
+
+            //             .cobro table {
+            //                 border-collapse: collapse;
+            //             }
+
+            //             .cobro table tr.punteado td {
+            //                 border-top: solid 1px black;
+            //                 border-bottom: solid 1px black;
+            //             }
+
+            //             .total {
+            //                 font-size: 0.9em !important;
+            //             }
+
+            //             @media print{
+            //                 contenedor_qr{
+            //                     display:block;
+            //                     width:100%;
+            //                 }
+            //                 img.qr {
+            //                     width: 160px;
+            //                     height: 160px;
+            //                 }
+            //             }
+            //         </style>
+            //         `
+            //     );
+            //     a.document.write("</head>");
+            //     a.document.write("<body >");
+            //     a.document.write(divContents);
+            //     a.document.write("</body></html>");
+            //     a.document.close();
+            //     a.onload = function () {
+            //         a.print();
+            //     };
+            //     this.imprimiendo = false;
+            // }
         },
     },
 };

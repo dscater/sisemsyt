@@ -17,10 +17,9 @@
         }
 
         table {
-            width: 80%;
+            width: 100%;
             margin: auto;
             border-collapse: collapse;
-            table-layout: fixed;
             margin-top: 20px;
             page-break-inside: avoid;
         }
@@ -29,9 +28,13 @@
         tbody tr td {
             font-size: 0.63em;
             word-wrap: break-word;
+            word-break: break-all;
+            white-space: normal;
         }
 
-        tr { page-break-inside: avoid !important; }
+        tr {
+            page-break-inside: avoid !important;
+        }
 
         .encabezado {
             width: 100%;
@@ -84,7 +87,6 @@
 
         table thead tr th {
             padding: 3px;
-            font-size: 0.7em;
         }
 
         table tbody tr td {
@@ -165,7 +167,7 @@
         <h2 class="titulo">
             {{ $configuracion->first()->razon_social }}
         </h2>
-        <h4 class="texto">STOCK DE PRODUCTOS</h4>
+        <h4 class="texto">STOCK MÍNIMO</h4>
         <h4 class="fecha">Expedido: {{ date('d-m-Y') }}</h4>
     </div>
     <table border="1">
@@ -175,17 +177,23 @@
                 $cont = 1;
             @endphp
             <tr class="green">
-                <th class="bold" width="5%">N°</th>
+                <th class="bold" width="5%">ID</th>
                 <th class="bold">PRODUCTO</th>
-                <th class="bold" width="15%">STOCK ACTUAL</th>
+                <th class="bold" width="15%">FECHA</th>
                 <th class="bold" width="15%">STOCK MÍNIMO</th>
+                <th class="bold" width="5%">STATUS</th>
+                <th class="bold" width="">CREACIÓN</th>
+                <th class="bold" width="">ACTUALIZACIÓN</th>
             </tr>
             @foreach ($registros as $value)
                 <tr>
-                    <td class="centreado">{{ $cont++ }}</td>
-                    <td class="iquierda">{{ $value->nombre }}</td>
-                    <td class="centreado">{{ $value->stock_actual }}</td>
+                    <td class="centreado">{{ $value->id }}</td>
+                    <td class="iquierda">{{ $value->producto->nombre }}</td>
+                    <td class="centreado">{{ $value->fecha_txt }}</td>
                     <td class="centreado">{{ $value->stock_min }}</td>
+                    <td class="centreado">{{ $value->status }}</td>
+                    <td class="centreado">{{ $value->created_txt }}</td>
+                    <td class="centreado">{{ $value->updated_txt }}</td>
                 </tr>
             @endforeach
         </tbody>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\DetalleVenta;
 use App\Models\Producto;
+use App\Models\StockMinimo;
 use Illuminate\Http\Request;
 use Phpml\Association\Apriori;
 
@@ -133,6 +134,16 @@ class SugerenciaController extends Controller
             $producto->total_vendido = $total;
 
             return $producto;
+        });
+
+
+        $productos->each(function ($producto) {
+            StockMinimo::create([
+                'producto_id' => $producto->id,
+                'fecha' => date("Y-m-d"),
+                'stock_min' => $producto->total_vendido,
+                'status' => 1,
+            ]);
         });
 
         return response()->JSON([

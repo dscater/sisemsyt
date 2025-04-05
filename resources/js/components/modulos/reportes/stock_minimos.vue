@@ -4,7 +4,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Reporte de kardex de productos</h1>
+                        <h1>Reporte de stock mínimo</h1>
                     </div>
                 </div>
             </div>
@@ -307,7 +307,7 @@ export default {
                 responseType: "blob",
             };
             axios
-                .post("/admin/reportes/kardex", this.oReporte, config)
+                .post("/admin/reportes/stock_minimos", this.oReporte, config)
                 .then((res) => {
                     this.errors = [];
                     this.enviando = false;

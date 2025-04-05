@@ -7,6 +7,7 @@ use App\Models\DetalleVenta;
 use App\Models\HistorialAccion;
 use App\Models\KardexProducto;
 use App\Models\Producto;
+use App\Models\StockMinimo;
 use App\Models\User;
 use App\Models\Venta;
 use Illuminate\Http\Request;
@@ -200,6 +201,53 @@ class ReporteController extends Controller
         $ancho = $canvas->get_width();
         $canvas->page_text($ancho - 90, $alto - 25, "Página {PAGE_NUM} de {PAGE_COUNT}", null, 9, array(0, 0, 0));
         return $pdf->download('stock_productos.pdf');
+    }
+
+    public function stock_minimos(Request $request)
+    {
+        $filtro =  $request->filtro;
+        $fecha_ini =  $request->fecha_ini;
+        $fecha_fin =  $request->fecha_fin;
+        $producto =  $request->producto;
+
+        if ($filtro != 'Todos') {
+            $request->validate(['producto' => 'required']);
+        }
+
+        $registros = StockMinimo::select("stock_minimos.*")
+            ->join("productos", "productos.id", "=", "stock_minimos.producto_id")
+            ->where("stock_minimos.status", 1)->orderBy("stock_minimos.id", "asc")->get();
+        if ($filtro != 'Todos') {
+            if ($request->filtro == 'Por productos') {
+                $request->validate([
+                    'producto' => 'required',
+                ]);
+                $registros = StockMinimo::select("stock_minimos.*")
+                    ->join("productos", "productos.id", "=", "stock_minimos.producto_id")
+                    ->where("stock_minimos.status", 1)->where("id", $producto)->orderBy("stock_minimos.id", "asc")->get();
+            }
+            if ($request->filtro == 'Rango de fechas') {
+                $request->validate([
+                    'fecha_ini' => 'required|date',
+                    'fecha_fin' => 'required|date',
+                ]);
+                $registros = StockMinimo::select("stock_minimos.*")
+                    ->join("productos", "productos.id", "=", "stock_minimos.producto_id")
+                    ->where("stock_minimos.status", 1)->wherBetween("fecha", [$fecha_ini, $fecha_fin])->orderBy("stock_minimos.id", "asc")->get();
+            }
+        }
+
+
+        $pdf = PDF::loadView('reportes.stock_minimos', compact('registros'))->setPaper('letter', 'portrait');
+
+        // ENUMERAR LAS PÁGINAS
+        $pdf->output();
+        $dom_pdf = $pdf->getDomPDF();
+        $canvas = $dom_pdf->get_canvas();
+        $alto = $canvas->get_height();
+        $ancho = $canvas->get_width();
+        $canvas->page_text($ancho - 90, $alto - 25, "Página {PAGE_NUM} de {PAGE_COUNT}", null, 9, array(0, 0, 0));
+        return $pdf->download('stock_minimos.pdf');
     }
 
     public function historial_accion(Request $request)

@@ -114,6 +114,8 @@ class UserController extends Controller
 
             "sugerencia_stocks.index",
 
+            'stock_minimos.index',
+
             'clientes.index',
             'clientes.create',
             'clientes.edit',
@@ -141,6 +143,7 @@ class UserController extends Controller
             'reportes.ventas',
             'reportes.stock_productos',
             'reportes.historial_acciones',
+            "reportes.stock_minimos",
         ],
         'GERENCIA' => [
             "analisis_inventarios",
@@ -357,6 +360,8 @@ class UserController extends Controller
                 Cache::forget($key);
                 Cache::forget($key . ':blocked');
                 $usuario->b_auth = 0;
+                $usuario->auth2fa = 0;
+                $usuario->update_password = 0;
                 $usuario->acceso = 1;
                 $usuario->save();
             }

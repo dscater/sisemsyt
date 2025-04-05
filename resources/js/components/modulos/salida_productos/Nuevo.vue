@@ -111,12 +111,16 @@
                                 >
                                 <el-input
                                     type="number"
-                                    min="0.01"
+                                    min="1"
+                                    step="1"
                                     placeholder="Cantidad"
                                     :class="{ 'is-invalid': errors.cantidad }"
                                     v-model="salida_producto.cantidad"
                                     clearable
                                     @keyup.native="
+                                        quitaDecimalNumero($event, 'cantidad')
+                                    "
+                                    @change.native="
                                         quitaDecimalNumero($event, 'cantidad')
                                     "
                                 >
@@ -256,6 +260,7 @@ export default {
         muestra_modal: function (newVal, oldVal) {
             this.errors = [];
             if (newVal) {
+                this.salida_producto.cantidad = "1";
                 this.bModal = true;
             } else {
                 this.bModal = false;

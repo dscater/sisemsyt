@@ -22,7 +22,12 @@ class Venta extends Model
         "status"
     ];
 
-    protected $appends = ["editable", "fecha_formateado", "hora", "nro_factura", "qr"];
+    protected $appends = ["editable", "fecha_formateado", "hora", "nro_factura", "qr", "url_ticket"];
+
+    public function getUrlTicketAttribute()
+    {
+        return route("ventas.ticket", $this->id);
+    }
 
     public function getQrAttribute()
     {

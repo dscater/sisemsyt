@@ -23,7 +23,7 @@
         <div class="sidebar">
             <!-- Sidebar user (optional) -->
             <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                <div class="image">
+                <div class="image" style="display: flex; align-items: center">
                     <img
                         :src="user_sidebar.path_image"
                         class="img-circle elevation-2"
@@ -38,7 +38,10 @@
                             params: { id: user_sidebar.id },
                         }"
                         class="d-block"
-                        v-text="user_sidebar.full_name"
+                    >
+                        <span v-text="user_sidebar.full_name"></span>
+                        <br />
+                        <div class="d-block" v-text="user_sidebar.tipo"></div
                     ></router-link>
                 </div>
             </div>
@@ -289,6 +292,18 @@
                     </li>
                     <li
                         class="nav-item"
+                        v-if="permisos.includes('stock_minimos.index')"
+                    >
+                        <router-link
+                            :to="{ name: 'stock_minimos.index' }"
+                            class="nav-link"
+                        >
+                            <i class="nav-icon fas fa-clipboard-list"></i>
+                            <p>Stock mínimo</p>
+                        </router-link>
+                    </li>
+                    <li
+                        class="nav-item"
                         v-if="permisos.includes('usuarios.index')"
                     >
                         <router-link
@@ -361,6 +376,18 @@
                         >
                             <i class="fas fa-file-pdf nav-icon"></i>
                             <p>Reporte de ventas</p>
+                        </router-link>
+                    </li>
+                    <li
+                        class="nav-item"
+                        v-if="permisos.includes('reportes.stock_minimos')"
+                    >
+                        <router-link
+                            :to="{ name: 'reportes.stock_minimos' }"
+                            class="nav-link"
+                        >
+                            <i class="fas fa-file-pdf nav-icon"></i>
+                            <p>Reporte de stock mínimo</p>
                         </router-link>
                     </li>
                     <!-- <li

@@ -165,12 +165,16 @@
                                 >
                                 <el-input
                                     type="number"
-                                    min="0.01"
+                                    min="1"
+                                    step="1"
                                     placeholder="Cantidad"
                                     :class="{ 'is-invalid': errors.cantidad }"
                                     v-model="ingreso_producto.cantidad"
                                     clearable
                                     @keyup.native="
+                                        quitaDecimalNumero($event, 'cantidad')
+                                    "
+                                    @change.native="
                                         quitaDecimalNumero($event, 'cantidad')
                                     "
                                 >
@@ -328,7 +332,7 @@ export default {
                 producto_id: "",
                 proveedor_id: "",
                 precio_compra: 0.01,
-                cantidad: "",
+                cantidad: 1,
                 lote: "",
                 fecha_fabricacion: "",
                 tipo_ingreso_id: "",
@@ -342,6 +346,7 @@ export default {
             if (newVal) {
                 console.log(this.accion)
                 if (this.accion == 'nuevo') {
+                    this.ingreso_producto.cantidad = "1";
                     this.ingreso_producto.precio_compra = "0.01";
                     this.ingreso_producto.lote = this.getAnioActual();
                 }

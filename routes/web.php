@@ -16,6 +16,7 @@ use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\SalidaProductoController;
+use App\Http\Controllers\StockMinimoController;
 use App\Http\Controllers\SugerenciaController;
 use App\Http\Controllers\TipoIngresoController;
 use App\Http\Controllers\TipoSalidaController;
@@ -133,6 +134,12 @@ Route::middleware(['auth'])->group(function () {
             'store',
         ]);
 
+        // Stock mínimo
+        Route::resource('stock_minimos', StockMinimoController::class)->only([
+            'index',
+            'destroy'
+        ]);
+
         // Clientes
         Route::resource('clientes', ClienteController::class)->only([
             'index',
@@ -144,6 +151,7 @@ Route::middleware(['auth'])->group(function () {
 
         // Ventas
         Route::post("ventas/pdf/{venta}", [VentaController::class, 'pdf']);
+        Route::get("ventas/printTicket/{venta}", [VentaController::class, 'printTicket'])->name("ventas.ticket");
         Route::get("ventas/info/getLiteral", [VentaController::class, 'getLiteral']);
         Route::get("ventas/info/devolucions", [VentaController::class, 'getDevolucions']);
         Route::resource('ventas', VentaController::class)->only([
@@ -204,6 +212,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('reportes/historial_accion', [ReporteController::class, 'historial_accion']);
         Route::post('reportes/grafico_ingresos', [ReporteController::class, 'grafico_ingresos']);
         Route::post('reportes/grafico_orden', [ReporteController::class, 'grafico_orden']);
+        Route::post('reportes/stock_minimos', [ReporteController::class, 'stock_minimos']);
     });
 });
 

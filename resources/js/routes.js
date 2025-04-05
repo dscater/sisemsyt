@@ -99,13 +99,20 @@ export default new Router({
                     .default,
         },
 
-        // salida productos
+        // sugerencia stocks
         {
             path: "/sugerencia_stocks",
             name: "sugerencia_stocks.index",
             component:
                 require("./components/modulos/sugerencia_stocks/index.vue")
                     .default,
+        },
+        // stock minimo
+        {
+            path: "/stock_minimos",
+            name: "stock_minimos.index",
+            component: require("./components/modulos/stock_minimos/index.vue")
+                .default,
         },
 
         // Clientes
@@ -276,6 +283,14 @@ export default new Router({
             name: "reportes.grafico_orden",
             component:
                 require("./components/modulos/reportes/grafico_orden.vue")
+                    .default,
+            props: true,
+        },
+        {
+            path: "/reportes/stock_minimos",
+            name: "reportes.stock_minimos",
+            component:
+                require("./components/modulos/reportes/stock_minimos.vue")
                     .default,
             props: true,
         },
