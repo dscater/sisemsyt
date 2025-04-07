@@ -210,9 +210,9 @@ class ReporteController extends Controller
         $fecha_fin =  $request->fecha_fin;
         $producto =  $request->producto;
 
-        if ($filtro != 'Todos') {
-            $request->validate(['producto' => 'required']);
-        }
+        // if ($filtro != 'Todos') {
+        //     $request->validate(['producto' => 'required']);
+        // }
 
         $registros = StockMinimo::select("stock_minimos.*")
             ->join("productos", "productos.id", "=", "stock_minimos.producto_id")
@@ -224,7 +224,7 @@ class ReporteController extends Controller
                 ]);
                 $registros = StockMinimo::select("stock_minimos.*")
                     ->join("productos", "productos.id", "=", "stock_minimos.producto_id")
-                    ->where("stock_minimos.status", 1)->where("id", $producto)->orderBy("stock_minimos.id", "asc")->get();
+                    ->where("stock_minimos.status", 1)->where("stock_minimos.id", $producto)->orderBy("stock_minimos.id", "asc")->get();
             }
             if ($request->filtro == 'Rango de fechas') {
                 $request->validate([
@@ -233,7 +233,7 @@ class ReporteController extends Controller
                 ]);
                 $registros = StockMinimo::select("stock_minimos.*")
                     ->join("productos", "productos.id", "=", "stock_minimos.producto_id")
-                    ->where("stock_minimos.status", 1)->wherBetween("fecha", [$fecha_ini, $fecha_fin])->orderBy("stock_minimos.id", "asc")->get();
+                    ->where("stock_minimos.status", 1)->whereBetween("fecha", [$fecha_ini, $fecha_fin])->orderBy("stock_minimos.id", "asc")->get();
             }
         }
 
