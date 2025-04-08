@@ -64,7 +64,7 @@
             </div>
 
             <!-- Sidebar Menu -->
-            <nav class="mt-2">
+            <nav class="mt-2" v-if="permisos">
                 <ul
                     class="nav nav-pills nav-sidebar flex-column text-xs nav-flat"
                     data-widget="treeview"

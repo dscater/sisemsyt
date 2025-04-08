@@ -15,7 +15,7 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header">
-                                <div class="row">
+                                <div class="row" v-if="permisos">
                                     <div class="col-md-3">
                                         <button
                                             v-if="

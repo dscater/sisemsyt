@@ -3,7 +3,7 @@
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-primary">
             <!-- Left navbar links -->
-            <ul class="navbar-nav">
+            <ul class="navbar-nav" v-if="permisos">
                 <li class="nav-item">
                     <a
                         href="#"
@@ -37,7 +37,7 @@
             <ul class="navbar-nav ml-auto">
                 <li
                     class="nav-item dropdown"
-                    v-if="permisos.includes('notificacion_users.index')"
+                    v-if="permisos && permisos.includes('notificacion_users.index')"
                 >
                     <a class="nav-link" data-toggle="dropdown" href="#">
                         <i class="far fa-bell text-white text-md"></i>
