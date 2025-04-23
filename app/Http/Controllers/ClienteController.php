@@ -15,10 +15,10 @@ class ClienteController extends Controller
 {
     public $validacion = [
         'nombre' => 'required|regex:/^[\pL\s\.\'\"\,áéíóúÁÉÍÓÚñÑ]+$/uu',
-        'ci' => 'required|numeric|digits_between:7,20',
+        'ci' => 'required|numeric|digits_between:7,20|unique:clientes,ci',
         'ci_exp' => 'required',
         'fono' => 'required',
-        'nit' => 'required|numeric',
+        'nit' => 'required|numeric|unique:clientes,nit',
         'correo' => 'required|email',
         'dir' => 'required|regex:/^[\pL\s\.\'\"\#\,0-9áéíóúÁÉÍÓÚñÑ]+$/uu',
     ];
@@ -29,9 +29,11 @@ class ClienteController extends Controller
         'ci.required' => 'Este campo es obligatorio',
         'ci.numeric' => 'Debes ingresar solo números',
         'ci.digits_between' => 'Debes ingresar por lo menos 7 dígitos',
+        'ci.unique' => 'Este número de C.I. ya fue registrado',
         'ci_exp.required' => 'Este campo es obligatorio',
         'nit.required' => 'Este campo es obligatorio',
         'nit.numeric' => 'Debes ingresar solo números',
+        'nit.unique' => 'Este NIT ya fue registrado',
         'fono.required' => 'Este campo es obligatorio',
         'fono.numeric' => 'El formato del texto es incorrecto',
         'fono.digits_between' => 'Debes ingresar por lo menos 7 dígitos',
@@ -51,17 +53,26 @@ class ClienteController extends Controller
 
     public function store(Request $request)
     {
+        if (isset($request["venta"])) {
+            unset($this->validacion["fono"]);
+            unset($this->validacion["correo"]);
+            unset($this->validacion["dir"]);
+            $request["fono"] = "";
+        }
+
         $request->validate($this->validacion, $this->mensajes);
         $telefonos = explode(';', $request->input('fono'));
         $errores = [];
-        foreach ($telefonos as $index => $telefono) {
-            $data = ['telefono' => trim($telefono)];
-            $validator = Validator::make($data, [
-                'telefono' => 'required|numeric|digits_between:7,20',
-            ]);
-            if ($validator->fails()) {
-                $errores["fono"][] = $validator->errors()->first('telefono');
-                break;
+        if (!isset($request["venta"])) {
+            foreach ($telefonos as $index => $telefono) {
+                $data = ['telefono' => trim($telefono)];
+                $validator = Validator::make($data, [
+                    'telefono' => 'required|numeric|digits_between:7,20',
+                ]);
+                if ($validator->fails()) {
+                    $errores["fono"][] = $validator->errors()->first('telefono');
+                    break;
+                }
             }
         }
         if (!empty($errores)) {
@@ -94,6 +105,8 @@ class ClienteController extends Controller
 
     public function update(Request $request, Cliente $cliente)
     {
+        $this->validacion["ci"] = "required|numeric|digits_between:7,20|unique:clientes,ci," . $cliente->id;
+        $this->validacion["nit"] = "required|numeric|unique:clientes,nit," . $cliente->id;
         $request->validate($this->validacion, $this->mensajes);
         $telefonos = explode(';', $request->input('fono'));
         $errores = [];

@@ -57,8 +57,8 @@ class LoginAttemptMiddleware
         $blockDuration = 5;
         if ($existe_user && !Auth::check()) {
             if (Cache::has($key)) {
-                // 5to intento
-                if (Cache::get($key) >= 5) {
+                // 7mo intento
+                if (Cache::get($key) == 7) {
                     $blockDuration = 1440; // 24 horas
                     if ($existe_user) {
                         $existe_user->b_auth = 1;
@@ -68,15 +68,15 @@ class LoginAttemptMiddleware
                     // Cache::add($key . ':blocked', true, now()->addMinutes($blockDuration));
                     return response()->JSON(['error' => 'Cuenta bloqueada por intentos fallidos de inicio de sesión. Debe contactarse con el administrador del sistema']);
                 }
-                // 4to intento
-                if (Cache::get($key) >= 4) {
+                // 6to intento
+                if (Cache::get($key) == 6) {
                     $blockDuration = 5;
                     $unlockTime = now()->addMinutes($blockDuration);
                     Cache::add($key . ':blocked', $unlockTime, now()->addMinutes($blockDuration));
                     return response()->JSON(['error' => "Intento fallido de inicio de sesión. Acceso bloqueado durante $blockDuration minutos"]);
                 }
                 // 3er intento
-                if (Cache::get($key) >= 3) {
+                if (Cache::get($key) == 3) {
                     $blockDuration = 1;
                     $unlockTime = now()->addMinutes($blockDuration);
                     Cache::add($key . ':blocked', $unlockTime, now()->addMinutes($blockDuration));
@@ -84,7 +84,12 @@ class LoginAttemptMiddleware
                 }
             }
 
+            // reducir los 3 intentos restantes despues del block. min 1
+            if ($attempts > 3) {
+                $attempts -= 3;
+            }
             $intentos_resantes = (int)$maxAttempts - (int)$attempts;
+
             if ($intentos_resantes == 0) {
                 Cache::add($key . ':blocked', true, now()->addMinutes($blockDuration));
                 return response()->JSON(['error' => 'Cuenta bloqueada por intentos fallidos de inicio de sesión. Debe contactarse con el administrador del sistema']);

@@ -113,6 +113,15 @@
                                 Guardar cambios
                             </button>
                         </div>
+                        <div class="col-12 mt-3">
+                            <button
+                                type="button"
+                                class="btn btn-outline-info btn-block btn-flat font-weight-bold"
+                                @click.prevent="logout()"
+                            >
+                                Cancelar
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -151,6 +160,7 @@ export default {
         this.verificaLogin();
     },
     mounted() {
+        window.addEventListener("popstate", this.handleBackButton);
         // Swal.fire({
         //     icon: "info",
         //     title: `Te envíamos un código de verificación a tu correo`,
@@ -158,13 +168,23 @@ export default {
         //     timer: 1500,
         // });
     },
+    beforeDestroy() {
+        window.removeEventListener("popstate", this.handleBackButton);
+    },
     methods: {
+        handleBackButton(event) {
+            console.log("Se ha detectado un retroceso");
+        },
         verificaLogin() {
             axios
-                .get("/verificaLogin")
+                .get("/verificaLogin", {
+                    params: {
+                        updatePassword: true,
+                    },
+                })
                 .then((response) => {
-                    if (response.data) {
-                        this.$router.push({ name: "inicio" });
+                    if (!response.data) {
+                        window.location = "/login";
                     }
                 })
                 .catch((error) => {
@@ -184,6 +204,7 @@ export default {
                         showConfirmButton: false,
                         timer: 1500,
                     });
+                    this.$router.push({ name: "inicio" });
                     window.location.reload();
                 })
                 .catch((error) => {

@@ -28,7 +28,7 @@
                                     :class="{
                                         'text-danger': errors.nombre,
                                     }"
-                                    >Nombre Completo*</label
+                                    >Nombre/Razón Social*</label
                                 >
                                 <el-input
                                     placeholder="Nombre"
@@ -110,68 +110,6 @@
                                     class="error invalid-feedback"
                                     v-if="errors.nit"
                                     v-text="errors.nit[0]"
-                                ></span>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label
-                                    :class="{
-                                        'text-danger': errors.fono,
-                                    }"
-                                    >Teléfono/Celular*</label
-                                >
-                                <b-form-tags
-                                    input-id="tags-basic"
-                                    placeholder="Teléfono/Celular"
-                                    :class="{ 'is-invalid': errors.fono }"
-                                    v-model="cliente.fono_array"
-                                    addButtonText="Añadir"
-                                    separator=" ,;"
-                                    remove-on-delete
-                                ></b-form-tags>
-                                <span
-                                    class="error invalid-feedback"
-                                    v-if="errors.fono"
-                                    v-text="errors.fono[0]"
-                                ></span>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label
-                                    :class="{
-                                        'text-danger': errors.correo,
-                                    }"
-                                    >Correo electrónico*</label
-                                >
-                                <el-input
-                                    placeholder="Correo electrónico"
-                                    :class="{ 'is-invalid': errors.correo }"
-                                    v-model="cliente.correo"
-                                    clearable
-                                >
-                                </el-input>
-                                <span
-                                    class="error invalid-feedback"
-                                    v-if="errors.correo"
-                                    v-text="errors.correo[0]"
-                                ></span>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label
-                                    :class="{
-                                        'text-danger': errors.dir,
-                                    }"
-                                    >Dirección*</label
-                                >
-                                <el-input
-                                    placeholder="Dirección"
-                                    :class="{ 'is-invalid': errors.dir }"
-                                    v-model="cliente.dir"
-                                    clearable
-                                >
-                                </el-input>
-                                <span
-                                    class="error invalid-feedback"
-                                    v-if="errors.dir"
-                                    v-text="errors.dir[0]"
                                 ></span>
                             </div>
                         </div>
@@ -300,20 +238,7 @@ export default {
                     "nit",
                     this.cliente.nit ? this.cliente.nit : ""
                 );
-                formdata.append(
-                    "fono",
-                    this.cliente.fono_array
-                        ? this.cliente.fono_array.join("; ")
-                        : ""
-                );
-                formdata.append(
-                    "correo",
-                    this.cliente.correo ? this.cliente.correo : ""
-                );
-                formdata.append(
-                    "dir",
-                    this.cliente.dir ? this.cliente.dir : ""
-                );
+                formdata.append("venta", "si");
                 if (this.accion == "edit") {
                     url = "/admin/clientes/" + this.cliente.id;
                     formdata.append("_method", "PUT");

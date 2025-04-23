@@ -30,6 +30,8 @@ Route::post('/genera2fa', [LoginController::class, 'genera2fa']);
 
 Route::get("/verificaLogin", [LoginController::class, 'verificaLogin']);
 
+Route::get("/updatePassword", [LoginController::class, 'updatePassword'])->name("updatePassword");
+
 // CONFIGURACIÓN
 Route::get('/configuracion/getConfiguracion', [ConfiguracionController::class, 'getConfiguracion']);
 

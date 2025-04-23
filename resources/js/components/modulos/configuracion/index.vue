@@ -139,7 +139,6 @@
             id="modal-default"
             aria-modal="true"
             role="dialog"
-            @click.self="cierraModal"
         >
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">

@@ -197,7 +197,7 @@ export default {
             fields: [
                 {
                     key: "nombre",
-                    label: "Nombre",
+                    label: "Nombre/Razón Social",
                     sortable: true,
                 },
                 { key: "full_ci", label: "C.I.", sortable: true },

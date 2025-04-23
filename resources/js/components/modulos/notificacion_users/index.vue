@@ -62,16 +62,12 @@
                                                 empty-text="Sin resultados"
                                                 empty-filtered-text="Sin resultados"
                                                 :filter="filter"
+                                                :tbody-tr-class="rowClass"
                                             >
                                                 <template
                                                     #cell(notificacion.descripcion)="row"
                                                 >
-                                                    <p :class="{
-                                                        // 'text-yellow':row.item.notificacion.tipo=='A 5 STOCK MINIMO',
-                                                        'text-yellow':row.item.notificacion.tipo=='LLEGANDO A STOCK MINIMO',
-                                                        'text-orange':row.item.notificacion.tipo=='STOCK MINIMO',
-                                                        'text-danger':row.item.notificacion.tipo=='DEBAJO STOCK MINIMO',
-                                                    }">
+                                                    <p>
                                                         {{
                                                             row.item
                                                                 .notificacion
@@ -96,7 +92,7 @@
                                                         <b-button
                                                             size="sm"
                                                             pill
-                                                            variant="outline-primary"
+                                                            variant="primary"
                                                             class="btn-flat btn-block"
                                                             title="Ver registro"
                                                             @click="
@@ -199,6 +195,19 @@ export default {
         this.getNotificacións();
     },
     methods: {
+        rowClass(item, type) {
+            console.log(item);
+            if (!item) return ""; // Para evitar errores en headers o filas vacías
+
+            const tipo = item.notificacion?.tipo;
+
+            if (tipo === "LLEGANDO A STOCK MINIMO")
+                return "bg-warning text-dark";
+            if (tipo === "STOCK MINIMO") return "bg-orange text-white";
+            if (tipo === "DEBAJO STOCK MINIMO") return "bg-danger text-white";
+
+            return "";
+        },
         // Listar Notificacións
         getNotificacións() {
             this.showOverlay = true;

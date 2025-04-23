@@ -63,7 +63,7 @@
                                         >
                                             <thead>
                                                 <tr>
-                                                    <th>Nombre Completo</th>
+                                                    <th>Nombre/Razón Social</th>
                                                     <th>Número C.I. o Nit</th>
                                                 </tr>
                                             </thead>

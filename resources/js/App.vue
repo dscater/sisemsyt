@@ -45,11 +45,35 @@ export default {
             this.oConfiguracion = JSON.parse(data);
             localStorage.setItem("configuracion", data);
         });
+        this.verificaLogin();
+        this.obtienePermisos();
     },
     methods: {
         convierteProps() {
             this.oUser = JSON.parse(this.oUser);
             this.oConfiguracion = JSON.parse(this.oConfiguracion);
+        },
+        verificaLogin() {
+            axios
+                .get("/verificaLogin")
+                .then((response) => {
+                    if (!response.data) {
+                        this.$router.push({ name: "login" });
+                        window.location.reload();
+                    }
+                })
+                .catch((error) => {
+                    window.location.reload();
+                });
+        },
+        obtienePermisos() {
+            axios
+                .get("/admin/usuarios/getPermisos/" + this.oUser.id)
+                .then((res) => {
+                    localStorage.setItem("configuracion", this.configuracion);
+                    localStorage.setItem("permisos", JSON.stringify(res.data));
+                    localStorage.setItem("user", JSON.stringify(this.user));
+                });
         },
     },
 };

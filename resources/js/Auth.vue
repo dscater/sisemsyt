@@ -134,13 +134,17 @@ export default {
     created() {
         this.verificaLogin();
     },
-    onMounted() {},
+    onMounted() {
+        this.fullscreenLoading = false;
+    },
     methods: {
         verificaLogin() {
+            this.fullscreenLoading = false;
             axios
                 .get("/verificaLogin")
                 .then((response) => {
                     if (response.data) {
+                        console.log(response.data);
                         this.$router.push({ name: "inicio" });
                     }
                 })
@@ -160,15 +164,21 @@ export default {
                     if (!res.data.error) {
                         this.error_login = null;
                         this.user = res.data.user;
-                        if (this.user.auth2fa == 1) {
-                            this.verificacion2FA();
+                        const up = res.data.up;
+                        const url_up = res.data.url_up;
+                        if (up) {
+                            window.location = url_up;
                         } else {
-                            this.obtienePermisos();
+                            if (this.user.auth2fa == 1) {
+                                this.verificacion2FA();
+                            } else {
+                                this.obtienePermisos();
+                            }
                         }
                     } else {
-                        this.fullscreenLoading = false;
                         this.error_login = res.data.error;
                     }
+                    this.fullscreenLoading = false;
                 })
                 .catch((error) => {
                     this.user = null;

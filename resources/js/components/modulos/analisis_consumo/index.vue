@@ -215,6 +215,10 @@ export default {
                                 footerFormat: "</table>",
                                 shared: true,
                                 useHTML: true,
+                                style: {
+                                    fontSize: "14px",
+                                    fontFamily: "Arial, sans-serif",
+                                },
                             },
                             series: [
                                 {

@@ -38,12 +38,24 @@ class LoginController extends Controller
                 }
             }
 
+            $up = false;
+            if ($user->update_password == 0) {
+                $up = true;
+            }
+
             return response()->JSON([
                 'user' => Auth::user(),
+                "up" => $up,
+                "url_up" => route("updatePassword"),
             ], 200);
         }
 
         return response()->JSON([], 401);
+    }
+
+    public function updatePassword()
+    {
+        return view("updatePassword");
     }
 
     public function logout()
@@ -265,8 +277,16 @@ class LoginController extends Controller
         return response()->json(['error' => 'Código incorrecto'], 422);
     }
 
-    public function verificaLogin()
+    public function verificaLogin(Request $request)
     {
+        $user = Auth::user();
+        if ($user) {
+            if ($user->update_password == 0 && !isset($request["updatePassword"])) {
+                session()->forget('2fa_authenticated');
+                Auth::logout();
+            }
+        }
+
         return response()->JSON(Auth::check());
     }
 }

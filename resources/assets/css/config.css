@@ -22,6 +22,10 @@
     z-index: 2000;
 }
 
+tr.text-white td {
+    color: white!important;
+}
+
 .loading_saliendo {
     display: flex;
     justify-content: center;
@@ -194,10 +198,10 @@ input.form-control {
 
 .highcharts-axis {
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 18px!important;
+    font-size: 18px !important;
 }
 
-.highcharts-axis-labels{
+.highcharts-axis-labels {
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 18px!important;
+    font-size: 18px !important;
 }

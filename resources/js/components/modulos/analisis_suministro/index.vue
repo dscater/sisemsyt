@@ -214,10 +214,11 @@ export default {
                                     '<td style="padding:0"><b>{point.y:.2f}</b></td></tr>',
                                 footerFormat: "</table>",
                                 shared: true,
-                                useHTML: true,   style: {
-                                fontSize: "14px",
-                                fontFamily: "Arial, sans-serif",
-                            },
+                                useHTML: true,
+                                style: {
+                                    fontSize: "14px",
+                                    fontFamily: "Arial, sans-serif",
+                                },
                             },
                             series: [
                                 {

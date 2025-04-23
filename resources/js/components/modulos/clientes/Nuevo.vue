@@ -28,7 +28,7 @@
                                     :class="{
                                         'text-danger': errors.nombre,
                                     }"
-                                    >Nombre Completo*</label
+                                    >Nombre/Razón Social*</label
                                 >
                                 <el-input
                                     placeholder="Nombre"

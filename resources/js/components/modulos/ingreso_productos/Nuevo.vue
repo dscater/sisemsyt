@@ -137,7 +137,7 @@
                                     :class="{
                                         'text-danger': errors.precio_compra,
                                     }"
-                                    >Precio de compra*</label
+                                    >Precio de compra por Producto*</label
                                 >
                                 <el-input
                                     type="number"
