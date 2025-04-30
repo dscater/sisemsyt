@@ -32,7 +32,8 @@ class TipoIngresoController extends Controller
 
     public function index(Request $request)
     {
-        $tipo_ingresos = TipoIngreso::where("status", 1)->get();
+        $tipo_ingresos = TipoIngreso::where("status", 1)
+            ->orderBy("id", "desc")->get();
         return response()->JSON(['tipo_ingresos' => $tipo_ingresos, 'total' => count($tipo_ingresos)], 200);
     }
 

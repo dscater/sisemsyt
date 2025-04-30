@@ -39,6 +39,7 @@ class SalidaProductoController extends Controller
     {
         $salida_productos = SalidaProducto::with("producto")->with("tipo_salida")
             ->where("status", 1)
+            ->orderBy("id", "desc")
             ->get();
         return response()->JSON(['salida_productos' => $salida_productos, 'total' => count($salida_productos)], 200);
     }

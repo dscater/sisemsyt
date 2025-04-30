@@ -41,7 +41,12 @@ class IngresoProductoController extends Controller
 
     public function index(Request $request)
     {
-        $ingreso_productos = IngresoProducto::with("producto")->with("proveedor")->with("tipo_ingreso")->where("status", 1)->get();
+        $ingreso_productos = IngresoProducto::with("producto")
+            ->with("proveedor")
+            ->with("tipo_ingreso")
+            ->where("status", 1)
+            ->orderBy("id", "desc")
+            ->get();
         return response()->JSON(['ingreso_productos' => $ingreso_productos, 'total' => count($ingreso_productos)], 200);
     }
 

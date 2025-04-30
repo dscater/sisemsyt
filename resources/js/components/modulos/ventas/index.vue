@@ -82,18 +82,8 @@
                                                 empty-text="Sin resultados"
                                                 empty-filtered-text="Sin resultados"
                                                 :filter="filter"
+                                                :filter-function="customFilter"
                                             >
-                                                <template
-                                                    #cell(fecha_registro)="row"
-                                                >
-                                                    {{
-                                                        formatoFecha(
-                                                            row.item
-                                                                .fecha_registro
-                                                        )
-                                                    }}
-                                                </template>
-
                                                 <template #cell(accion)="row">
                                                     <div
                                                         class="row justify-content-center flex-column"
@@ -115,7 +105,7 @@
                                                                 class="fa fa-print"
                                                             ></i>
                                                         </router-link>
-                                                        <b-button
+                                                        <!-- <b-button
                                                             size="sm"
                                                             pill
                                                             variant="outline-warning"
@@ -130,11 +120,12 @@
                                                             <i
                                                                 class="fa fa-edit"
                                                             ></i>
-                                                        </b-button>
+                                                        </b-button> -->
 
                                                         <b-button
                                                             v-if="
-                                                              permisos && permisos.includes(
+                                                                permisos &&
+                                                                permisos.includes(
                                                                     'ventas.destroy'
                                                                 )
                                                             "
@@ -150,11 +141,8 @@
                                                                         .cliente
                                                                         .nombre +
                                                                         ' <br/>Con fecha ' +
-                                                                        formatoFecha(
-                                                                            row
-                                                                                .item
-                                                                                .fecha_registro
-                                                                        )
+                                                                        row.item
+                                                                            .fecha_registro_t
                                                                 )
                                                             "
                                                         >
@@ -228,7 +216,7 @@ export default {
                 { key: "descuento", label: "Descuento %", sortable: true },
                 { key: "total_final", label: "Total final", sortable: true },
                 {
-                    key: "fecha_registro",
+                    key: "fecha_registro_t",
                     label: "Fecha de registro",
                     sortable: true,
                 },
@@ -343,6 +331,29 @@ export default {
             this.totalRows = filteredItems.length;
             this.currentPage = 1;
         },
+        customFilter(item, filter) {
+            if (!filter) return true;
+            const text = filter.toString().toLowerCase();
+
+            // Convierte y junta todos los campos relevantes en una sola cadena
+            const contenido = [
+                item.id,
+                item.cliente?.nombre,
+                item.total,
+                item.descuento,
+                item.total_final,
+                item.fecha_registro_t,
+            ]
+                .map((val) =>
+                    val !== null && val !== undefined
+                        ? val.toString().toLowerCase()
+                        : ""
+                )
+                .join(" ");
+
+            return contenido.includes(text);
+        },
+
         formatoFecha(date) {
             return this.$moment(String(date)).format("DD/MM/YYYY");
         },

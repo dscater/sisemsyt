@@ -22,7 +22,13 @@ class Venta extends Model
         "status"
     ];
 
-    protected $appends = ["editable", "fecha_formateado", "hora", "nro_factura", "qr", "url_ticket"];
+    protected $appends = ["editable", "fecha_formateado", "hora", "nro_factura", "qr", "url_ticket", "fecha_registro_t"];
+
+
+    public function getFechaRegistroTAttribute()
+    {
+        return date("d/m/Y", strtotime($this->fecha_registro));
+    }
 
     public function getUrlTicketAttribute()
     {

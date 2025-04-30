@@ -28,7 +28,8 @@ class CategoriaController extends Controller
 
     public function index(Request $request)
     {
-        $categorias = Categoria::where("status", 1)->get();
+        $categorias = Categoria::where("status", 1)
+            ->orderBy("id", "desc")->get();
         return response()->JSON(['categorias' => $categorias, 'total' => count($categorias)], 200);
     }
 

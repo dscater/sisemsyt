@@ -45,7 +45,7 @@ class ProveedorController extends Controller
 
     public function index(Request $request)
     {
-        $proveedors = Proveedor::where("status", 1)->get();
+        $proveedors = Proveedor::where("status", 1)->orderBy("id", "desc")->get();
         return response()->JSON(['proveedors' => $proveedors, 'total' => count($proveedors)], 200);
     }
 

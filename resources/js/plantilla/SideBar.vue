@@ -351,7 +351,7 @@
                             class="nav-link"
                         >
                             <i class="fas fa-file-pdf nav-icon"></i>
-                            <p>Reporte de stock de productos</p>
+                            <p>Reporte de stock de productos actual</p>
                         </router-link>
                     </li>
                     <li

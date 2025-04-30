@@ -127,6 +127,10 @@ export default {
                     },
                     tooltip: {
                         headerFormat: "<b>Stock: {point.x}</b><br>",
+                        style: {
+                            fontSize: "14px",
+                            fontFamily: "Arial, sans-serif",
+                        },
                     },
                     plotOptions: {
                         series: {

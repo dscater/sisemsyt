@@ -34,7 +34,8 @@ class TipoSalidaController extends Controller
 
     public function index(Request $request)
     {
-        $tipo_salidas = TipoSalida::where("status", 1)->get();
+        $tipo_salidas = TipoSalida::where("status", 1)
+            ->orderBy("id", "desc")->get();
         return response()->JSON(['tipo_salidas' => $tipo_salidas, 'total' => count($tipo_salidas)], 200);
     }
 

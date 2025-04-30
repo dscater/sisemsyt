@@ -52,9 +52,7 @@ class ProductoController extends Controller
     {
         $productos = Producto::with("categoria")
             ->where("status", 1)
-            ->orderBy("productos.codigo_producto", "ASC")
-            ->orderBy("productos.codigo_producto", "ASC")
-            ->orderBy("productos.nombre", "ASC")
+            ->orderBy("productos.id", "DESC")
             ->get();
         return response()->JSON(['productos' => $productos, 'total' => count($productos)], 200);
     }

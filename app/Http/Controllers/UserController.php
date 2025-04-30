@@ -234,7 +234,7 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-        $usuarios = User::where('id', '!=', 1)->where("status", 1)->get();
+        $usuarios = User::where('id', '!=', 1)->where("status", 1)->orderBy("id", "desc")->get();
         return response()->JSON(['usuarios' => $usuarios, 'total' => count($usuarios)], 200);
     }
 

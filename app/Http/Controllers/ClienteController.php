@@ -47,7 +47,7 @@ class ClienteController extends Controller
     public function __construct(private HistorialAccionService $historialAccionService) {}
     public function index(Request $request)
     {
-        $clientes = Cliente::where("status", 1)->get();
+        $clientes = Cliente::where("status", 1)->orderBy("id", "desc")->get();
         return response()->JSON(['clientes' => $clientes, 'total' => count($clientes)], 200);
     }
 

@@ -33,9 +33,9 @@ class VentaController extends Controller
 
     public function index()
     {
-        $ventas = Venta::with("cliente")->where("status", 1)->get();
+        $ventas = Venta::with("cliente")->where("status", 1)->orderBy("created_at", "desc")->get();
         if (Auth::user()->tipo == 'VENDEDOR') {
-            $ventas = Venta::with("cliente")->where("user_id", Auth::user()->id)->where("status", 1)->get();
+            $ventas = Venta::with("cliente")->where("user_id", Auth::user()->id)->where("status", 1)->orderBy("created_at", "desc")->get();
         }
 
         return response()->JSON(["ventas" => $ventas, "total" => count($ventas)]);
