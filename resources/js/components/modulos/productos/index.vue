@@ -86,6 +86,7 @@
                                                 empty-text="Sin resultados"
                                                 empty-filtered-text="Sin resultados"
                                                 :filter="filter"
+                                                :filter-function="customFilter"
                                             >
                                                 <template #cell(imagen)="row">
                                                     <img
@@ -95,17 +96,6 @@
                                                         alt="Imagen"
                                                         height="57px"
                                                     />
-                                                </template>
-
-                                                <template
-                                                    #cell(fecha_registro)="row"
-                                                >
-                                                    {{
-                                                        formatoFecha(
-                                                            row.item
-                                                                .fecha_registro
-                                                        )
-                                                    }}
                                                 </template>
 
                                                 <template #cell(accion)="row">
@@ -268,7 +258,7 @@ export default {
         // Seleccionar Opciones de Tabla
         editarRegistro(item) {
             this.oProducto.id = item.id;
-       
+
             this.oProducto.nombre = item.nombre ? item.nombre : "";
             this.oProducto.descripcion = item.descripcion
                 ? item.descripcion
@@ -358,6 +348,27 @@ export default {
             if (producto) {
                 this.oProducto = producto;
             }
+        },
+        customFilter(item, filter) {
+            if (!filter) return true;
+            const text = filter.toString().toLowerCase();
+
+            const campos = [
+                item.codigo_producto,
+                item.nombre,
+                item.precio,
+                item.stock_min,
+                item.stock_actual,
+                item.categoria?.nombre,
+            ];
+
+            const resultado = campos.some(
+                (val) =>
+                    val !== null &&
+                    val !== undefined &&
+                    val.toString().toLowerCase().includes(text)
+            );
+            return resultado;
         },
         limpiaProducto() {
             this.oProducto.codigo = "";

@@ -65,9 +65,9 @@
                                             {{ oVenta.hora }}
                                             <br />
                                             NOMBRE:
-                                            {{ oVenta.cliente?.nombre }}
+                                            {{ oVenta.nom_fac }}
                                             <br />
-                                            NIT/C.I.: {{ oVenta.nit }}
+                                            NIT/C.I.: {{ oVenta.nit_fac }}
                                             <br />
                                             Usu.:
                                             {{ oVenta.user?.usuario }}

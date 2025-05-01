@@ -16,7 +16,7 @@ class ProveedorController extends Controller
 {
     public $validacion = [
         'razon_social' => 'required|regex:/^[\pL\s\.\'\"\,áéíóúÁÉÍÓÚñÑ]+$/uu',
-        'nit' => 'required|numeric|digits_between:7,20',
+        'nit' => 'required|numeric|digits_between:7,20|unique:proveedors,nit',
         'fono' => 'required',
         'dir' => 'required|regex:/^[\pL\s\.\'\"\,0-9áéíóúÁÉÍÓÚñÑ]+$/u',
         'nombre_contacto' => 'required|regex:/^[\pL\s\.\'\"\,áéíóúÁÉÍÓÚñÑ]+$/uu',
@@ -94,6 +94,9 @@ class ProveedorController extends Controller
 
     public function update(Request $request, Proveedor $proveedor)
     {
+
+        $this->validacion['nit'] = 'required|numeric|digits_between:7,20|unique:proveedors,nit,' . $proveedor->id;
+
         $request->validate($this->validacion, $this->mensajes);
         $telefonos = explode(';', $request->input('fono'));
         $errores = [];

@@ -83,6 +83,7 @@
                                                 empty-text="Sin resultados"
                                                 empty-filtered-text="Sin resultados"
                                                 :filter="filter"
+                                                :filter-function="customFilter"
                                             >
                                                 <template #cell(acceso)="row">
                                                     <span
@@ -321,7 +322,7 @@ export default {
                 { key: "foto", label: "Foto" },
                 { key: "acceso", label: "Acceso" },
                 {
-                    key: "fecha_registro",
+                    key: "fecha_registro_t",
                     label: "Fecha de registro",
                     sortable: true,
                 },
@@ -473,6 +474,27 @@ export default {
             // Trigger pagination to update the number of buttons/pages due to filtering
             this.totalRows = filteredItems.length;
             this.currentPage = 1;
+        },
+        customFilter(item, filter) {
+            if (!filter) return true;
+            const text = filter.toString().toLowerCase();
+
+            const campos = [
+                item.usuario,
+                item.full_name,
+                item.full_ci,
+                item.tipo,
+                item.acceso == 1 ? "HABILITADO" : "DESHABILITADO",
+                item.fecha_registro_t,
+            ];
+
+            const resultado = campos.some(
+                (val) =>
+                    val !== null &&
+                    val !== undefined &&
+                    val.toString().toLowerCase().includes(text)
+            );
+            return resultado;
         },
         limpiaUsuario() {
             this.oUsuario.nombre = "";

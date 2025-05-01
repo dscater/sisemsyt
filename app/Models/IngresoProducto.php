@@ -22,7 +22,12 @@ class IngresoProducto extends Model
         "status"
     ];
 
-    protected $appends = ["nombre_producto"];
+    protected $appends = ["nombre_producto", "fecha_registro_t"];
+
+    public function getFechaRegistroTAttribute()
+    {
+        return date("d/m/Y", strtotime($this->fecha_registro));
+    }
 
     public function getNombreProductoAttribute()
     {

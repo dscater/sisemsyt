@@ -139,7 +139,6 @@
             width: 160px;
             height: 160px;
         }
-
     </style>
 </head>
 
@@ -190,9 +189,9 @@
             {{ $venta->hora }}
             <br />
             NOMBRE:
-            {{ $venta->cliente ? $venta->cliente->nombre : '' }}
+            {{ $venta->nom_fac ? $venta->nom_fac : '' }}
             <br />
-            NIT/C.I.: {{ $venta->nit }}
+            NIT/C.I.: {{ $venta->nit_fac }}
             <br />
             Usu.:
             {{ $venta->user ? $venta->user->usuario : '' }}

@@ -62,6 +62,7 @@
                                                 empty-text="Sin resultados"
                                                 empty-filtered-text="Sin resultados"
                                                 :filter="filter"
+                                                :filter-function="customFilter"
                                             >
                                                 <template
                                                     #cell(fecha_registro)="row"
@@ -261,6 +262,28 @@ export default {
             // Trigger pagination to update the number of buttons/pages due to filtering
             this.totalRows = filteredItems.length;
             this.currentPage = 1;
+        },
+        customFilter(item, filter) {
+            if (!filter) return true;
+            const text = filter.toString().toLowerCase();
+
+            const campos = [
+                item.id,
+                item.producto?.nombre,
+                item.fecha_txt,
+                item.stock_min,
+                item.status,
+                item.created_txt,
+                item.updated_txt,
+            ];
+
+            const resultado = campos.some(
+                (val) =>
+                    val !== null &&
+                    val !== undefined &&
+                    val.toString().toLowerCase().includes(text)
+            );
+            return resultado;
         },
         formatoFecha(date) {
             return this.$moment(String(date)).format("DD/MM/YYYY");

@@ -83,22 +83,13 @@
                                                 empty-text="Sin resultados"
                                                 empty-filtered-text="Sin resultados"
                                                 :filter="filter"
+                                                :filter-function="customFilter"
                                             >
                                                 <template
                                                     #cell(sucursal_id)="row"
                                                 >
                                                     {{
                                                         row.item.sucursal.razon_social
-                                                    }}
-                                                </template>
-                                                <template
-                                                    #cell(fecha_registro)="row"
-                                                >
-                                                    {{
-                                                        formatoFecha(
-                                                            row.item
-                                                                .fecha_registro
-                                                        )
                                                     }}
                                                 </template>
 
@@ -234,7 +225,7 @@ export default {
                     sortable: true,
                 },
                 {
-                    key: "fecha_registro",
+                    key: "fecha_registro_t",
                     label: "Fecha de registro",
                     sortable: true,
                 },
@@ -374,6 +365,28 @@ export default {
             // Trigger pagination to update the number of buttons/pages due to filtering
             this.totalRows = filteredItems.length;
             this.currentPage = 1;
+        },
+        customFilter(item, filter) {
+            if (!filter) return true;
+            const text = filter.toString().toLowerCase();
+
+            const campos = [
+                item.razon_social,
+                item.nit,
+                item.dir,
+                item.fono,
+                item.nombre_contacto,
+                item.descripcion,
+                item.fecha_registro_t,
+            ];
+
+            const resultado = campos.some(
+                (val) =>
+                    val !== null &&
+                    val !== undefined &&
+                    val.toString().toLowerCase().includes(text)
+            );
+            return resultado;
         },
         limpiaProveedor() {
             this.oProveedor.razon_social = "";

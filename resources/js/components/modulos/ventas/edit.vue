@@ -45,6 +45,8 @@ export default {
                 id: 0,
                 sucursal_id: "",
                 cliente_id: "",
+                nom_fac: "",
+                nit_fac: "",
                 nit: "",
                 venta_mayor: "NO",
                 total: "0.00",

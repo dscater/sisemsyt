@@ -111,6 +111,16 @@
                                             </tbody>
                                         </table>
                                     </div>
+                                    <div class="col-md-6 mx-auto">
+                                        <button
+                                            type="button"
+                                            class="btn btn-xs btn-primary btn-block"
+                                            @click="modal_factura = true"
+                                        >
+                                            <i class="fa fa-plus"></i>
+                                            Agregar Datos Factura
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -423,6 +433,74 @@
             @close="muestra_modal = false"
             @envioModal="getClientes"
         ></NuevoCliente>
+        <div
+            class="modal fade"
+            :class="{ show: modal_factura }"
+            id="modal-default"
+            aria-modal="true"
+            role="dialog"
+        >
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary">
+                        <h4 class="modal-title">Agregar Datos Factura</h4>
+                        <button
+                            type="button"
+                            class="close"
+                            data-dismiss="modal"
+                            aria-label="Close"
+                            @click="modal_factura = false"
+                        >
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="row">
+                                <div class="form-group col-md-12">
+                                    <label
+                                        :class="{
+                                            'text-danger': errors.nombre,
+                                        }"
+                                        >Nombre/Razón Social</label
+                                    >
+                                    <el-input
+                                        placeholder="Nombre"
+                                        v-model="venta.nom_fac"
+                                        clearable
+                                    >
+                                    </el-input>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label
+                                        :class="{
+                                            'text-danger': errors.ci,
+                                        }"
+                                        >Número de C.I./NIT</label
+                                    >
+                                    <el-input
+                                        placeholder="Número de C.I."
+                                        v-model="venta.nit_fac"
+                                        clearable
+                                    >
+                                    </el-input>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer justify-content-end">
+                        <button
+                            type="button"
+                            class="btn btn-default"
+                            data-dismiss="modal"
+                            @click="modal_factura = false"
+                        >
+                            Cerrar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -444,6 +522,8 @@ export default {
                     id: 0,
                     sucursal_id: "",
                     cliente_id: "",
+                    nom_fac: "",
+                    nit_fac: "",
                     nit: "",
                     total: "0.00",
                     descuento: "0",
@@ -525,6 +605,7 @@ export default {
             sw_busqueda: "todos",
             loading_buscador: false,
             timeOutProductos: null,
+            modal_factura: false,
         };
     },
     mounted() {
@@ -840,6 +921,8 @@ export default {
             this.oClienteModal.ci = "";
             this.oClienteModal.ci_exp = "";
             this.oClienteModal.nit = "";
+            this.oClienteModal.nom_fac = "";
+            this.oClienteModal.nit_fac = "";
             this.oClienteModal.fono_array = [];
             this.oClienteModal.fono = "";
             this.oClienteModal.dir = "";

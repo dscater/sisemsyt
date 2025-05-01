@@ -335,23 +335,22 @@ export default {
             if (!filter) return true;
             const text = filter.toString().toLowerCase();
 
-            // Convierte y junta todos los campos relevantes en una sola cadena
-            const contenido = [
+            const campos = [
                 item.id,
                 item.cliente?.nombre,
                 item.total,
                 item.descuento,
                 item.total_final,
                 item.fecha_registro_t,
-            ]
-                .map((val) =>
-                    val !== null && val !== undefined
-                        ? val.toString().toLowerCase()
-                        : ""
-                )
-                .join(" ");
+            ];
 
-            return contenido.includes(text);
+            const resultado = campos.some(
+                (val) =>
+                    val !== null &&
+                    val !== undefined &&
+                    val.toString().toLowerCase().includes(text)
+            );
+            return resultado;
         },
 
         formatoFecha(date) {

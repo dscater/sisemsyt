@@ -54,10 +54,10 @@ class ClienteController extends Controller
     public function store(Request $request)
     {
         if (isset($request["venta"])) {
-            unset($this->validacion["fono"]);
-            unset($this->validacion["correo"]);
-            unset($this->validacion["dir"]);
-            $request["fono"] = "";
+            $this->validacion["fono"] = "nullable";
+            $this->validacion["correo"] = "nullable|email";
+            $this->validacion["dir"] = "nullable|regex:/^[\pL\s\.\'\"\#\,0-9áéíóúÁÉÍÓÚñÑ]+$/uu";
+            $request["fono"] = $request["fono"] ?? NULL;
         }
 
         $request->validate($this->validacion, $this->mensajes);

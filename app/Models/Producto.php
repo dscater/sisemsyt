@@ -23,7 +23,12 @@ class Producto extends Model
         "status"
     ];
 
-    protected $appends = ["url_imagen"];
+    protected $appends = ["url_imagen", "fecha_registro_t"];
+
+    public function getFechaRegistroTAttribute()
+    {
+        return date("d/m/Y", strtotime($this->fecha_registro));
+    }
 
     public function getUrlImagenAttribute()
     {

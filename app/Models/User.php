@@ -50,7 +50,12 @@ class User extends Authenticatable
         'password',
     ];
 
-    protected $appends = ['full_name', 'full_ci', 'path_image'];
+    protected $appends = ['full_name', 'full_ci', 'path_image', "fecha_registro_t"];
+
+    public function getFechaRegistroTAttribute()
+    {
+        return date("d/m/Y", strtotime($this->fecha_registro));
+    }
 
     public static function getNombreUsuario($nom, $apep)
     {

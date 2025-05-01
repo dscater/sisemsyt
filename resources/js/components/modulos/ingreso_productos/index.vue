@@ -83,18 +83,8 @@
                                                 empty-text="Sin resultados"
                                                 empty-filtered-text="Sin resultados"
                                                 :filter="filter"
+                                                :filter-function="customFilter"
                                             >
-                                                <template
-                                                    #cell(fecha_registro)="row"
-                                                >
-                                                    {{
-                                                        formatoFecha(
-                                                            row.item
-                                                                .fecha_registro
-                                                        )
-                                                    }}
-                                                </template>
-
                                                 <template #cell(accion)="row">
                                                     <div
                                                         class="row justify-content-between"
@@ -213,7 +203,11 @@ export default {
                 { key: "precio_compra", label: "Precio", sortable: true },
                 { key: "cantidad", label: "Cantidad", sortable: true },
                 { key: "lote", label: "Lote", sortable: true },
-                { key: "fecha_fabricacion", label: "Fecha de Fabricación", sortable: true },
+                {
+                    key: "fecha_fabricacion",
+                    label: "Fecha de Fabricación",
+                    sortable: true,
+                },
                 {
                     key: "tipo_ingreso.nombre",
                     label: "Tipo de Ingreso",
@@ -221,7 +215,7 @@ export default {
                 },
                 { key: "descripcion", label: "Descripción", sortable: true },
                 {
-                    key: "fecha_registro",
+                    key: "fecha_registro_t",
                     label: "Fecha de registro",
                     sortable: true,
                 },
@@ -376,6 +370,30 @@ export default {
             // Trigger pagination to update the number of buttons/pages due to filtering
             this.totalRows = filteredItems.length;
             this.currentPage = 1;
+        },
+        customFilter(item, filter) {
+            if (!filter) return true;
+            const text = filter.toString().toLowerCase();
+
+            const campos = [
+                item.producto?.nombre,
+                item.proveedor?.razon_social,
+                item.precio_compra,
+                item.cantidad,
+                item.lote,
+                item.fecha_fabricacion,
+                item.tipo_ingreso?.razon_social,
+                item.descripcion,
+                item.fecha_registro_t,
+            ];
+
+            const resultado = campos.some(
+                (val) =>
+                    val !== null &&
+                    val !== undefined &&
+                    val.toString().toLowerCase().includes(text)
+            );
+            return resultado;
         },
         limpiaIngresoProducto() {
             this.oIngresoProducto.producto_id = "";

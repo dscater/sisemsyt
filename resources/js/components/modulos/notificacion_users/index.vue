@@ -63,6 +63,7 @@
                                                 empty-filtered-text="Sin resultados"
                                                 :filter="filter"
                                                 :tbody-tr-class="rowClass"
+                                                :filter-function="customFilter"
                                             >
                                                 <template
                                                     #cell(notificacion.descripcion)="row"
@@ -74,16 +75,6 @@
                                                                 .descripcion
                                                         }}
                                                     </p>
-                                                </template>
-                                                <template
-                                                    #cell(fecha_registro)="row"
-                                                >
-                                                    {{
-                                                        formatoFecha(
-                                                            row.item
-                                                                .fecha_registro
-                                                        )
-                                                    }}
                                                 </template>
                                                 <template #cell(accion)="row">
                                                     <div
@@ -196,7 +187,6 @@ export default {
     },
     methods: {
         rowClass(item, type) {
-            console.log(item);
             if (!item) return ""; // Para evitar errores en headers o filas vacías
 
             const tipo = item.notificacion?.tipo;
@@ -238,6 +228,24 @@ export default {
             // Trigger pagination to update the number of buttons/pages due to filtering
             this.totalRows = filteredItems.length;
             this.currentPage = 1;
+        },
+        customFilter(item, filter) {
+            if (!filter) return true;
+            const text = filter.toString().toLowerCase();
+
+            const campos = [
+                item.notificacion?.descripcion,
+                item.notificacion?.fecha_t,
+                item.notificacion?.hora,
+            ];
+
+            const resultado = campos.some(
+                (val) =>
+                    val !== null &&
+                    val !== undefined &&
+                    val.toString().toLowerCase().includes(text)
+            );
+            return resultado;
         },
         limpiaNotificación() {
             this.oNotificacionUser.nombre = "";

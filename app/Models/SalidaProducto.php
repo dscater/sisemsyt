@@ -19,7 +19,12 @@ class SalidaProducto extends Model
         "status"
     ];
 
-    protected $appends = ["nombre_producto", "nombre_producto_full"];
+    protected $appends = ["nombre_producto", "nombre_producto_full", "fecha_registro_t"];
+
+    public function getFechaRegistroTAttribute()
+    {
+        return date("d/m/Y", strtotime($this->fecha_registro));
+    }
 
     public function getNombreProductoAttribute()
     {

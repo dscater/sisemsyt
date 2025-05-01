@@ -21,7 +21,12 @@ class Cliente extends Model
         "status"
     ];
 
-    protected $appends = ["full_ci"];
+    protected $appends = ["full_ci", "fecha_registro_t"];
+
+    public function getFechaRegistroTAttribute()
+    {
+        return date("d/m/Y", strtotime($this->fecha_registro));
+    }
 
     public function getFullCiAttribute()
     {
