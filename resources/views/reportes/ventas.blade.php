@@ -184,7 +184,7 @@
     </div>
     @foreach ($ventas as $venta)
         <table border="1">
-            <thead class="green">
+            <thead class="">
                 <tr>
                     <th class="izquierda" width="15%">Fecha y hora:</th>
                     <th class="izquierda" colspan="3">{{ date('d/m/Y H:i', strtotime($venta->created_at)) }}</th>

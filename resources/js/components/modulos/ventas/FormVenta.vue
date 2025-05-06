@@ -87,16 +87,6 @@
                                                             </option>
                                                             <option
                                                                 :value="
-                                                                    oCliente.nit
-                                                                "
-                                                            >
-                                                                Nit:
-                                                                {{
-                                                                    oCliente.nit
-                                                                }}
-                                                            </option>
-                                                            <option
-                                                                :value="
                                                                     oCliente.ci
                                                                 "
                                                             >
@@ -115,7 +105,7 @@
                                         <button
                                             type="button"
                                             class="btn btn-xs btn-primary btn-block"
-                                            @click="modal_factura = true"
+                                            @click="mostrarDatosFactura"
                                         >
                                             <i class="fa fa-plus"></i>
                                             Agregar Datos Factura
@@ -488,7 +478,7 @@
                             </div>
                         </form>
                     </div>
-                    <div class="modal-footer justify-content-end">
+                    <div class="modal-footer justify-content-between">
                         <button
                             type="button"
                             class="btn btn-default"
@@ -496,6 +486,14 @@
                             @click="modal_factura = false"
                         >
                             Cerrar
+                        </button>
+
+                        <button
+                            type="button"
+                            class="btn btn-primary"
+                            @click="guardarDatosFactura"
+                        >
+                            Guardar cambios
                         </button>
                     </div>
                 </div>
@@ -619,6 +617,51 @@ export default {
         this.iniciaSeleccionFilas();
     },
     methods: {
+        mostrarDatosFactura() {
+            this.modal_factura = true;
+        },
+        guardarDatosFactura() {
+            if (this.oCliente && this.oCliente.id != 0) {
+                if (
+                    this.venta.nom_fac.trim() != "" &&
+                    this.venta.nit_fac.trim() != ""
+                ) {
+                    axios
+                        .post(
+                            "/admin/clientes/datos_factura/" + this.oCliente.id,
+                            {
+                                nom_fac: this.venta.nom_fac,
+                                nit_fac: this.venta.nit_fac,
+                            }
+                        )
+                        .then((response) => {
+                            Swal.fire({
+                                icon: "success",
+                                title: response.data.msj,
+                                showConfirmButton: false,
+                                timer: 2000,
+                            });
+                            this.oCliente = response.data.cliente;
+                            this.venta.nom_fac = this.oCliente.nom_fac;
+                            this.venta.nit_fac = this.oCliente.nit_fac;
+                        });
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Completa todos los campos",
+                        showConfirmButton: false,
+                        timer: 2000,
+                    });
+                }
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: "No se seleccionó ningún cliente",
+                    showConfirmButton: false,
+                    timer: 2000,
+                });
+            }
+        },
         // OBTENER LISTADOS E INFORMACIÓN
         getCliente() {
             if (this.venta.cliente_id != "") {
@@ -629,6 +672,8 @@ export default {
                         if (this.accion != "edit") {
                             this.venta.nit = this.oCliente.ci;
                         }
+                        this.venta.nom_fac = this.oCliente.nom_fac;
+                        this.venta.nit_fac = this.oCliente.nit_fac;
                     });
             } else {
                 this.oCliente = {

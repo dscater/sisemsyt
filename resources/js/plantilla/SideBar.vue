@@ -220,7 +220,7 @@
                             class="nav-link"
                         >
                             <i class="nav-icon fas fa-clipboard-list"></i>
-                            <p>Sugerencia de stock</p>
+                            <p>Sugerencia de stock mínimo</p>
                         </router-link>
                     </li>
                     <li

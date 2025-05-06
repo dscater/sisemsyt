@@ -207,7 +207,7 @@
                                             Venta
                                         </router-link>
                                     </div>
-                                    <div class="col-md-12">
+                                    <!-- <div class="col-md-12">
                                         <router-link
                                             class="btn btn-outline-primary mt-2 btn-flat mb-1 btn-block"
                                             :to="{
@@ -219,7 +219,7 @@
                                         >
                                             Editar
                                         </router-link>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>

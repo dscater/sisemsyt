@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Cliente;
 use App\Models\HistorialAccion;
+use App\Models\Venta;
 use App\Services\HistorialAccionService;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -16,9 +18,9 @@ class ClienteController extends Controller
     public $validacion = [
         'nombre' => 'required|regex:/^[\pL\s\.\'\"\,áéíóúÁÉÍÓÚñÑ]+$/uu',
         'ci' => 'required|numeric|digits_between:7,20|unique:clientes,ci',
-        'ci_exp' => 'required',
+        // 'ci_exp' => 'required',
         'fono' => 'required',
-        'nit' => 'required|numeric|unique:clientes,nit',
+        // 'nit' => 'required|numeric|unique:clientes,nit',
         'correo' => 'required|email',
         'dir' => 'required|regex:/^[\pL\s\.\'\"\#\,0-9áéíóúÁÉÍÓÚñÑ]+$/uu',
     ];
@@ -106,7 +108,7 @@ class ClienteController extends Controller
     public function update(Request $request, Cliente $cliente)
     {
         $this->validacion["ci"] = "required|numeric|digits_between:7,20|unique:clientes,ci," . $cliente->id;
-        $this->validacion["nit"] = "required|numeric|unique:clientes,nit," . $cliente->id;
+        // $this->validacion["nit"] = "required|numeric|unique:clientes,nit," . $cliente->id;
         $request->validate($this->validacion, $this->mensajes);
         $telefonos = explode(';', $request->input('fono'));
         $errores = [];
@@ -147,6 +149,40 @@ class ClienteController extends Controller
         }
     }
 
+    public function datos_factura(Request $request, Cliente $cliente)
+    {
+        $request->validate(
+            [
+                "nom_fac" => "required",
+                "nit_fac" => "required"
+            ],
+            [
+                "nom_fac.required" => "Debes completar este campo",
+                "nit_fac.required" => "Debes completar este campo"
+            ]
+        );
+
+        DB::beginTransaction();
+        try {
+            $old_cliente = clone $cliente;
+            $cliente->update(array_map('mb_strtoupper', $request->all()));
+            // registrar accion
+            $this->historialAccionService->registrarAccion($this->modulo, "MODIFICACIÓN", "ACTUALIZÓ UN CLIENTE", $old_cliente, $cliente);
+            DB::commit();
+            return response()->JSON([
+                'sw' => true,
+                'cliente' => $cliente,
+                'msj' => 'El registro se actualizó de forma correcta'
+            ], 200);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->JSON([
+                'sw' => false,
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
     public function show(Cliente $cliente)
     {
         return response()->JSON([
@@ -159,6 +195,11 @@ class ClienteController extends Controller
     {
         DB::beginTransaction();
         try {
+            $existe_registros = Venta::where("cliente_id", $cliente->id)->get();
+            if (count($existe_registros) > 0) {
+                throw new Exception("No se puede eliminar este registro");
+            }
+
             $old_cliente = clone $cliente;
             $cliente->status = 0;
             $cliente->save();

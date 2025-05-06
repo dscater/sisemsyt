@@ -238,7 +238,7 @@ export default {
                 { value: 25, text: "Mostrar 25 Registros" },
                 { value: 50, text: "Mostrar 50 Registros" },
                 { value: 100, text: "Mostrar 100 Registros" },
-                // { value: this.totalRows, text: "Mostrar Todo" },
+                { value: this.totalRows, text: "Mostrar Todo" },
             ],
             totalRows: 10,
             filter: null,

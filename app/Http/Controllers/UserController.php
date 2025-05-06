@@ -16,6 +16,7 @@ use App\Models\SeguimientoTramite;
 use App\Models\Tcont;
 use App\Models\User;
 use App\Services\HistorialAccionService;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -531,6 +532,11 @@ class UserController extends Controller
     {
         DB::beginTransaction();
         try {
+            $existe_registros = Venta::where("user_id", $usuario->id)->get();
+            if (count($existe_registros) > 0) {
+                throw new Exception("No se puede eliminar este registro");
+            }
+
             $antiguo = $usuario->foto;
             if ($antiguo != 'default.png') {
                 \File::delete(public_path() . '/imgs/users/' . $antiguo);

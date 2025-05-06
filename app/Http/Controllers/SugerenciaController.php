@@ -6,7 +6,6 @@ use App\Models\DetalleVenta;
 use App\Models\Producto;
 use App\Models\StockMinimo;
 use Illuminate\Http\Request;
-use Phpml\Association\Apriori;
 
 class SugerenciaController extends Controller
 {

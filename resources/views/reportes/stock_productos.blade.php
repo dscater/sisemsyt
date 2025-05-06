@@ -31,7 +31,13 @@
             word-wrap: break-word;
         }
 
-        tr { page-break-inside: avoid !important; }
+        table thead {
+            background: rgb(236, 236, 236)
+        }
+
+        tr {
+            page-break-inside: avoid !important;
+        }
 
         .encabezado {
             width: 100%;
@@ -174,7 +180,7 @@
             @php
                 $cont = 1;
             @endphp
-            <tr class="green">
+            <tr class="">
                 <th class="bold" width="5%">N°</th>
                 <th class="bold">PRODUCTO</th>
                 <th class="bold" width="15%">STOCK ACTUAL</th>

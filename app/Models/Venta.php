@@ -39,7 +39,7 @@ class Venta extends Model
 
     public function getQrAttribute()
     {
-        $codigo = $this->id . "|" . $this->cliente->nombre . "|" . $this->nit . "|" . $this->fecha_registro . "|" . $this->total_final;
+        $codigo = $this->id . "|" . $this->cliente->nom_fac . "|" . $this->nit_fac . "|" . $this->fecha_registro . "|" . $this->total_final;
 
         $url_base64 = "data:image/png;base64," . base64_encode(QrCode::format("png")->size(150)->generate($codigo));
 

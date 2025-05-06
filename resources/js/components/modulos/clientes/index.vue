@@ -196,7 +196,7 @@ export default {
                     label: "Nombre/Razón Social",
                     sortable: true,
                 },
-                { key: "nit_ci", label: "C.I./NIT", sortable: true },
+                { key: "ci", label: "C.I./NIT", sortable: true },
                 { key: "fono", label: "Teléfono/Celular" },
                 { key: "correo", label: "Correo electrónico" },
                 { key: "dir", label: "Dirección" },

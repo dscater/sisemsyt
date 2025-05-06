@@ -176,7 +176,7 @@
             @php
                 $cont = 1;
             @endphp
-            <tr class="green">
+            <tr class="">
                 <th class="bold" width="5%">ID</th>
                 <th class="bold">PRODUCTO</th>
                 <th class="bold" width="15%">FECHA</th>

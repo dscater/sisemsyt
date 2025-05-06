@@ -48,7 +48,7 @@
                                     :class="{
                                         'text-danger': errors.ci,
                                     }"
-                                    >Número de C.I.*</label
+                                    >Número de C.I./NIT*</label
                                 >
                                 <el-input
                                     placeholder="Número de C.I."
@@ -63,7 +63,7 @@
                                     v-text="errors.ci[0]"
                                 ></span>
                             </div>
-                            <div class="form-group col-md-6">
+                            <!-- <div class="form-group col-md-6">
                                 <label
                                     :class="{
                                         'text-danger': errors.ci_exp,
@@ -111,7 +111,7 @@
                                     v-if="errors.nit"
                                     v-text="errors.nit[0]"
                                 ></span>
-                            </div>
+                            </div> -->
                             <div class="form-group col-md-6">
                                 <label
                                     :class="{

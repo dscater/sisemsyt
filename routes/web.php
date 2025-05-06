@@ -143,6 +143,7 @@ Route::middleware(['auth'])->group(function () {
         ]);
 
         // Clientes
+        Route::post("clientes/datos_factura/{cliente}", [ClienteController::class, 'datos_factura']);
         Route::resource('clientes', ClienteController::class)->only([
             'index',
             'store',

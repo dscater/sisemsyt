@@ -172,7 +172,7 @@
         <h4 class="fecha">Expedido: {{ date('d-m-Y') }}</h4>
     </div>
     <table border="1">
-        <thead class="green">
+        <thead class="">
             <tr>
                 <th width="3%">N°</th>
                 <th width="5%">FOTO</th>

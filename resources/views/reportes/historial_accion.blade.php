@@ -176,7 +176,7 @@
             @php
                 $cont = 1;
             @endphp
-            <tr class="green">
+            <tr class="">
                 <th class="bold">USUARIO</th>
                 <th class="bold">ACCIÓN</th>
                 <th class="bold">MÓDULO</th>
