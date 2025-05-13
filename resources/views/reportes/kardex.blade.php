@@ -180,7 +180,7 @@
             {{ App\Models\Configuracion::first()->razon_social }}
         </h2>
         <h4 class="texto">KARDEX DE PRODUCTOS</h4>
-        <h4 class="fecha">{{ $array_dias[date('w')] }}, {{ date('d') }} de
+        <h4 class="fecha">Fecha de impresión {{ $array_dias[date('w')] }}, {{ date('d') }} de
             {{ $array_meses[date('m')] }} de {{ date('Y') }}</h4>
         <h4 class="fecha">(Expresado en bolivianos)</h4>
     </div>

@@ -110,6 +110,16 @@
                                             <i class="fa fa-plus"></i>
                                             Agregar Datos Factura
                                         </button>
+                                        <span
+                                            class="d-block error invalid-feedback"
+                                            v-if="errors.nom_fac"
+                                            v-text="errors.nom_fac[0]"
+                                        ></span>
+                                        <span
+                                            class="d-block error invalid-feedback"
+                                            v-if="errors.nit_fac"
+                                            v-text="errors.nit_fac[0]"
+                                        ></span>
                                     </div>
                                 </div>
                             </div>
@@ -460,6 +470,12 @@
                                         clearable
                                     >
                                     </el-input>
+
+                                    <span
+                                        class="d-block error invalid-feedback"
+                                        v-if="errors.nom_fac"
+                                        v-text="errors.nom_fac[0]"
+                                    ></span>
                                 </div>
                                 <div class="form-group col-md-12">
                                     <label
@@ -474,6 +490,11 @@
                                         clearable
                                     >
                                     </el-input>
+                                    <span
+                                        class="d-block error invalid-feedback"
+                                        v-if="errors.nit_fac"
+                                        v-text="errors.nit_fac[0]"
+                                    ></span>
                                 </div>
                             </div>
                         </form>

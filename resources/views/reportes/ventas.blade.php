@@ -180,35 +180,36 @@
             {{ $configuracion->first()->razon_social }}
         </h2>
         <h4 class="texto">VENTAS</h4>
-        <h4 class="fecha">Expedido: {{ date('d-m-Y') }}</h4>
+        <h4 class="fecha">Fecha de impresión {{ date('d-m-Y') }}</h4>
     </div>
     @foreach ($ventas as $venta)
         <table border="1">
             <thead class="">
                 <tr>
                     <th class="izquierda" width="15%">Fecha y hora:</th>
-                    <th class="izquierda" colspan="3">{{ date('d/m/Y H:i', strtotime($venta->created_at)) }}</th>
+                    <th class="izquierda" colspan="4">{{ date('d/m/Y H:i', strtotime($venta->created_at)) }}</th>
                 </tr>
                 <tr>
                     <th class="izquierda">Cliente:</th>
-                    <th class="izquierda" colspan="3">{{ $venta->cliente->nombre }}</th>
+                    <th class="izquierda" colspan="4">{{ $venta->cliente->nom_fac }}</th>
                 </tr>
                 <tr>
                     <th class="izquierda">Nit:</th>
-                    <th class="izquierda" colspan="3">{{ $venta->nit }}</th>
+                    <th class="izquierda" colspan="4">{{ $venta->nit_fac }}</th>
                 </tr>
                 <tr>
                     <th class="izquierda">
                         Usuario:
                     </th>
-                    <th class="izquierda" colspan="3">{{ $venta->user->usuario }}</th>
+                    <th class="izquierda" colspan="4">{{ $venta->user->usuario }}</th>
                 </tr>
                 <tr>
-                    <th colspan="4">DETALLE DE ORDEN</th>
+                    <th colspan="5">DETALLE DE ORDEN</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
+                    <td class="bold centreado">Código</td>
                     <td class="bold centreado">Producto</td>
                     <td class="bold centreado">Cantidad</td>
                     <td class="bold centreado">P/U</td>
@@ -216,6 +217,7 @@
                 </tr>
                 @foreach ($venta->detalle_ventas as $detalle)
                     <tr>
+                        <td>{{ $detalle->producto->codigo_producto }}</td>
                         <td>{{ $detalle->producto->nombre }}</td>
                         <td class="centreado">{{ $detalle->cantidad }}</td>
                         <td class="centreado">{{ $detalle->precio }}</td>
@@ -223,8 +225,16 @@
                     </tr>
                 @endforeach
                 <tr>
-                    <td class="derecha bold" colspan="3">TOTAL</td>
+                    <td class="derecha bold" colspan="4">TOTAL</td>
                     <td class="bold centreado">{{ $venta->total }}</td>
+                </tr>
+                <tr>
+                    <td class="derecha bold" colspan="4">DESCUENTO %</td>
+                    <td class="bold centreado">{{ $venta->descuento }}%</td>
+                </tr>
+                <tr>
+                    <td class="derecha bold" colspan="4">TOTAL FINAL</td>
+                    <td class="bold centreado">{{ $venta->total_final }}</td>
                 </tr>
             </tbody>
         </table>

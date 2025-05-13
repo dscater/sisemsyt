@@ -169,7 +169,7 @@
             {{ $configuracion->first()->razon_social }}
         </h2>
         <h4 class="texto">LISTA DE USUARIOS</h4>
-        <h4 class="fecha">Expedido: {{ date('d-m-Y') }}</h4>
+        <h4 class="fecha">Fecha de impresión {{ date('d-m-Y') }}</h4>
     </div>
     <table border="1">
         <thead class="">

@@ -290,7 +290,7 @@
                             <p>Productos</p>
                         </router-link>
                     </li>
-                    <li
+                    <!-- <li
                         class="nav-item"
                         v-if="permisos.includes('stock_minimos.index')"
                     >
@@ -301,7 +301,7 @@
                             <i class="nav-icon fas fa-clipboard-list"></i>
                             <p>Stock mínimo</p>
                         </router-link>
-                    </li>
+                    </li> -->
                     <li
                         class="nav-item"
                         v-if="permisos.includes('usuarios.index')"
@@ -378,7 +378,7 @@
                             <p>Reporte de ventas</p>
                         </router-link>
                     </li>
-                    <li
+                    <!-- <li
                         class="nav-item"
                         v-if="permisos.includes('reportes.stock_minimos')"
                     >
@@ -389,7 +389,7 @@
                             <i class="fas fa-file-pdf nav-icon"></i>
                             <p>Reporte de stock mínimo</p>
                         </router-link>
-                    </li>
+                    </li> -->
                     <!-- <li
                         class="nav-item"
                         v-if="permisos.includes('reportes.historial_acciones')"

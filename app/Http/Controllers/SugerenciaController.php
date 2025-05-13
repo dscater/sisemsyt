@@ -19,9 +19,6 @@ class SugerenciaController extends Controller
     private function entrenarModelo()
     {
         //Algoritmo usado descubrir patrones de productos frecuentemente comprados
-        //con valores de soporte y confianza de 50%
-        $this->model = new Apriori(0.5, 0.5);
-
         $ventas = DetalleVenta::all()->groupBy('venta_id');
         $data = [];
 
@@ -31,7 +28,7 @@ class SugerenciaController extends Controller
             $data[] = $nombresProductos;
         }
 
-        $this->model->train($data, []);
+        $this->model = new KNearestNeighbors($data);
     }
 
     /**

@@ -25,6 +25,8 @@ class VentaController extends Controller
     public $validacion = [
         "cliente_id" => "required",
         "descuento" => "required|numeric|min:0|max:100",
+        "nom_fac" => "required|string|min:1|max:100",
+        "nit_fac" => "required|string|min:1|max:100",
         "total_final" => "required",
     ];
     private $modulo = "VENTAS";
@@ -49,7 +51,13 @@ class VentaController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate($this->validacion);
+        $request->validate(
+            $this->validacion,
+            [
+                "nom_fac.required" => "Debes ingresar el nombre de factura",
+                "nit_fac.required" => "Debes ingresar el C.I./NIT de la Factura"
+            ]
+        );
 
         DB::beginTransaction();
         try {
@@ -103,7 +111,13 @@ class VentaController extends Controller
 
     public function update(Venta $venta, Request $request)
     {
-        $request->validate($this->validacion);
+        $request->validate(
+            $this->validacion,
+            [
+                "nom_fac.required" => "Debes ingresar el nombre de factura",
+                "nit_fac.required" => "Debes ingresar el C.I./NIT de la Factura"
+            ]
+        );
 
         DB::beginTransaction();
         try {
