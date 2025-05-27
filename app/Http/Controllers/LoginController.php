@@ -23,6 +23,15 @@ class LoginController extends Controller
 {
     public function login(Request $request)
     {
+        $request->validate([
+            "usuario" => "required",
+            "password" => "required",
+        ],[
+            "usuario.required" => "Debes completar el campo usuario",
+            "password.required" => "Debes completar el campo contraseña"
+        ]);
+
+
         $usuario = $request->usuario;
         $password = $request->password;
         $res = Auth::attempt(['usuario' => $usuario, 'password' => $password, 'acceso' => 1, 'status' => 1, 'b_auth' => 0]);

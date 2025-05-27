@@ -35,7 +35,10 @@ Route::get("/updatePassword", [LoginController::class, 'updatePassword'])->name(
 // CONFIGURACIÓN
 Route::get('/configuracion/getConfiguracion', [ConfiguracionController::class, 'getConfiguracion']);
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'permisoUsuario'])->group(function () {
+
+    Route::get('/verificar-permiso', [UserController::class, 'verificaPermiso']);
+
     Route::post('/configuracion/update', [ConfiguracionController::class, 'update']);
     Route::post('/verificar2fa', [LoginController::class, 'verificar2fa']);
 
@@ -47,6 +50,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('usuarios/getUsuario/{usuario}', [UserController::class, 'getUsuario']);
         Route::get('usuarios/userActual', [UserController::class, 'userActual']);
         Route::get('usuarios/getInfoBox', [UserController::class, 'getInfoBox']);
+        Route::get('usuarios/getPermisosLogeado', [UserController::class, 'getPermisosLogeado']);
         Route::get('usuarios/getPermisos/{usuario}', [UserController::class, 'getPermisos']);
         Route::get('usuarios/getEncargadosRepresentantes', [UserController::class, 'getEncargadosRepresentantes']);
         Route::post('usuarios/actualizaContrasenia/{usuario}', [UserController::class, 'actualizaContrasenia']);

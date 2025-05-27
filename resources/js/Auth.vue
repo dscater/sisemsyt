@@ -15,7 +15,7 @@
                     </p>
 
                     <div>
-                        <div class="input-group mb-3">
+                        <div class="input-group mt-3">
                             <input
                                 type="text"
                                 class="form-control"
@@ -30,7 +30,12 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="input-group mb-3">
+                        <span
+                            class="error invalid-feedback d-block"
+                            v-if="errors && errors.usuario"
+                            v-text="errors.usuario[0]"
+                        ></span>
+                        <div class="input-group mt-3">
                             <input
                                 :type="muestra_password ? 'text' : 'password'"
                                 class="form-control"
@@ -65,6 +70,11 @@
                                 </div>
                             </div>
                         </div>
+                        <span
+                            class="error invalid-feedback d-block"
+                            v-if="errors && errors.password"
+                            v-text="errors.password[0]"
+                        ></span>
                         <div class="row" v-if="error">
                             <div class="col-12">
                                 <div class="callout callout-danger">
@@ -75,7 +85,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row" v-if="error_login">
+                        <div class="row mt-3" v-if="error_login">
                             <div class="col-12">
                                 <div class="callout callout-danger">
                                     <h5>¡Atención!</h5>
@@ -84,7 +94,7 @@
                             </div>
                         </div>
 
-                        <div class="row">
+                        <div class="row mt-3">
                             <!-- /.col -->
                             <div class="col-12">
                                 <button
@@ -129,6 +139,7 @@ export default {
             error_login: null,
             fullscreenLoading: false,
             user: null,
+            errors: null,
         };
     },
     created() {
@@ -153,6 +164,8 @@ export default {
                 });
         },
         login() {
+            this.errors = null;
+            this.error = false;
             this.fullscreenLoading = true;
             axios
                 .post("/login", {
@@ -181,10 +194,15 @@ export default {
                     this.fullscreenLoading = false;
                 })
                 .catch((error) => {
-                    this.user = null;
-                    this.error = true;
-                    this.password = "";
-                    console.log(error);
+                    console.log(error.response);
+                    if (error.response.data.errors) {
+                        this.errors = error.response.data.errors;
+                    } else {
+                        this.user = null;
+                        this.error = true;
+                        this.password = "";
+                        // console.log(error);
+                    }
                     this.fullscreenLoading = false;
                 });
         },

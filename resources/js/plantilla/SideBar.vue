@@ -85,17 +85,17 @@
                     <li
                         class="nav-header"
                         v-if="
-                            permisos.includes('analisis_inventarios') ||
-                            permisos.includes('analisis_proveedores') ||
-                            permisos.includes('analisis_ventas') ||
-                            permisos.includes('analisis_clientes')
+                            permisos.includes('analisis_inventarios.index') ||
+                            permisos.includes('analisis_proveedors.index') ||
+                            permisos.includes('analisis_ventas.index') ||
+                            permisos.includes('analisis_clientes.index')
                         "
                     >
                         REPORTES DE ANÁLISIS
                     </li>
                     <li
                         class="nav-item"
-                        v-if="permisos.includes('analisis_inventarios')"
+                        v-if="permisos.includes('analisis_inventarios.index')"
                     >
                         <router-link
                             :to="{ name: 'analisis_inventarios.index' }"
@@ -107,7 +107,7 @@
                     </li>
                     <li
                         class="nav-item"
-                        v-if="permisos.includes('analisis_proveedores')"
+                        v-if="permisos.includes('analisis_proveedors.index')"
                     >
                         <router-link
                             :to="{ name: 'analisis_proveedors.index' }"
@@ -119,7 +119,7 @@
                     </li>
                     <li
                         class="nav-item"
-                        v-if="permisos.includes('analisis_ventas')"
+                        v-if="permisos.includes('analisis_ventas.index')"
                     >
                         <router-link
                             :to="{ name: 'analisis_ventas.index' }"
@@ -131,7 +131,7 @@
                     </li>
                     <li
                         class="nav-item"
-                        v-if="permisos.includes('analisis_clientes')"
+                        v-if="permisos.includes('analisis_clientes.index')"
                     >
                         <router-link
                             :to="{ name: 'analisis_clientes.index' }"
@@ -143,7 +143,7 @@
                     </li>
                     <li
                         class="nav-item"
-                        v-if="permisos.includes('analisis_suministro')"
+                        v-if="permisos.includes('analisis_suministro.index')"
                     >
                         <router-link
                             :to="{ name: 'analisis_suministro.index' }"
@@ -155,7 +155,7 @@
                     </li>
                     <li
                         class="nav-item"
-                        v-if="permisos.includes('analisis_consumo')"
+                        v-if="permisos.includes('analisis_consumo.index')"
                     >
                         <router-link
                             :to="{ name: 'analisis_consumo.index' }"
@@ -444,7 +444,7 @@
                         v-if="permisos.includes('configuracion.index')"
                     >
                         <router-link
-                            :to="{ name: 'configuracion' }"
+                            :to="{ name: 'configuracion.index' }"
                             class="nav-link"
                         >
                             <i class="nav-icon fas fa-cog"></i>
@@ -499,6 +499,9 @@ export default {
             loadingSalir: false,
         };
     },
+    mounted() {
+        this.obtienePermisos();
+    },
     methods: {
         logout() {
             Swal.fire({
@@ -521,6 +524,14 @@ export default {
                         }, 500);
                     });
                 }
+            });
+        },
+        obtienePermisos() {
+            axios.get("/admin/usuarios/getPermisosLogeado").then((res) => {
+                localStorage.setItem("permisos", JSON.stringify(res.data.permisos));
+                localStorage.setItem("user", JSON.stringify(res.data.usuario));
+                this.permisos = res.data.permisos;
+                this.user = res.data.usuario;
             });
         },
     },

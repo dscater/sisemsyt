@@ -204,8 +204,11 @@ export default {
                         showConfirmButton: false,
                         timer: 1500,
                     });
-                    this.$router.push({ name: "inicio" });
-                    window.location.reload();
+                    // this.$router.push({ name: "inicio" });
+                    setTimeout(() => {
+                        // window.location.reload();
+                        window.location.href = "/";
+                    }, 500);
                 })
                 .catch((error) => {
                     if (error.response.data.errors) {

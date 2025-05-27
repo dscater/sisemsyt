@@ -185,7 +185,7 @@
                                                         </button>
                                                     </div>
                                                     <span
-                                                        class="error invalid-feedback"
+                                                        class="error invalid-feedback d-block"
                                                         v-if="
                                                             errors.password_actual
                                                         "
@@ -247,7 +247,7 @@
                                                         </button>
                                                     </div>
                                                     <span
-                                                        class="error invalid-feedback"
+                                                        class="error invalid-feedback d-block"
                                                         v-if="errors.password"
                                                         v-text="
                                                             errors.password[0]
@@ -305,7 +305,7 @@
                                                         </button>
                                                     </div>
                                                     <span
-                                                        class="error invalid-feedback"
+                                                        class="error invalid-feedback d-block"
                                                         v-if="
                                                             errors.password_confirmation
                                                         "
@@ -323,8 +323,7 @@
                                                         class="bg-primary w-full"
                                                         :loading="enviando"
                                                         @click="setPassword"
-                                                        >Enviar
-                                                        cambios</el-button
+                                                        >Actualizar contraseña</el-button
                                                     >
                                                 </div>
                                             </div>

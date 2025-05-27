@@ -3,8 +3,14 @@ import Router from "vue-router";
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
     routes: [
+        //denegado
+        {
+            path: "/acceso-denegado",
+            name: "acceso.denegado",
+            component: require("./components/AccesoDenegado.vue").default,
+        },
         // INICIO
         {
             path: "/",
@@ -173,7 +179,7 @@ export default new Router({
         // Configuración
         {
             path: "/configuracion",
-            name: "configuracion",
+            name: "configuracion.index",
             component: require("./components/modulos/configuracion/index.vue")
                 .default,
             props: true,
@@ -304,3 +310,30 @@ export default new Router({
     mode: "history",
     linkActiveClass: "active",
 });
+
+router.beforeEach(async (to, from, next) => {
+    if (to.name) {
+        try {
+            await axios.get(`/verificar-permiso`, {
+                params: {
+                    permiso: to.name,
+                },
+            });
+            next(); // tiene permiso
+        } catch (error) {
+            if (
+                error.response &&
+                error.response.status == 403
+            ) {
+                next({ name: "acceso.denegado" });
+            } else {
+                console.error("Error de red o servidor:", error);
+                next(false); // bloquea navegación
+            }
+        }
+    } else {
+        next(); // sin meta.permiso, se permite navegar
+    }
+});
+
+export default router;

@@ -71,7 +71,7 @@ class UserController extends Controller
         'logo.max' => 'La imagen no puede pesar mas de 4MB'
     ];
 
-    public $permisos = [
+    static $permisos = [
         'ADMINISTRADOR' => [
             'usuarios.index',
             'usuarios.create',
@@ -130,12 +130,12 @@ class UserController extends Controller
             'configuracion.index',
             'configuracion.edit',
 
-            "analisis_inventarios",
-            "analisis_proveedores",
-            "analisis_ventas",
-            "analisis_clientes",
-            "analisis_suministro",
-            "analisis_consumo",
+            "analisis_inventarios.index",
+            "analisis_proveedors.index",
+            "analisis_ventas.index",
+            "analisis_clientes.index",
+            "analisis_suministro.index",
+            "analisis_consumo.index",
 
             "notificacion_users.index",
 
@@ -147,10 +147,12 @@ class UserController extends Controller
             "reportes.stock_minimos",
         ],
         'GERENCIA' => [
-            "analisis_inventarios",
-            "analisis_proveedores",
-            "analisis_ventas",
-            "analisis_clientes",
+            "analisis_inventarios.index",
+            "analisis_proveedors.index",
+            "analisis_ventas.index",
+            "analisis_clientes.index",
+            "analisis_suministro.index",
+            "analisis_consumo.index",
 
             'reportes.kardex',
             'reportes.ventas',
@@ -193,6 +195,8 @@ class UserController extends Controller
             'salida_productos.edit',
             'salida_productos.destroy',
 
+            "sugerencia_stocks.index",
+
             'clientes.index',
             'clientes.create',
             'clientes.edit',
@@ -203,10 +207,14 @@ class UserController extends Controller
             'ventas.edit',
             'ventas.destroy',
 
-            "analisis_inventarios",
-            "analisis_proveedores",
-            "analisis_ventas",
-            "analisis_clientes",
+            "analisis_inventarios.index",
+            "analisis_proveedors.index",
+            "analisis_ventas.index",
+            "analisis_clientes.index",
+            "analisis_suministro.index",
+            "analisis_consumo.index",
+
+            "notificacion_users.index",
 
             'reportes.kardex',
             'reportes.ventas',
@@ -484,6 +492,7 @@ class UserController extends Controller
             $usuario->update_password = 1;
             $usuario->save();
             DB::commit();
+            // return redirect()->route("/");
             return response()->JSON([
                 'sw' => true,
                 'message' => 'La contraseña se actualizó correctamente'
@@ -561,17 +570,64 @@ class UserController extends Controller
         }
     }
 
+
+
+    public function getPermisosLogeado()
+    {
+        $usuario = Auth::user();
+        $tipo = $usuario->tipo;
+        return response()->JSON(
+            [
+                "usuario" => $usuario,
+                "permisos" => self::$permisos[$tipo]
+            ]
+        );
+    }
+
     public function getPermisos(User $usuario)
     {
         $tipo = $usuario->tipo;
-        return response()->JSON($this->permisos[$tipo]);
+        return response()->JSON(self::$permisos[$tipo]);
+    }
+
+    public static function getPermisosUser()
+    {
+        $usuario = Auth::user();
+        if ($usuario) {
+            return self::$permisos[$usuario->tipo];
+        }
+
+        return [];
+    }
+
+    public function verificaPermiso(Request $request)
+    {
+        $tipo = Auth::user()->tipo;
+
+        $excepciones = [
+            "acceso.denegado",
+            "inicio",
+            "login",
+            "verificacion",
+            "usuarios.perfil",
+            "ventas.ticket",
+            "notificacion_users.show"
+        ];
+
+        if (in_array($request->permiso, self::$permisos[$tipo]) || in_array($request->permiso, $excepciones)) {
+            // Log::debug($request->permiso);
+            // Log::debug(self::$permisos[$tipo]);
+            return response()->json(['autorizado' => true]);
+        }
+
+        return response()->json(['error' => 'No autorizado'], 403);
     }
 
     public function getInfoBox()
     {
         $tipo = Auth::user()->tipo;
         $array_infos = [];
-        if (in_array('usuarios.index', $this->permisos[$tipo])) {
+        if (in_array('usuarios.index', self::$permisos[$tipo])) {
             $array_infos[] = [
                 'label' => 'Usuarios',
                 'cantidad' => count(User::where('id', '!=', 1)->get()),
@@ -579,7 +635,7 @@ class UserController extends Controller
                 'icon' => 'fas fa-users',
             ];
         }
-        if (in_array('clientes.index', $this->permisos[$tipo])) {
+        if (in_array('clientes.index', self::$permisos[$tipo]) || $tipo == 'GERENCIA') {
             $array_infos[] = [
                 'label' => 'Clientes',
                 'cantidad' => count(User::where('id', '!=', 1)->get()),
@@ -588,7 +644,7 @@ class UserController extends Controller
             ];
         }
 
-        if (in_array('ventas.index', $this->permisos[$tipo])) {
+        if (in_array('ventas.index', self::$permisos[$tipo]) || $tipo == 'GERENCIA') {
             $ventas = Venta::all();
             $array_infos[] = [
                 'label' => 'Ventas',
@@ -598,7 +654,7 @@ class UserController extends Controller
             ];
         }
 
-        if (in_array('productos.index', $this->permisos[$tipo])) {
+        if (in_array('productos.index', self::$permisos[$tipo]) || $tipo == 'GERENCIA') {
             $array_infos[] = [
                 'label' => 'Productos',
                 'cantidad' => count(Producto::all()),

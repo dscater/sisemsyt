@@ -42,6 +42,10 @@ class ProductoController extends Controller
         "stock_min.integer" => "Este campo debe ser un valor entero",
         "stock_min.min" => "Debes ingresar un valor mayor o igual a :min",
         "categoria_id.required" => "Este campo es obligatorio",
+        "imagen.required" => "Este campo es obligatorio",
+        "imagen.image" => "Debes ingresar una imagen",
+        "imagen.mimes" => "Solo puedes ingresar imagenes jpeg, jpg, png, webp",
+        "imagen.max" => "La imagen no puede pesar mas de 4096KB",
     ];
 
     private $modulo = "PRODUCTOS";
@@ -244,7 +248,7 @@ class ProductoController extends Controller
 
     public function store(Request $request)
     {
-        $this->validacion['imagen'] = "nullable|image|mimes:jpeg,jpg,png,webp|max:4096";
+        $this->validacion['imagen'] = "required|image|mimes:jpeg,jpg,png,webp|max:4096";
         $request->validate($this->validacion, $this->mensajes);
         DB::beginTransaction();
         try {

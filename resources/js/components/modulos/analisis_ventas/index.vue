@@ -203,7 +203,7 @@
                     <div class="col-md-6">
                         <div class="card">
                             <div class="card-body">
-                                <h4>Predicción de cantidad de productos</h4>
+                                <h4>Predicción de ingresos de productos vendidos</h4>
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="row">
@@ -285,7 +285,7 @@
                     <div class="col-md-6">
                         <div class="card">
                             <div class="card-body">
-                                <h4>Predicción de ingresos por productos</h4>
+                                <h4>Predicción de ingresos por productos vendidos</h4>
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="row">

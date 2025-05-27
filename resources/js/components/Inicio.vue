@@ -76,6 +76,9 @@ export default {
         this.loadingWindow.close();
         this.getInfoBox();
         this.grafico();
+        this.configuracion = JSON.parse(localStorage.getItem("configuracion"));
+        this.user = JSON.parse(localStorage.getItem("user"));
+        this.obtienePermisos();
     },
     methods: {
         getInfoBox() {
@@ -155,6 +158,14 @@ export default {
                         },
                     ],
                 });
+            });
+        },
+        obtienePermisos() {
+            axios.get("/admin/usuarios/getPermisosLogeado").then((res) => {
+                // localStorage.setItem("configuracion", this.configuracion);
+                localStorage.setItem("permisos", JSON.stringify(res.data.permisos));
+                localStorage.setItem("user", JSON.stringify(res.data.usuario));
+                this.user = res.data.usuario;
             });
         },
     },

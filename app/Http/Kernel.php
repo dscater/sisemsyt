@@ -65,5 +65,7 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         '2fa' => \App\Http\Middleware\TwoFAMiddleware::class,
         'login.attempts' => \App\Http\Middleware\LoginAttemptMiddleware::class,
+        'login.attempts' => \App\Http\Middleware\LoginAttemptMiddleware::class,
+        'permisoUsuario' => \App\Http\Middleware\PermisoUsuarioMiddleware::class,
     ];
 }

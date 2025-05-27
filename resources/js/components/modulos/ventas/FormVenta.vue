@@ -73,12 +73,13 @@
                                                         data-col="Nombre Completo: "
                                                         v-text
                                                     >
-                                                        {{ oCliente.nombre }}
+                                                        {{ oCliente.nom_fac }}
                                                     </td>
                                                     <td
                                                         data-col="Número C.I. o Nit: "
                                                     >
-                                                        <select
+                                                        {{ oCliente.nit_fac }}
+                                                        <!-- <select
                                                             class="form-control"
                                                             v-model="venta.nit"
                                                         >
@@ -87,15 +88,15 @@
                                                             </option>
                                                             <option
                                                                 :value="
-                                                                    oCliente.ci
+                                                                    oCliente.nit_fac
                                                                 "
                                                             >
                                                                 C.I.:
                                                                 {{
-                                                                    oCliente.ci
+                                                                    oCliente.nit_fac
                                                                 }}
                                                             </option>
-                                                        </select>
+                                                        </select> -->
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -691,7 +692,7 @@ export default {
                     .then((response) => {
                         this.oCliente = response.data.cliente;
                         if (this.accion != "edit") {
-                            this.venta.nit = this.oCliente.ci;
+                            this.venta.nit_fac = this.oCliente.nit_fac;
                         }
                         this.venta.nom_fac = this.oCliente.nom_fac;
                         this.venta.nit_fac = this.oCliente.nit_fac;
