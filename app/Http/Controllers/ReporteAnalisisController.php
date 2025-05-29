@@ -17,12 +17,17 @@ class ReporteAnalisisController extends Controller
     public function stock_productos1()
     {
         $productos = Producto::all();
-        $datos = [];
+        $categories = [];
+        $data = [];
         foreach ($productos as $producto) {
-            $datos[] = [$producto->nombre, (float)$producto->stock_actual];
+            $categories[] = $producto->nombre;
+            $data[] = (float)$producto->stock_actual;
         }
 
-        return response()->JSON(["datos" => $datos]);
+        return response()->JSON([
+            "categories" => $categories,
+            "data" => $data,
+        ]);
     }
     public function stock_productos2(Request $request)
     {
@@ -90,8 +95,10 @@ class ReporteAnalisisController extends Controller
             $productos = Producto::where("id", $producto)->get();
         }
 
-        $datos = [];
+        $categories = [];
+        $data = [];
         foreach ($productos as $o_prod) {
+            $categories[] = $o_prod->nombre;
             $promedio = 0;
             $kardex1 = KardexProducto::where("producto_id", $o_prod->id)->where("fecha", "LIKE", "$mes_anterior1%")->get()->last();
             if ($kardex1) {
@@ -106,12 +113,13 @@ class ReporteAnalisisController extends Controller
                 $promedio += $kardex3->cantidad_saldo;
             }
             $promedio = $promedio / 3;
-            $datos[] = [$o_prod->nombre, (int)$promedio];
+            $data[] = (int)$promedio;
         }
 
         return response()->JSON([
+            "categories" => $categories,
             "mes_anio" => mb_strtoupper($meses[$mes]) . " DE " . $anio,
-            "datos" => $datos
+            "data" => $data
         ]);
     }
 
@@ -187,24 +195,30 @@ class ReporteAnalisisController extends Controller
     public function ventas1(Request $request)
     {
         $productos = Producto::all();
+        $categories = [];
         $datos = [];
         foreach ($productos as $o_prod) {
+            $categories[] = $o_prod->nombre;
             $total = DetalleVenta::where("producto_id", $o_prod->id)->sum("cantidad");
             $datos[] = [$o_prod->nombre, (float)$total];
         }
         return response()->JSON([
+            "categories" => $categories,
             "datos" => $datos
         ]);
     }
     public function ventas2(Request $request)
     {
         $productos = Producto::all();
+        $categories = [];
         $datos = [];
         foreach ($productos as $o_prod) {
+            $categories[] = $o_prod->nombre;
             $total = DetalleVenta::where("producto_id", $o_prod->id)->sum("subtotal");
-            $datos[] = [$o_prod->nombre, (float)$total];
+            $datos[] = (float)$total;
         }
         return response()->JSON([
+            "categories" => $categories,
             "datos" => $datos
         ]);
     }
@@ -219,14 +233,16 @@ class ReporteAnalisisController extends Controller
         if ($filtro != "TODOS" && $producto != "TODOS") {
             $productos = Producto::where("id", $producto)->get();
         }
+        $categories = [];
         $datos = [];
         foreach ($productos as $o_prod) {
+            $categories[] = $o_prod->nombre;
             $total = DetalleVenta::where("producto_id", $o_prod->id)->whereBetween("created_at", [$fecha_ini, $fecha_fin])->sum("cantidad");
-            $datos[] = [$o_prod->nombre, (float)$total];
+            $datos[] = (float)$total;
         }
         return response()->JSON([
+            "categories" => $categories,
             "datos" => $datos,
-            "xd" => ""
         ]);
     }
     public function ventas4(Request $request)
@@ -240,12 +256,15 @@ class ReporteAnalisisController extends Controller
         if ($filtro != "TODOS" && $producto != "TODOS") {
             $productos = Producto::where("id", $producto)->get();
         }
+        $categories = [];
         $datos = [];
         foreach ($productos as $o_prod) {
+            $categories[] = $o_prod->nombre;
             $total = DetalleVenta::where("producto_id", $o_prod->id)->whereBetween("created_at", [$fecha_ini, $fecha_fin])->sum("subtotal");
-            $datos[] = [$o_prod->nombre, (float)$total];
+            $datos[] = (float)$total;
         }
         return response()->JSON([
+            "categories" => $categories,
             "datos" => $datos
         ]);
     }
@@ -270,8 +289,10 @@ class ReporteAnalisisController extends Controller
             $productos = Producto::where("id", $producto)->get();
         }
 
+        $categories = [];
         $datos = [];
         foreach ($productos as $o_prod) {
+            $categories[] = $o_prod->nombre;
             $promedio = 0;
             $total1 = DetalleVenta::where("producto_id", $o_prod->id)->where("created_at", "LIKE", "$mes_anterior1%")->sum("cantidad");
             if ($total1) {
@@ -286,10 +307,11 @@ class ReporteAnalisisController extends Controller
                 $promedio += $total3;
             }
             $promedio = $promedio / 3;
-            $datos[] = [$o_prod->nombre, (int)$promedio];
+            $datos[] = (int)$promedio;
         }
 
         return response()->JSON([
+            "categories" => $categories,
             "mes_anio" => mb_strtoupper($meses[$mes]) . " DE " . $anio,
             "datos" => $datos
         ]);
@@ -315,8 +337,10 @@ class ReporteAnalisisController extends Controller
             $productos = Producto::where("id", $producto)->get();
         }
 
+        $categories = [];
         $datos = [];
         foreach ($productos as $o_prod) {
+            $categories[] = $o_prod->nombre;
             $promedio = 0;
             $total1 = DetalleVenta::where("producto_id", $o_prod->id)->where("created_at", "LIKE", "$mes_anterior1%")->sum("subtotal");
             if ($total1) {
@@ -331,10 +355,11 @@ class ReporteAnalisisController extends Controller
                 $promedio += $total3;
             }
             $promedio = $promedio / 3;
-            $datos[] = [$o_prod->nombre, (int)$promedio];
+            $datos[] = (int)$promedio;
         }
 
         return response()->JSON([
+            "categories" => $categories,
             "mes_anio" => mb_strtoupper($meses[$mes]) . " DE " . $anio,
             "datos" => $datos
         ]);

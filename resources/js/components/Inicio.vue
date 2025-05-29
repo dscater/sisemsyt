@@ -45,7 +45,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-12 mx-auto">
+                    <div class="col-md-12 mx-auto" style="max-width: 100%">
                         <div id="container"></div>
                     </div>
                 </div>
@@ -118,6 +118,11 @@ export default {
                                 fontFamily: "Verdana, sans-serif",
                             },
                         },
+                        scrollbar: {
+                            enabled: true,
+                        },
+                        min: 0,
+                        max: 10,
                     },
                     yAxis: {
                         title: {
@@ -163,7 +168,10 @@ export default {
         obtienePermisos() {
             axios.get("/admin/usuarios/getPermisosLogeado").then((res) => {
                 // localStorage.setItem("configuracion", this.configuracion);
-                localStorage.setItem("permisos", JSON.stringify(res.data.permisos));
+                localStorage.setItem(
+                    "permisos",
+                    JSON.stringify(res.data.permisos)
+                );
                 localStorage.setItem("user", JSON.stringify(res.data.usuario));
                 this.user = res.data.usuario;
             });

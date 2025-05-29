@@ -314,7 +314,7 @@ export default {
                             text: "",
                         },
                         xAxis: {
-                            type: "category",
+                            categories: response.data.categories,
                             // crosshair: true,
                             labels: {
                                 rotation: -45,
@@ -322,6 +322,11 @@ export default {
                                     fontSize: "14px",
                                 },
                             },
+                            scrollbar: {
+                                enabled: true,
+                            },
+                            min: 0,
+                            max: 10,
                         },
                         yAxis: {
                             min: 0,
@@ -360,7 +365,7 @@ export default {
                             {
                                 name: "Stock actual",
                                 colorByPoint: true,
-                                data: response.data.datos,
+                                data: response.data.data,
                                 dataLabels: {
                                     rotation: 0,
                                     color: "#FFFFFF",
@@ -398,6 +403,12 @@ export default {
                     ).getTime();
 
                     Highcharts.chart("container2", {
+                        chart: {
+                            scrollablePlotArea: {
+                                minWidth: 700,
+                                scrollPositionX: 1,
+                            },
+                        },
                         title: {
                             text: "STOCK DE PRODUCTOS POR RANGO DE FECHAS",
                         },
@@ -488,7 +499,7 @@ export default {
                             text: "",
                         },
                         xAxis: {
-                            type: "category",
+                            categories: response.data.categories,
                             // crosshair: true,
                             labels: {
                                 rotation: -45,
@@ -497,6 +508,11 @@ export default {
                                     fontFamily: "Verdana, sans-serif",
                                 },
                             },
+                            scrollbar: {
+                                enabled: true,
+                            },
+                            min: 0,
+                            max: 10,
                         },
                         yAxis: {
                             min: 0,
@@ -535,7 +551,7 @@ export default {
                             {
                                 name: "Stock actual",
                                 colorByPoint: true,
-                                data: response.data.datos,
+                                data: response.data.data,
                                 dataLabels: {
                                     rotation: 0,
                                     color: "#FFFFFF",

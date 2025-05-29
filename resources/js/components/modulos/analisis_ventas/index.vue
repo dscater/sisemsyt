@@ -203,7 +203,9 @@
                     <div class="col-md-6">
                         <div class="card">
                             <div class="card-body">
-                                <h4>Predicción de ingresos de productos vendidos</h4>
+                                <h4>
+                                    Predicción de ingresos de productos vendidos
+                                </h4>
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="row">
@@ -285,7 +287,10 @@
                     <div class="col-md-6">
                         <div class="card">
                             <div class="card-body">
-                                <h4>Predicción de ingresos por productos vendidos</h4>
+                                <h4>
+                                    Predicción de ingresos por productos
+                                    vendidos
+                                </h4>
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="row">
@@ -520,7 +525,7 @@ export default {
                             text: "",
                         },
                         xAxis: {
-                            type: "category",
+                            categories: response.data.categories,
                             // crosshair: true,
                             labels: {
                                 rotation: 0,
@@ -529,6 +534,12 @@ export default {
                                     fontFamily: "Verdana, sans-serif",
                                 },
                             },
+                            min: 0,
+                            max: 5,
+                            scrollbar: {
+                                enabled: true,
+                            },
+                            tickLength: 0,
                         },
                         yAxis: {
                             min: 0,
@@ -609,7 +620,7 @@ export default {
                             text: "",
                         },
                         xAxis: {
-                            type: "category",
+                            categories: response.data.categories,
                             // crosshair: true,
                             labels: {
                                 rotation: -45,
@@ -618,6 +629,11 @@ export default {
                                     fontFamily: "Verdana, sans-serif",
                                 },
                             },
+                            scrollbar: {
+                                enabled: true,
+                            },
+                            min: 0,
+                            max: 10,
                         },
                         yAxis: {
                             min: 0,
@@ -704,7 +720,7 @@ export default {
                             text: "",
                         },
                         xAxis: {
-                            type: "category",
+                            categories: response.data.categories,
                             // crosshair: true,
                             labels: {
                                 rotation: 0,
@@ -713,6 +729,11 @@ export default {
                                     fontFamily: "Verdana, sans-serif",
                                 },
                             },
+                            scrollbar: {
+                                enabled: true,
+                            },
+                            min: 0,
+                            max: 10,
                         },
                         yAxis: {
                             min: 0,
@@ -800,7 +821,7 @@ export default {
                             text: "",
                         },
                         xAxis: {
-                            type: "category",
+                            categories: response.data.categories,
                             // crosshair: true,
                             labels: {
                                 rotation: -75,
@@ -809,6 +830,11 @@ export default {
                                     fontFamily: "Verdana, sans-serif",
                                 },
                             },
+                            scrollbar: {
+                                enabled: true,
+                            },
+                            min: 0,
+                            max: 10,
                         },
                         yAxis: {
                             min: 0,
@@ -894,7 +920,7 @@ export default {
                             text: "",
                         },
                         xAxis: {
-                            type: "category",
+                            categories: response.data.categories,
                             // crosshair: true,
                             labels: {
                                 rotation: 0,
@@ -903,6 +929,11 @@ export default {
                                     fontFamily: "Verdana, sans-serif",
                                 },
                             },
+                            scrollbar: {
+                                enabled: true,
+                            },
+                            min: 0,
+                            max: 10,
                         },
                         yAxis: {
                             min: 0,
@@ -987,7 +1018,7 @@ export default {
                             text: "",
                         },
                         xAxis: {
-                            type: "category",
+                            categories: response.data.categories,
                             // crosshair: true,
                             labels: {
                                 rotation: -45,
@@ -996,6 +1027,11 @@ export default {
                                     fontFamily: "Verdana, sans-serif",
                                 },
                             },
+                            scrollbar: {
+                                enabled: true,
+                            },
+                            min: 0,
+                            max: 10,
                         },
                         yAxis: {
                             min: 0,

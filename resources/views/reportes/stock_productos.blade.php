@@ -20,9 +20,7 @@
             width: 80%;
             margin: auto;
             border-collapse: collapse;
-            table-layout: fixed;
             margin-top: 20px;
-            page-break-inside: avoid;
         }
 
         table thead tr th,
@@ -35,8 +33,8 @@
             background: rgb(236, 236, 236)
         }
 
-        tr {
-            page-break-inside: avoid !important;
+        table tbody tr {
+            page-break-inside: avoid;
         }
 
         .encabezado {
@@ -96,11 +94,6 @@
         table tbody tr td {
             padding: 3px;
             font-size: 0.75em;
-        }
-
-        table tbody tr td.franco {
-            background: red;
-            color: white;
         }
 
         .centreado {

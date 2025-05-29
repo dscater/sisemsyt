@@ -17,6 +17,11 @@ const router = new Router({
             name: "inicio",
             component: require("./components/Inicio.vue").default,
         },
+        {
+            path: "/inicio",
+            name: "inicio",
+            component: require("./components/Inicio.vue").default,
+        },
 
         // LOGIN
         {

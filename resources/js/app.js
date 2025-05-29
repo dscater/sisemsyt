@@ -31,7 +31,7 @@ window.Swal = Swal;
 // HIGH CHARTS
 import darkUnica from "highcharts/themes/dark-unica";
 
-var Highcharts = require("highcharts");
+var Highcharts = require("highcharts/highstock");
 require("highcharts/modules/exporting")(Highcharts);
 require("highcharts/highcharts-3d")(Highcharts);
 require("highcharts/modules/cylinder")(Highcharts);
