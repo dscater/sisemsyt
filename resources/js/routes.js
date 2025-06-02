@@ -322,14 +322,12 @@ router.beforeEach(async (to, from, next) => {
             await axios.get(`/verificar-permiso`, {
                 params: {
                     permiso: to.name,
+                    id: to.params.id,
                 },
             });
             next(); // tiene permiso
         } catch (error) {
-            if (
-                error.response &&
-                error.response.status == 403
-            ) {
+            if (error.response && error.response.status == 403) {
                 next({ name: "acceso.denegado" });
             } else {
                 console.error("Error de red o servidor:", error);

@@ -209,6 +209,7 @@ export default {
                 { key: "stock_actual", label: "Stock actual" },
                 { key: "categoria.nombre", label: "Categoría" },
                 { key: "imagen", label: "Imagen referencial" },
+                { key: "descripcion", label: "Descripción" },
                 { key: "accion", label: "Acción" },
             ],
             isBusy: false,

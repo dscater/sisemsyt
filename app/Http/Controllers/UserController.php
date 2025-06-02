@@ -614,6 +614,14 @@ class UserController extends Controller
             "notificacion_users.show"
         ];
 
+        if ($request->permiso == 'usuarios.perfil') {
+            if (isset($request->id)) {
+                if ($request->id != Auth::user()->id) {
+                    return response()->json(['error' => 'No autorizado'], 403);
+                }
+            }
+        }
+
         if (in_array($request->permiso, self::$permisos[$tipo]) || in_array($request->permiso, $excepciones)) {
             // Log::debug($request->permiso);
             // Log::debug(self::$permisos[$tipo]);
