@@ -23,6 +23,11 @@ class LoginAttemptMiddleware
         /**
          * $decayMinutes: tiempo que se almacena en cache
          */
+        if (!$request->filled('usuario') || !$request->filled('password')) {
+            return response()->json([
+                'message' => 'Debes completar el usuario y la contraseña.'
+            ], 422);
+        }
 
         $user_key = mb_strtolower(trim($request->usuario ?? 'ne'));
 

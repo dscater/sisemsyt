@@ -25,10 +25,11 @@ class LoginController extends Controller
     {
         $request->validate([
             "usuario" => "required",
-            "password" => "required",
-        ],[
+            "password" => "required|string|min:1",
+        ], [
             "usuario.required" => "Debes completar el campo usuario",
-            "password.required" => "Debes completar el campo contraseña"
+            "password.required" => "Debes completar el campo contraseña",
+            "password.min" => "Debes completar el campo contraseña"
         ]);
 
 

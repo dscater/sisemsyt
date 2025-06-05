@@ -75,13 +75,11 @@
                             v-if="errors && errors.password"
                             v-text="errors.password[0]"
                         ></span>
-                        <div class="row" v-if="error">
+                        <div class="row mt-3" v-if="error">
                             <div class="col-12">
                                 <div class="callout callout-danger">
                                     <h5>¡Error!</h5>
-                                    <p>
-                                        El usuario o contraseña son incorrectos
-                                    </p>
+                                    <p v-text="messageError"></p>
                                 </div>
                             </div>
                         </div>
@@ -140,6 +138,7 @@ export default {
             fullscreenLoading: false,
             user: null,
             errors: null,
+            messageError: "",
         };
     },
     created() {
@@ -201,6 +200,9 @@ export default {
                         this.user = null;
                         this.error = true;
                         this.password = "";
+                        this.messageError =
+                            error.response.data.message ??
+                            "El usuario o contraseña son incorrectos";
                         // console.log(error);
                     }
                     this.fullscreenLoading = false;

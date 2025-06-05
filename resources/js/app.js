@@ -35,6 +35,9 @@ var Highcharts = require("highcharts/highstock");
 require("highcharts/modules/exporting")(Highcharts);
 require("highcharts/highcharts-3d")(Highcharts);
 require("highcharts/modules/cylinder")(Highcharts);
+require("highcharts/modules/cylinder")(Highcharts);
+require("highcharts/modules/accessibility")(Highcharts);
+
 darkUnica(Highcharts);
 window.Highcharts = Highcharts;
 window.Highcharts.setOptions({
@@ -92,6 +95,15 @@ window.Highcharts.setOptions({
         // resetZoomTitle: "Reset,
         // thousandsSep: ".",
         // decimalPoint: ','
+        exporting: {
+            buttons: {
+                contextButton: {
+                    theme: {
+                        zIndex: 10,
+                    },
+                },
+            },
+        },
     },
 });
 // MOMENT

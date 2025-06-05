@@ -11,6 +11,7 @@ use App\Models\Producto;
 use App\Models\Proveedor;
 use DateTimeImmutable;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ReporteAnalisisController extends Controller
 {
@@ -307,7 +308,12 @@ class ReporteAnalisisController extends Controller
                 $promedio += $total3;
             }
             $promedio = $promedio / 3;
-            $datos[] = (int)$promedio;
+            if ($promedio > 0 && $promedio < 1) {
+                $valorFinal = 1;
+            } else {
+                $valorFinal = (int)$promedio;
+            }
+            $datos[] = $valorFinal;
         }
 
         return response()->JSON([
@@ -355,7 +361,7 @@ class ReporteAnalisisController extends Controller
                 $promedio += $total3;
             }
             $promedio = $promedio / 3;
-            $datos[] = (int)$promedio;
+            $datos[] =  (int)$promedio;
         }
 
         return response()->JSON([

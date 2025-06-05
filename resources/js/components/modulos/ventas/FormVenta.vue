@@ -45,7 +45,7 @@
                                                 v-for="item in listClientes"
                                                 :key="item.id"
                                                 :value="item.id"
-                                                :label="item.nombre"
+                                                :label="`${item.nombre} - ${item.nit_fac??'S/N'}`"
                                             >
                                             </el-option>
                                         </el-select>
